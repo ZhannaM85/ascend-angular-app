@@ -42,3 +42,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Optional: uncomment to avoid committing Formspree ID when using Option B (local env file)
+# src/environments/environment.prod.ts

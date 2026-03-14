@@ -1,0 +1,110 @@
+<div class="mx-auto max-w-lg">
+    <h1 class="text-2xl font-bold text-gray-900">Feedback &amp; Questions</h1>
+    <p class="mt-2 text-gray-600">
+        Send feedback, report a bug, or ask a question. Your message will be sent directly to the app
+        maintainer.
+    </p>
+
+    @if (!isConfigured) {
+        <div class="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4" role="alert">
+            <p class="font-medium text-amber-800">Form not configured</p>
+            <p class="mt-1 text-sm text-amber-700">
+                To receive feedback by email, set your Formspree form ID in
+                <code class="rounded bg-amber-100 px-1">src/environments/environment.ts</code> (or
+                <code class="rounded bg-amber-100 px-1">environment.prod.ts</code> for production). Sign up at
+                <a
+                    href="https://formspree.io"
+                    target="_blank"
+                    rel="noreferrer"
+                    class="underline hover:no-underline"
+                    >formspree.io</a
+                >
+                and replace <code class="rounded bg-amber-100 px-1">YOUR_FORMSPREE_FORM_ID</code> with
+                your form ID.
+            </p>
+        </div>
+    } @else if (status() === 'success') {
+        <div class="mt-6 rounded-xl border border-green-200 bg-green-50 p-4" role="status">
+            <p class="font-medium text-green-800">Thank you!</p>
+            <p class="mt-1 text-sm text-green-700">Your message has been sent.</p>
+        </div>
+    } @else if (status() === 'error') {
+        <div class="mt-6 rounded-xl border border-red-200 bg-red-50 p-4" role="alert">
+            <p class="font-medium text-red-800">Could not send</p>
+            <p class="mt-1 text-sm text-red-700">{{ errorMessage() }}</p>
+        </div>
+    }
+
+    @if (status() !== 'success') {
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-6 space-y-4">
+            <div>
+                <label for="fb-name" class="mb-1 block text-sm font-medium text-gray-700"
+                    >Your name (optional)</label
+                >
+                <input
+                    id="fb-name"
+                    type="text"
+                    formControlName="name"
+                    class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    placeholder="Jane"
+                />
+            </div>
+            <div>
+                <label for="fb-email" class="mb-1 block text-sm font-medium text-gray-700"
+                    >Your email (optional, for reply)</label
+                >
+                <input
+                    id="fb-email"
+                    type="email"
+                    formControlName="email"
+                    class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    placeholder="you@example.com"
+                />
+            </div>
+            <div>
+                <label for="fb-subject" class="mb-1 block text-sm font-medium text-gray-700"
+                    >Subject</label
+                >
+                <input
+                    id="fb-subject"
+                    type="text"
+                    formControlName="subject"
+                    class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    required
+                />
+                @if (form.controls.subject.invalid && form.controls.subject.touched) {
+                    <p class="mt-1 text-sm text-red-600">Subject is required.</p>
+                }
+            </div>
+            <div>
+                <label for="fb-message" class="mb-1 block text-sm font-medium text-gray-700"
+                    >Message</label
+                >
+                <textarea
+                    id="fb-message"
+                    formControlName="message"
+                    rows="5"
+                    class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    placeholder="Your feedback or question..."
+                    required
+                ></textarea>
+                @if (form.controls.message.invalid && form.controls.message.touched) {
+                    <p class="mt-1 text-sm text-red-600">
+                        Message is required and at least 10 characters.
+                    </p>
+                }
+            </div>
+            <button
+                type="submit"
+                class="w-full rounded-xl bg-indigo-600 py-3 font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-50"
+                [disabled]="form.invalid || status() === 'sending' || !isConfigured"
+            >
+                @if (status() === 'sending') {
+                    Sending...
+                } @else {
+                    Send feedback
+                }
+            </button>
+        </form>
+    }
+</div>

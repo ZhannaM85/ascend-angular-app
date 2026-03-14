@@ -3,15 +3,26 @@
         <a routerLink="/wishes" class="text-xl font-semibold text-indigo-600" aria-label="Ascend home">
             Ascend
         </a>
-        <a
-            routerLink="/about"
-            routerLinkActive="font-medium text-indigo-600"
-            [attr.aria-current]="(aboutLink.isActive ? 'page' : null) ?? null"
-            #aboutLink="routerLinkActive"
-            class="text-sm text-gray-600 hover:text-indigo-600"
-        >
-            About
-        </a>
+        <div class="flex items-center gap-4">
+            <a
+                routerLink="/about"
+                routerLinkActive="font-medium text-indigo-600"
+                [attr.aria-current]="(aboutLink.isActive ? 'page' : null) ?? null"
+                #aboutLink="routerLinkActive"
+                class="text-sm text-gray-600 hover:text-indigo-600"
+            >
+                About
+            </a>
+            <a
+                routerLink="/feedback"
+                routerLinkActive="font-medium text-indigo-600"
+                [attr.aria-current]="(feedbackLink.isActive ? 'page' : null) ?? null"
+                #feedbackLink="routerLinkActive"
+                class="text-sm text-gray-600 hover:text-indigo-600"
+            >
+                Feedback
+            </a>
+        </div>
     </header>
     <main class="mx-auto w-full max-w-[900px] flex-1 p-4">
         <router-outlet />

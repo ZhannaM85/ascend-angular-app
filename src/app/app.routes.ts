@@ -41,6 +41,13 @@ export const routes: Routes = [
                     import('./pages/about-page/about-page.component').then(
                         (m) => m.AboutPageComponent
                     )
+            },
+            {
+                path: 'feedback',
+                loadComponent: () =>
+                    import('./pages/feedback-page/feedback-page.component').then(
+                        (m) => m.FeedbackPageComponent
+                    )
             }
         ]
     },
