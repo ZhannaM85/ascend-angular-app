@@ -17,8 +17,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      FORMSPREE_FORM_ID: ${{ secrets.FORMSPREE_FORM_ID }}
     steps:
       - uses: actions/checkout@v4
 
@@ -30,9 +28,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Inject Formspree ID from GitHub Secrets
-        run: node scripts/env-from-secrets.js
 
       - name: Build application
         run: npx ng build --configuration production --base-href /ascend-angular-app/
