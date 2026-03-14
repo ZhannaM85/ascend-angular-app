@@ -2,6 +2,8 @@
 
 An Angular 21 app where users support their wishes through short discipline challenges, daily check-ins, and streak tracking.
 
+**Live site:** [https://zhannam85.github.io/ascend-angular-app/](https://zhannam85.github.io/ascend-angular-app/)
+
 ---
 
 ## Tech stack
@@ -86,10 +88,10 @@ See `src/environments/README.md` for more options (e.g. keeping a local `environ
 
 ## Deployment (GitHub Pages)
 
-Deploys when code is **merged (or pushed) to `develop`**.
+Deploys automatically when code is **pushed or merged to `master`**.
 
 - **Workflow:** `.github/workflows/deploy-pages.yml`
-- **Trigger:** `push` to branch `develop`, or manual `workflow_dispatch`
+- **Trigger:** `push` to branch `master`, or manual `workflow_dispatch`
 - **Build:** Node 22, `npm ci`, inject Formspree ID from secrets, `ng build --configuration production --base-href /ascend-angular-app/`
 - **SPA support:** `index.html` is copied to `404.html` so client-side routes work on GitHub Pages
 - **Artifact:** `dist/ascend-angular-app/browser` is uploaded and deployed via GitHub Actions
@@ -99,7 +101,7 @@ Deploys when code is **merged (or pushed) to `develop`**.
 1. **Pages** enabled with source **GitHub Actions** (Settings → Pages).
 2. **Secret** `FORMSPREE_FORM_ID` in Settings → Secrets and variables → Actions (if you use the feedback form).
 
-The app is served at: `https://<username>.github.io/ascend-angular-app/` (replace with your repo/user and base path if different).
+**Published at:** [https://zhannam85.github.io/ascend-angular-app/](https://zhannam85.github.io/ascend-angular-app/)
 
 ---
 
