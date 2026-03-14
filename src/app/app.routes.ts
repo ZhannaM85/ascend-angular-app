@@ -34,6 +34,13 @@ export const routes: Routes = [
                     import('./pages/fulfilled-wishes-page/fulfilled-wishes-page.component').then(
                         (m) => m.FulfilledWishesPageComponent
                     )
+            },
+            {
+                path: 'about',
+                loadComponent: () =>
+                    import('./pages/about-page/about-page.component').then(
+                        (m) => m.AboutPageComponent
+                    )
             }
         ]
     },
