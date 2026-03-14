@@ -1,13 +1,13 @@
 @let c = current();
 @let t = total();
-<div class="progress-bar">
+<div class="progress-bar min-w-0">
     @if (showLabel()) {
-        <div class="mb-1 flex justify-between text-sm text-gray-600">
-            <span>Progress</span>
-            <span>Day {{ c }} / {{ t }}</span>
+        <div class="mb-1 flex min-w-0 justify-between gap-2 text-sm text-gray-600">
+            <span class="min-w-0 truncate">Progress</span>
+            <span class="shrink-0">Day {{ c }} / {{ t }}</span>
         </div>
     }
-    <div class="h-3 w-full overflow-hidden rounded-full bg-gray-200" role="progressbar" [attr.aria-valuenow]="c" [attr.aria-valuemin]="0" [attr.aria-valuemax]="t" [attr.aria-label]="'Progress: day ' + c + ' of ' + t">
+    <div class="h-3 min-w-0 overflow-hidden rounded-full bg-gray-200" role="progressbar" [attr.aria-valuenow]="c" [attr.aria-valuemin]="0" [attr.aria-valuemax]="t" [attr.aria-label]="'Progress: day ' + c + ' of ' + t">
         <div
             class="h-full rounded-full bg-green-500 transition-[width] duration-300"
             [style.width.%]="percent()"

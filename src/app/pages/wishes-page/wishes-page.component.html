@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div class="min-w-0 w-full max-w-full space-y-4">
     <div class="flex flex-col items-center gap-4">
         <h1 class="text-xl font-bold text-gray-800">Your Wishes</h1>
         <a
@@ -21,9 +21,9 @@
             </a>
         </div>
     } @else {
-        <ul class="flex flex-col gap-4" role="list">
+        <ul class="flex min-w-0 flex-col gap-4" role="list">
             @for (item of wishWithCommitment(); track item.wish.id) {
-                <li>
+                <li class="min-w-0 w-full">
                     <app-wish-card
                         [wish]="item.wish"
                         [commitment]="item.commitment ?? undefined"
