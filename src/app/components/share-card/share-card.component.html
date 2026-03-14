@@ -1,0 +1,21 @@
+@let w = wish();
+@let c = commitment();
+<div class="share-card-root">
+    <div class="card-inner">
+        <p class="tagline">✨ Discipline for my wish</p>
+        <section class="section">
+            <p class="label">WISH</p>
+            <p class="value">{{ w.title }}</p>
+        </section>
+        <section class="section">
+            <p class="label">COMMITMENT</p>
+            <p class="value">{{ c.title }}</p>
+        </section>
+        <section class="section">
+            <p class="label">PROGRESS</p>
+            <p class="value">Day {{ c.streak }} / {{ c.duration }}</p>
+            <p class="streak">🔥 Streak: {{ c.streak }} days</p>
+        </section>
+        <p class="footer">ascend.app</p>
+    </div>
+</div>
