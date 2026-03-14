@@ -1,0 +1,38 @@
+@if (shareState(); as ctx) {
+    <div
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="share-dialog-title"
+    >
+        <div class="flex max-h-full max-w-full flex-col items-center gap-4 overflow-auto">
+            <h2 id="share-dialog-title" class="sr-only">Share progress card</h2>
+            <div class="scale-[0.25] origin-top" style="transform: scale(0.25); transform-origin: top center;">
+                <app-share-card [wish]="ctx.wish" [commitment]="ctx.commitment" />
+            </div>
+            <div class="flex gap-3">
+                <button
+                    type="button"
+                    class="rounded-xl bg-indigo-600 px-6 py-3 font-medium text-white hover:bg-indigo-700"
+                    (click)="download()"
+                >
+                    Download
+                </button>
+                <button
+                    type="button"
+                    class="rounded-xl border border-white bg-white px-6 py-3 font-medium text-gray-800 hover:bg-gray-100"
+                    (click)="share()"
+                >
+                    Share
+                </button>
+                <button
+                    type="button"
+                    class="rounded-xl border border-gray-300 bg-white px-6 py-3 font-medium text-gray-700 hover:bg-gray-100"
+                    (click)="close()"
+                >
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+}

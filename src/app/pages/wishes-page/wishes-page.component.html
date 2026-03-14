@@ -1,0 +1,36 @@
+<div class="space-y-4">
+    <div class="flex flex-col items-center gap-4">
+        <h1 class="text-xl font-bold text-gray-800">Your Wishes</h1>
+        <a
+            routerLink="/create-wish"
+            class="flex h-12 w-full max-w-sm items-center justify-center rounded-xl bg-indigo-600 px-4 text-base font-semibold text-white transition hover:bg-indigo-700"
+        >
+            + Create Wish
+        </a>
+    </div>
+
+    @if (wishWithCommitment().length === 0) {
+        <div class="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center">
+            <p class="text-gray-600">You don't have any wishes yet.</p>
+            <p class="mt-1 text-gray-500">Start your first discipline challenge.</p>
+            <a
+                routerLink="/create-wish"
+                class="mt-4 inline-flex h-12 items-center justify-center rounded-xl bg-indigo-600 px-6 text-sm font-medium text-white transition hover:bg-indigo-700"
+            >
+                Create Wish
+            </a>
+        </div>
+    } @else {
+        <ul class="flex flex-col gap-4" role="list">
+            @for (item of wishWithCommitment(); track item.wish.id) {
+                <li>
+                    <app-wish-card
+                        [wish]="item.wish"
+                        [commitment]="item.commitment ?? undefined"
+                        (shareClick)="onShare(item)"
+                    />
+                </li>
+            }
+        </ul>
+    }
+</div>

@@ -1,0 +1,55 @@
+@if (wishToFulfill(); as wish) {
+    <div
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="fulfill-dialog-title"
+    >
+        <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+            <h2 id="fulfill-dialog-title" class="text-lg font-bold text-gray-900">
+                ✨ Your wish was fulfilled!
+            </h2>
+            <p class="mt-2 text-gray-600">When did it happen?</p>
+            <form [formGroup]="form" (ngSubmit)="save()" class="mt-4 space-y-4">
+                <div>
+                    <label for="fulfilledDate" class="mb-1 block text-sm font-medium text-gray-700"
+                        >Date</label
+                    >
+                    <input
+                        id="fulfilledDate"
+                        type="date"
+                        formControlName="fulfilledDate"
+                        class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    />
+                </div>
+                <div>
+                    <label for="fulfillNote" class="mb-1 block text-sm font-medium text-gray-700"
+                        >Add a note (optional)</label
+                    >
+                    <textarea
+                        id="fulfillNote"
+                        formControlName="note"
+                        rows="3"
+                        class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                        placeholder="What happened?"
+                    ></textarea>
+                </div>
+                <div class="flex gap-2">
+                    <button
+                        type="submit"
+                        class="flex-1 rounded-xl bg-indigo-600 py-3 font-medium text-white hover:bg-indigo-700"
+                    >
+                        Save
+                    </button>
+                    <button
+                        type="button"
+                        class="rounded-xl border border-gray-300 bg-white px-4 py-3 font-medium text-gray-700 hover:bg-gray-100"
+                        (click)="close()"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
