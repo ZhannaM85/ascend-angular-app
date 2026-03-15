@@ -16,6 +16,7 @@ import { DailyCheckinComponent } from '../../components/daily-checkin/daily-chec
 import { StreakCalendarComponent } from '../../components/streak-calendar/streak-calendar.component';
 import { ShareService } from '../../services/share.service';
 import { FulfillDialogService } from '../../services/fulfill-dialog.service';
+import { DeleteWishDialogService } from '../../services/delete-wish-dialog.service';
 import { DeleteReflectionDialogService } from '../../services/delete-reflection-dialog.service';
 import type { Reflection } from '../../models/reflection.model';
 
@@ -48,6 +49,7 @@ export class WishDetailsPageComponent {
     private readonly store = inject(WishStoreService);
     private readonly shareService = inject(ShareService);
     private readonly fulfillDialog = inject(FulfillDialogService);
+    private readonly deleteWishDialog = inject(DeleteWishDialogService);
     private readonly deleteReflectionDialog = inject(DeleteReflectionDialogService);
     private readonly fb = inject(FormBuilder);
 
@@ -128,6 +130,11 @@ export class WishDetailsPageComponent {
     onMarkFulfilled(): void {
         const w = this.wish();
         if (w) this.fulfillDialog.open(w);
+    }
+
+    onDeleteWish(): void {
+        const w = this.wish();
+        if (w) this.deleteWishDialog.open(w);
     }
 
     formatReflectionDate(ts: number): string {
