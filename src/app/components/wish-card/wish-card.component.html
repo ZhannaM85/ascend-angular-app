@@ -11,6 +11,13 @@
             <path d="M18 6L6 18M6 6l12 12" />
         </svg>
     </button>
+    @if (w.imageDataUrl) {
+        <img
+            [src]="w.imageDataUrl"
+            alt=""
+            class="mb-3 h-32 w-full rounded-lg border border-gray-200 object-cover"
+        />
+    }
     <h2 class="mb-1 truncate pr-10 text-lg font-semibold text-gray-900">
         <span aria-hidden="true">✨</span> {{ w.title }}
     </h2>

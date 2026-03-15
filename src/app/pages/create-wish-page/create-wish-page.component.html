@@ -30,6 +30,43 @@
             ></textarea>
         </div>
 
+        <div>
+            <label class="mb-1 block text-sm font-medium text-gray-700">Image (optional)</label>
+            <p class="mb-2 text-sm text-gray-500">
+                Images are compressed to save space. Max width 800px, JPEG.
+            </p>
+            @if (imageDataUrl(); as dataUrl) {
+                <div class="relative inline-block">
+                    <img
+                        [src]="dataUrl"
+                        alt="Wish preview"
+                        class="max-h-48 rounded-xl border border-gray-200 object-cover"
+                    />
+                    <button
+                        type="button"
+                        class="absolute right-2 top-2 rounded-lg bg-black/60 px-2 py-1 text-xs text-white transition hover:bg-black/80"
+                        (click)="removeImage()"
+                    >
+                        Remove
+                    </button>
+                </div>
+            } @else {
+                <input
+                    type="file"
+                    accept="image/*"
+                    class="w-full text-sm text-gray-600 file:mr-2 file:rounded-lg file:border-0 file:bg-indigo-50 file:px-4 file:py-2 file:text-indigo-700 file:hover:bg-indigo-100"
+                    [disabled]="imageCompressing()"
+                    (change)="onImageSelected($event)"
+                />
+            }
+            @if (imageCompressing()) {
+                <p class="mt-1 text-sm text-gray-500">Compressing…</p>
+            }
+            @if (imageError()) {
+                <p class="mt-1 text-sm text-red-600">{{ imageError() }}</p>
+            }
+        </div>
+
         <div class="border-t border-gray-200 pt-6">
             <h2 class="mb-3 text-lg font-semibold text-gray-800">Commitment</h2>
             <p class="mb-2 text-sm text-gray-500">

@@ -1,5 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import type { Commitment } from '../models/commitment.model';
+import type { Reflection } from '../models/reflection.model';
 import type { Wish } from '../models/wish.model';
 import { StorageService } from './storage.service';
 
@@ -31,9 +32,11 @@ export class WishStoreService {
 
     private readonly wishesSignal = signal<Wish[]>([]);
     private readonly commitmentsSignal = signal<Commitment[]>([]);
+    private readonly reflectionsSignal = signal<Reflection[]>([]);
 
     readonly wishes = this.wishesSignal.asReadonly();
     readonly commitments = this.commitmentsSignal.asReadonly();
+    readonly reflections = this.reflectionsSignal.asReadonly();
 
     readonly activeWishes = computed(() =>
         this.wishesSignal().filter((w) => !w.fulfilled)
@@ -45,11 +48,49 @@ export class WishStoreService {
     constructor() {
         this.wishesSignal.set(this.storage.loadWishes());
         this.commitmentsSignal.set(this.storage.loadCommitments());
+        this.reflectionsSignal.set(this.storage.loadReflections());
     }
 
     private persist(): void {
         this.storage.saveWishes(this.wishesSignal());
         this.storage.saveCommitments(this.commitmentsSignal());
+        this.storage.saveReflections(this.reflectionsSignal());
+    }
+
+    getReflectionsForWish(wishId: string): Reflection[] {
+        return this.reflectionsSignal()
+            .filter((r) => r.wishId === wishId)
+            .sort((a, b) => b.date - a.date);
+    }
+
+    addReflection(wishId: string, text: string, date?: number): Reflection {
+        const dateTs = date != null ? getStartOfDay(date) : getStartOfDay(Date.now());
+        const reflection: Reflection = {
+            id: generateId(),
+            wishId,
+            text: text.trim(),
+            date: dateTs
+        };
+        this.reflectionsSignal.update((list) => [...list, reflection]);
+        this.persist();
+        return reflection;
+    }
+
+    updateReflection(reflectionId: string, text: string): void {
+        const trimmed = text.trim();
+        this.reflectionsSignal.update((list) =>
+            list.map((r) =>
+                r.id === reflectionId ? { ...r, text: trimmed } : r
+            )
+        );
+        this.persist();
+    }
+
+    deleteReflection(reflectionId: string): void {
+        this.reflectionsSignal.update((list) =>
+            list.filter((r) => r.id !== reflectionId)
+        );
+        this.persist();
     }
 
     addWish(
@@ -57,12 +98,14 @@ export class WishStoreService {
         commitmentTitle: string,
         duration: number,
         description?: string,
-        commitmentStartDate?: number
+        commitmentStartDate?: number,
+        imageDataUrl?: string
     ): Wish {
         const wish: Wish = {
             id: generateId(),
             title,
             description,
+            ...(imageDataUrl && { imageDataUrl }),
             createdAt: Date.now()
         };
         const startDate = commitmentStartDate != null
@@ -93,20 +136,28 @@ export class WishStoreService {
 
     updateWish(
         wishId: string,
-        updates: { title?: string; description?: string }
+        updates: {
+            title?: string;
+            description?: string;
+            imageDataUrl?: string | null;
+        }
     ): void {
         this.wishesSignal.update((list) =>
-            list.map((w) =>
-                w.id === wishId
-                    ? {
-                          ...w,
-                          ...(updates.title !== undefined && { title: updates.title }),
-                          ...(updates.description !== undefined && {
-                              description: updates.description
-                          })
-                      }
-                    : w
-            )
+            list.map((w) => {
+                if (w.id !== wishId) return w;
+                const next = { ...w };
+                if (updates.title !== undefined) next.title = updates.title;
+                if (updates.description !== undefined)
+                    next.description = updates.description;
+                if (updates.imageDataUrl !== undefined) {
+                    if (updates.imageDataUrl === null || updates.imageDataUrl === '') {
+                        delete next.imageDataUrl;
+                    } else {
+                        next.imageDataUrl = updates.imageDataUrl;
+                    }
+                }
+                return next;
+            })
         );
         this.persist();
     }

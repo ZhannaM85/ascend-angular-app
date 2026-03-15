@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import type { Wish } from '../models/wish.model';
 import type { Commitment } from '../models/commitment.model';
+import type { Reflection } from '../models/reflection.model';
 
 const WISHES_KEY = 'wishes';
 const COMMITMENTS_KEY = 'commitments';
+const REFLECTIONS_KEY = 'reflections';
 
 @Injectable({
     providedIn: 'root'
@@ -32,6 +34,20 @@ export class StorageService {
         if (!raw) return [];
         try {
             return JSON.parse(raw) as Commitment[];
+        } catch {
+            return [];
+        }
+    }
+
+    saveReflections(reflections: Reflection[]): void {
+        localStorage.setItem(REFLECTIONS_KEY, JSON.stringify(reflections));
+    }
+
+    loadReflections(): Reflection[] {
+        const raw = localStorage.getItem(REFLECTIONS_KEY);
+        if (!raw) return [];
+        try {
+            return JSON.parse(raw) as Reflection[];
         } catch {
             return [];
         }
