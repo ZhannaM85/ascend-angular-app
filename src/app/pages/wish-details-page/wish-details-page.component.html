@@ -112,6 +112,105 @@
             <p class="text-gray-600">No commitment for this wish.</p>
         </div>
     }
+
+    <section class="mt-8 rounded-xl border border-gray-200 bg-white p-4 shadow-sm" aria-labelledby="reflection-heading">
+        <h2 id="reflection-heading" class="mb-2 text-lg font-semibold text-gray-800">
+            Daily reflection
+        </h2>
+        <p class="mb-4 text-sm text-gray-500">
+            Why are you doing this? What did you do today? Note when you want to quit or need a reminder.
+        </p>
+        <form [formGroup]="reflectionForm" (ngSubmit)="onSubmitReflection()" class="mb-6 space-y-3">
+            <div>
+                <label for="reflectionText" class="mb-1 block text-sm font-medium text-gray-700"
+                    >Your reflection</label
+                >
+                <textarea
+                    id="reflectionText"
+                    formControlName="text"
+                    rows="3"
+                    class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    placeholder="e.g. Today I avoided sugar. I'm doing this because..."
+                ></textarea>
+                @if (reflectionForm.controls.text.invalid && reflectionForm.controls.text.touched) {
+                    <p class="mt-1 text-sm text-red-600">Please enter your reflection.</p>
+                }
+            </div>
+            <button
+                type="submit"
+                class="w-full rounded-xl bg-indigo-600 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 disabled:opacity-50"
+                [disabled]="reflectionForm.invalid"
+            >
+                Add reflection
+            </button>
+        </form>
+        <ul class="space-y-3" role="list">
+            @for (r of reflections(); track r.id) {
+                <li class="rounded-lg border border-gray-200 bg-gray-50 p-3">
+                    <div class="flex flex-wrap items-start justify-between gap-2">
+                        <p class="text-xs font-medium text-gray-500">
+                            {{ formatReflectionDate(r.date) }}
+                        </p>
+                        @if (editingReflectionId() === r.id) {
+                            <div class="flex gap-2">
+                                <button
+                                    type="button"
+                                    class="rounded-lg border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-700 transition hover:bg-gray-100"
+                                    (click)="cancelEditReflection()"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    class="rounded-lg border border-indigo-600 bg-indigo-600 px-2 py-1 text-xs font-medium text-white transition hover:bg-indigo-700 disabled:opacity-50"
+                                    [disabled]="!editingReflectionText().trim()"
+                                    (click)="saveReflection(r.id)"
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        } @else {
+                            <div class="flex gap-2">
+                                <button
+                                    type="button"
+                                    class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 transition hover:bg-gray-100"
+                                    (click)="startEditReflection(r)"
+                                    [attr.aria-label]="'Edit reflection from ' + formatReflectionDate(r.date)"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                                    </svg>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-red-200 bg-white text-red-600 transition hover:bg-red-50"
+                                    (click)="onDeleteReflection(r)"
+                                    [attr.aria-label]="'Delete reflection from ' + formatReflectionDate(r.date)"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M18 6L6 18M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                    @if (editingReflectionId() === r.id) {
+                        <textarea
+                            class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                            rows="3"
+                            [value]="editingReflectionText()"
+                            (input)="editingReflectionText.set($any($event.target).value)"
+                        ></textarea>
+                    } @else {
+                        <p class="mt-1 whitespace-pre-wrap text-sm text-gray-800">{{ r.text }}</p>
+                    }
+                </li>
+            }
+        </ul>
+        @if (reflections().length === 0) {
+            <p class="text-sm text-gray-500">No reflections yet. Add one above.</p>
+        }
+    </section>
 } @else {
     <p class="text-gray-600">Wish not found.</p>
     <a routerLink="/wishes" class="text-indigo-600 hover:underline">Back to Wishes</a>
