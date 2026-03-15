@@ -31,4 +31,8 @@ export class WishesPageComponent {
             this.shareService.open(item.wish, item.commitment);
         }
     }
+
+    onDelete(item: { wish: Wish }): void {
+        this.store.deleteWish(item.wish.id);
+    }
 }

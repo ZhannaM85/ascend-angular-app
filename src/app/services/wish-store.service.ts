@@ -158,4 +158,10 @@ export class WishStoreService {
         );
         this.persist();
     }
+
+    deleteWish(wishId: string): void {
+        this.wishesSignal.update((list) => list.filter((w) => w.id !== wishId));
+        this.commitmentsSignal.update((list) => list.filter((c) => c.wishId !== wishId));
+        this.persist();
+    }
 }
