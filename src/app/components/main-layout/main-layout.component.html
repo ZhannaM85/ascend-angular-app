@@ -75,7 +75,7 @@
             [routerLinkActiveOptions]="{ exact: false }"
             [attr.aria-current]="(wishesLinkBottom.isActive ? 'page' : null) ?? null"
             #wishesLinkBottom="routerLinkActive"
-            class="flex flex-col items-center gap-0.5 rounded-xl px-4 py-3 text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600"
+            class="flex min-w-0 flex-col items-center gap-0.5 rounded-xl px-2 py-3 text-center text-xs text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600 sm:px-4"
         >
             <span aria-hidden="true">❤️</span>
             <span>{{ 'nav.wishes' | translate }}</span>
@@ -85,7 +85,7 @@
             routerLinkActive="text-indigo-600 font-medium"
             [attr.aria-current]="(createLinkBottom.isActive ? 'page' : null) ?? null"
             #createLinkBottom="routerLinkActive"
-            class="flex flex-col items-center gap-0.5 rounded-xl px-4 py-3 text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600"
+            class="flex min-w-0 flex-col items-center gap-0.5 rounded-xl px-2 py-3 text-center text-xs text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600 sm:px-4"
         >
             <span aria-hidden="true">➕</span>
             <span>{{ 'nav.create' | translate }}</span>
@@ -95,7 +95,7 @@
             routerLinkActive="text-indigo-600 font-medium"
             [attr.aria-current]="(fulfilledLinkBottom.isActive ? 'page' : null) ?? null"
             #fulfilledLinkBottom="routerLinkActive"
-            class="flex flex-col items-center gap-0.5 rounded-xl px-4 py-3 text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600"
+            class="flex min-w-0 flex-col items-center gap-0.5 rounded-xl px-2 py-3 text-center text-xs text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600 sm:px-4"
         >
             <span aria-hidden="true">✨</span>
             <span>{{ 'nav.fulfilled' | translate }}</span>
@@ -105,10 +105,10 @@
             routerLinkActive="text-indigo-600 font-medium"
             [attr.aria-current]="(aboutLinkBottom.isActive ? 'page' : null) ?? null"
             #aboutLinkBottom="routerLinkActive"
-            class="flex flex-col items-center gap-0.5 rounded-xl px-4 py-3 text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600"
+            class="flex min-w-0 flex-col items-center gap-0.5 rounded-xl px-2 py-3 text-center text-xs text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600 sm:px-4"
         >
             <span aria-hidden="true">ℹ️</span>
-            <span>{{ 'nav.about' | translate }}</span>
+            <span>{{ 'nav.aboutShort' | translate }}</span>
         </a>
     </nav>
 </div>
