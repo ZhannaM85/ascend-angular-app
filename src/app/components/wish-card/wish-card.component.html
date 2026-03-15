@@ -26,13 +26,16 @@
             </div>
         }
     </div>
-    <h2 class="mb-1 truncate pr-10 text-lg font-semibold text-gray-900">
+    <h2
+        class="mb-1 truncate pr-10 text-lg font-semibold text-gray-900"
+        [appTruncateTooltip]="w.title"
+    >
         <span aria-hidden="true">✨</span> {{ w.title }}
     </h2>
     @if (c) {
         <p
             class="mb-2 min-h-10 min-w-0 text-sm text-gray-600 line-clamp-2 break-words"
-            [attr.title]="'Commitment: ' + c.title"
+            [appTruncateTooltip]="'Commitment: ' + c.title"
         >Commitment: {{ c.title }}</p>
         <div class="min-w-0">
             <app-progress-bar [current]="c.streak" [total]="c.duration" />
