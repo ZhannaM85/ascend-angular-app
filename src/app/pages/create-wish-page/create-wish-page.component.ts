@@ -3,6 +3,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { WishStoreService } from '../../services/wish-store.service';
 import { ImageCompressionService } from '../../services/image-compression.service';
+import { LeaveConfirmDialogService } from '../../services/leave-confirm-dialog.service';
 
 function getTodayDateString(): string {
     return new Date().toISOString().slice(0, 10);
@@ -20,6 +21,7 @@ export class CreateWishPageComponent {
     private readonly store = inject(WishStoreService);
     private readonly router = inject(Router);
     private readonly imageCompression = inject(ImageCompressionService);
+    private readonly leaveConfirm = inject(LeaveConfirmDialogService);
 
     readonly imageDataUrl = signal<string | null>(null);
     readonly imageError = signal<string | null>(null);
@@ -55,6 +57,23 @@ export class CreateWishPageComponent {
         this.imageError.set(null);
     }
 
+    hasUnsavedChanges(): boolean {
+        return this.form.dirty || this.imageDataUrl() !== null;
+    }
+
+    async onBackClick(): Promise<void> {
+        if (this.hasUnsavedChanges()) {
+            const leave = await this.leaveConfirm.showConfirm(
+                'You have unsaved changes. Leave this page?'
+            );
+            if (leave) {
+                this.router.navigate(['/wishes']);
+            }
+        } else {
+            this.router.navigate(['/wishes']);
+        }
+    }
+
     onSubmit(): void {
         if (this.form.invalid) return;
         const v = this.form.getRawValue();
@@ -67,6 +86,8 @@ export class CreateWishPageComponent {
             startDateMs,
             this.imageDataUrl() ?? undefined
         );
+        this.form.markAsPristine();
+        this.imageDataUrl.set(null);
         this.router.navigate(['/wish', wish.id]);
     }
 }
