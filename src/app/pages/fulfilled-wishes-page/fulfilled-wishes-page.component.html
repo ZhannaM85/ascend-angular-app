@@ -1,16 +1,16 @@
-<div class="space-y-4">
+<div class="space-y-6">
     <h1 class="text-xl font-bold text-gray-800">Fulfilled Wishes</h1>
 
     @if (listWithCommitments().length === 0) {
-        <div class="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center">
+        <div class="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center shadow-sm">
             <p class="text-gray-600">No fulfilled wishes yet.</p>
             <p class="mt-1 text-gray-500">When a wish comes true, mark it here.</p>
         </div>
     } @else {
-        <ul class="flex flex-col gap-4" role="list">
+        <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" role="list">
             @for (item of listWithCommitments(); track item.wish.id) {
-                <li>
-                    <article class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+                <li class="min-w-0">
+                    <article class="rounded-xl border border-gray-200 bg-white p-4 shadow-md transition hover:shadow-lg">
                         @if (item.wish.imageDataUrl) {
                             <img
                                 [src]="item.wish.imageDataUrl"

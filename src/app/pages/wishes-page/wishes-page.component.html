@@ -1,16 +1,18 @@
-<div class="min-w-0 w-full max-w-full space-y-4">
-    <div class="flex flex-col items-center gap-4">
-        <h1 class="text-xl font-bold text-gray-800">Your Wishes</h1>
-        <a
-            routerLink="/create-wish"
-            class="flex h-12 w-full max-w-sm items-center justify-center rounded-xl bg-indigo-600 px-4 text-base font-semibold text-white transition hover:bg-indigo-700"
-        >
-            + Create Wish
-        </a>
-    </div>
+<div class="min-w-0 w-full max-w-full space-y-6">
+    <a
+        routerLink="/create-wish"
+        class="flex w-full items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-md transition hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        aria-label="Add a wish"
+    >
+        <span class="text-gray-400" aria-hidden="true">✏️</span>
+        <span class="flex-1 text-left text-gray-500">Add a wish...</span>
+        <span class="rounded-lg bg-indigo-600 p-1.5 text-white" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        </span>
+    </a>
 
     @if (wishWithCommitment().length === 0) {
-        <div class="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center">
+        <div class="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center shadow-sm">
             <p class="text-gray-600">You don't have any wishes yet.</p>
             <p class="mt-1 text-gray-500">Start your first discipline challenge.</p>
             <a
@@ -21,9 +23,15 @@
             </a>
         </div>
     } @else {
-        <ul class="flex min-w-0 flex-col gap-4" role="list">
+        <ul
+            class="grid grid-cols-1 gap-4"
+            [class.md:grid-cols-2]="wishWithCommitment().length === 2"
+            [class.md:grid-cols-3]="wishWithCommitment().length === 3"
+            [class.md:grid-cols-4]="wishWithCommitment().length >= 4"
+            role="list"
+        >
             @for (item of wishWithCommitment(); track item.wish.id) {
-                <li class="min-w-0 w-full">
+                <li class="min-w-0">
                     <app-wish-card
                         [wish]="item.wish"
                         [commitment]="item.commitment ?? undefined"
