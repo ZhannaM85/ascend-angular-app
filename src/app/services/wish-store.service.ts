@@ -91,6 +91,50 @@ export class WishStoreService {
         return this.wishesSignal().find((w) => w.id === id);
     }
 
+    updateWish(
+        wishId: string,
+        updates: { title?: string; description?: string }
+    ): void {
+        this.wishesSignal.update((list) =>
+            list.map((w) =>
+                w.id === wishId
+                    ? {
+                          ...w,
+                          ...(updates.title !== undefined && { title: updates.title }),
+                          ...(updates.description !== undefined && {
+                              description: updates.description
+                          })
+                      }
+                    : w
+            )
+        );
+        this.persist();
+    }
+
+    updateCommitment(
+        wishId: string,
+        updates: { title?: string; duration?: number; startDate?: number }
+    ): void {
+        const resolved = {
+            ...(updates.startDate !== undefined && {
+                startDate: getStartOfDay(updates.startDate)
+            })
+        };
+        this.commitmentsSignal.update((list) =>
+            list.map((c) =>
+                c.wishId === wishId
+                    ? {
+                          ...c,
+                          ...(updates.title !== undefined && { title: updates.title }),
+                          ...(updates.duration !== undefined && { duration: updates.duration }),
+                          ...resolved
+                      }
+                    : c
+            )
+        );
+        this.persist();
+    }
+
     /**
      * Returns true if a missed day was detected and streak was reset.
      */
