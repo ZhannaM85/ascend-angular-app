@@ -1,28 +1,59 @@
 <div class="flex min-h-screen flex-col bg-gray-100">
-    <header class="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-gray-200 bg-white px-4 shadow-sm">
+    <header class="sticky top-0 z-10 flex h-14 flex-wrap items-center justify-between gap-2 border-b border-gray-200 bg-white px-4 shadow-sm md:px-6">
         <a routerLink="/wishes" class="text-xl font-semibold text-indigo-600" aria-label="Ascend home">
             Ascend
         </a>
-        <a
-            routerLink="/about"
-            routerLinkActive="font-medium text-indigo-600"
-            [attr.aria-current]="(aboutLink.isActive ? 'page' : null) ?? null"
-            #aboutLink="routerLinkActive"
-            class="text-sm text-gray-600 hover:text-indigo-600"
-        >
-            About
-        </a>
+        <nav class="flex items-center gap-1" role="navigation" aria-label="Main">
+            <a
+                routerLink="/wishes"
+                routerLinkActive="bg-gray-100 text-indigo-600 font-medium"
+                [routerLinkActiveOptions]="{ exact: false }"
+                [attr.aria-current]="(wishesLink.isActive ? 'page' : null) ?? null"
+                #wishesLink="routerLinkActive"
+                class="hidden rounded-lg px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600 md:inline-block"
+            >
+                Wishes
+            </a>
+            <a
+                routerLink="/create-wish"
+                routerLinkActive="bg-gray-100 text-indigo-600 font-medium"
+                [attr.aria-current]="(createLink.isActive ? 'page' : null) ?? null"
+                #createLink="routerLinkActive"
+                class="hidden rounded-lg px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600 md:inline-block"
+            >
+                Create
+            </a>
+            <a
+                routerLink="/fulfilled"
+                routerLinkActive="bg-gray-100 text-indigo-600 font-medium"
+                [attr.aria-current]="(fulfilledLink.isActive ? 'page' : null) ?? null"
+                #fulfilledLink="routerLinkActive"
+                class="hidden rounded-lg px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600 md:inline-block"
+            >
+                Fulfilled
+            </a>
+            <a
+                routerLink="/about"
+                routerLinkActive="font-medium text-indigo-600"
+                [attr.aria-current]="(aboutLink.isActive ? 'page' : null) ?? null"
+                #aboutLink="routerLinkActive"
+                class="rounded-lg px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600"
+            >
+                About
+            </a>
+        </nav>
     </header>
-    <main class="mx-auto min-w-0 w-full max-w-[900px] flex-1 p-4">
+    <main class="mx-auto min-w-0 w-full max-w-6xl flex-1 p-4 md:p-6">
         <router-outlet />
     </main>
     <app-share-modal />
     <app-fulfill-wish-dialog />
     <app-delete-wish-dialog />
     <app-delete-reflection-dialog />
+    <app-leave-confirm-dialog />
 
     <nav
-        class="sticky bottom-0 flex items-center justify-around border-t border-gray-200 bg-white py-2 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]"
+        class="sticky bottom-0 flex items-center justify-around border-t border-gray-200 bg-white py-2 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] md:hidden"
         role="navigation"
         aria-label="Main"
     >
@@ -30,8 +61,8 @@
             routerLink="/wishes"
             routerLinkActive="text-indigo-600 font-medium"
             [routerLinkActiveOptions]="{ exact: false }"
-            [attr.aria-current]="(wishesLink.isActive ? 'page' : null) ?? null"
-            #wishesLink="routerLinkActive"
+            [attr.aria-current]="(wishesLinkBottom.isActive ? 'page' : null) ?? null"
+            #wishesLinkBottom="routerLinkActive"
             class="flex flex-col items-center gap-0.5 rounded-xl px-6 py-3 text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600"
         >
             <span aria-hidden="true">❤️</span>
@@ -40,8 +71,8 @@
         <a
             routerLink="/create-wish"
             routerLinkActive="text-indigo-600 font-medium"
-            [attr.aria-current]="(createLink.isActive ? 'page' : null) ?? null"
-            #createLink="routerLinkActive"
+            [attr.aria-current]="(createLinkBottom.isActive ? 'page' : null) ?? null"
+            #createLinkBottom="routerLinkActive"
             class="flex flex-col items-center gap-0.5 rounded-xl px-6 py-3 text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600"
         >
             <span aria-hidden="true">➕</span>
@@ -50,8 +81,8 @@
         <a
             routerLink="/fulfilled"
             routerLinkActive="text-indigo-600 font-medium"
-            [attr.aria-current]="(fulfilledLink.isActive ? 'page' : null) ?? null"
-            #fulfilledLink="routerLinkActive"
+            [attr.aria-current]="(fulfilledLinkBottom.isActive ? 'page' : null) ?? null"
+            #fulfilledLinkBottom="routerLinkActive"
             class="flex flex-col items-center gap-0.5 rounded-xl px-6 py-3 text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600"
         >
             <span aria-hidden="true">✨</span>
