@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { WishStoreService } from '../../services/wish-store.service';
 import { ImageCompressionService } from '../../services/image-compression.service';
 import { LeaveConfirmDialogService } from '../../services/leave-confirm-dialog.service';
@@ -11,7 +12,7 @@ function getTodayDateString(): string {
 
 @Component({
     selector: 'app-create-wish-page',
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, TranslatePipe],
     templateUrl: './create-wish-page.component.html',
     styleUrl: './create-wish-page.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -22,6 +23,7 @@ export class CreateWishPageComponent {
     private readonly router = inject(Router);
     private readonly imageCompression = inject(ImageCompressionService);
     private readonly leaveConfirm = inject(LeaveConfirmDialogService);
+    private readonly translate = inject(TranslateService);
 
     readonly imageDataUrl = signal<string | null>(null);
     readonly imageError = signal<string | null>(null);
@@ -46,7 +48,7 @@ export class CreateWishPageComponent {
             const dataUrl = await this.imageCompression.compress(file);
             this.imageDataUrl.set(dataUrl);
         } catch {
-            this.imageError.set('Could not process image. Try a different file.');
+            this.imageError.set(this.translate.instant('createWishPage.imageError'));
         } finally {
             this.imageCompressing.set(false);
         }
@@ -64,7 +66,7 @@ export class CreateWishPageComponent {
     async onBackClick(): Promise<void> {
         if (this.hasUnsavedChanges()) {
             const leave = await this.leaveConfirm.showConfirm(
-                'You have unsaved changes. Leave this page?'
+                this.translate.instant('leaveConfirmMessage.unsavedChanges')
             );
             if (leave) {
                 this.router.navigate(['/wishes']);

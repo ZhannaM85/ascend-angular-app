@@ -10,12 +10,13 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { WishStoreService } from '../../services/wish-store.service';
 import { ImageCompressionService } from '../../services/image-compression.service';
 
 @Component({
     selector: 'app-edit-wish-page',
-    imports: [ReactiveFormsModule, RouterLink],
+    imports: [ReactiveFormsModule, RouterLink, TranslatePipe],
     templateUrl: './edit-wish-page.component.html',
     styleUrl: './edit-wish-page.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -26,6 +27,7 @@ export class EditWishPageComponent {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly imageCompression = inject(ImageCompressionService);
+    private readonly translate = inject(TranslateService);
 
     readonly idParam = toSignal(
         this.route.paramMap.pipe(map((p) => p.get('id'))),
@@ -99,7 +101,7 @@ export class EditWishPageComponent {
             const dataUrl = await this.imageCompression.compress(file);
             this.imageDataUrl.set(dataUrl);
         } catch {
-            this.imageError.set('Could not process image. Try a different file.');
+            this.imageError.set(this.translate.instant('createWishPage.imageError'));
         } finally {
             this.imageCompressing.set(false);
         }

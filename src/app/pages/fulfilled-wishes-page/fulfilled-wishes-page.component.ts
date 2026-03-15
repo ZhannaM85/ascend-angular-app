@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import type { Commitment } from '../../models/commitment.model';
 import type { Wish } from '../../models/wish.model';
 import { WishStoreService } from '../../services/wish-store.service';
@@ -6,6 +7,7 @@ import { ShareService } from '../../services/share.service';
 
 @Component({
     selector: 'app-fulfilled-wishes-page',
+    imports: [TranslatePipe],
     templateUrl: './fulfilled-wishes-page.component.html',
     styleUrl: './fulfilled-wishes-page.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

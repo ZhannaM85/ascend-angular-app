@@ -1,0 +1,213 @@
+{
+    "nav": {
+        "main": "Main",
+        "wishes": "Wishes",
+        "create": "Create",
+        "fulfilled": "Fulfilled",
+        "about": "About",
+        "ascendHome": "Ascend home"
+    },
+    "wishesPage": {
+        "addWish": "Add a wish",
+        "addWishPlaceholder": "Add a wish...",
+        "noWishesYet": "You don't have any wishes yet.",
+        "startFirstChallenge": "Start your first discipline challenge.",
+        "createWish": "Create Wish"
+    },
+    "createWishPage": {
+        "backToWishes": "← Back to Wishes",
+        "title": "Create a Wish",
+        "wishTitle": "Wish Title",
+        "wishTitlePlaceholder": "e.g. Go to Paris this summer",
+        "titleRequired": "Title is required.",
+        "descriptionOptional": "Description (optional)",
+        "optionalDetails": "Optional details",
+        "imageOptional": "Image (optional)",
+        "imageHint": "Images are compressed to save space. Max width 800px, JPEG.",
+        "wishPreview": "Wish preview",
+        "remove": "Remove",
+        "compressing": "Compressing…",
+        "imageError": "Could not process image. Try a different file.",
+        "commitment": "Commitment",
+        "commitmentExamples": "Examples: No chocolate, No alcohol, Exercise daily",
+        "commitmentTitle": "Commitment Title",
+        "commitmentPlaceholder": "e.g. No chocolate",
+        "commitmentRequired": "Commitment is required.",
+        "durationDays": "Duration (days)",
+        "durationInvalid": "Enter 1–365 days.",
+        "startDate": "Start date",
+        "startDateHint": "When your commitment begins (e.g. today or next Monday).",
+        "startChallenge": "Start Challenge"
+    },
+    "editWishPage": {
+        "backToWish": "← Back to Wish",
+        "title": "Edit Wish",
+        "saveChanges": "Save Changes",
+        "wishNotFound": "Wish not found.",
+        "backToWishes": "Back to Wishes"
+    },
+    "wishCard": {
+        "deleteWish": "Delete wish {{title}}",
+        "commitment": "Commitment",
+        "commitmentCompleted": "🎉 Commitment completed",
+        "open": "Open",
+        "share": "Share"
+    },
+    "wishDetailsPage": {
+        "backToWishes": "← Back to Wishes",
+        "editWish": "Edit wish",
+        "deleteWish": "Delete wish {{title}}",
+        "missedDay": "⚠ You missed a day.",
+        "progress": "Progress",
+        "commitmentStartsOn": "Your commitment starts on {{date}}",
+        "checkInFromThatDay": "Check-in will be available from that day.",
+        "shareProgress": "Share Progress",
+        "myWishCameTrue": "My Wish Came True",
+        "noCommitment": "No commitment for this wish.",
+        "dailyReflection": "Daily reflection",
+        "reflectionHint": "Why are you doing this? What did you do today? Note when you want to quit or need a reminder.",
+        "yourReflection": "Your reflection",
+        "reflectionPlaceholder": "e.g. Today I avoided sugar. I'm doing this because...",
+        "reflectionRequired": "Please enter your reflection.",
+        "addReflection": "Add reflection",
+        "cancel": "Cancel",
+        "save": "Save",
+        "editReflectionFrom": "Edit reflection from {{date}}",
+        "deleteReflectionFrom": "Delete reflection from {{date}}",
+        "noReflectionsYet": "No reflections yet. Add one above.",
+        "wishNotFound": "Wish not found."
+    },
+    "fulfilledPage": {
+        "title": "Fulfilled Wishes",
+        "noFulfilledYet": "No fulfilled wishes yet.",
+        "markHere": "When a wish comes true, mark it here.",
+        "completedCommitment": "Completed commitment: {{title}} ({{days}} days)",
+        "wishFulfilled": "Wish fulfilled: {{date}}",
+        "shareStory": "Share Story"
+    },
+    "leaveConfirmDialog": {
+        "title": "Leave without saving?",
+        "leave": "Leave",
+        "cancel": "Cancel"
+    },
+    "leaveConfirmMessage": {
+        "unsavedChanges": "You have unsaved changes. Leave this page?"
+    },
+    "deleteWishDialog": {
+        "title": "Delete wish?",
+        "description": "\"{{title}}\" and its commitment will be permanently removed. This cannot be undone.",
+        "delete": "Delete",
+        "cancel": "Cancel"
+    },
+    "deleteReflectionDialog": {
+        "title": "Delete reflection?",
+        "description": "This reflection from {{date}} will be permanently removed.",
+        "delete": "Delete",
+        "cancel": "Cancel"
+    },
+    "fulfillWishDialog": {
+        "title": "✨ Your wish was fulfilled!",
+        "whenDidItHappen": "When did it happen?",
+        "date": "Date",
+        "addNoteOptional": "Add a note (optional)",
+        "whatHappened": "What happened?",
+        "save": "Save",
+        "cancel": "Cancel"
+    },
+    "shareModal": {
+        "shareProgressCard": "Share progress card",
+        "download": "Download",
+        "share": "Share",
+        "close": "Close"
+    },
+    "shareCard": {
+        "wish": "WISH",
+        "commitment": "COMMITMENT",
+        "progress": "PROGRESS",
+        "footer": "ascend.app"
+    },
+    "dailyCheckin": {
+        "didYouKeepPromise": "Did you keep your promise today?",
+        "alreadyCompletedToday": "You already completed this commitment today.",
+        "yesIDid": "YES, I DID"
+    },
+    "commitmentProgress": {
+        "commitment": "Commitment",
+        "keepStreakGoing": "Keep your streak going!"
+    },
+    "completionBanner": {
+        "disciplineCompleted": "🎉 Discipline completed!",
+        "supportedWithDays": "You supported your wish with {{duration}} days of discipline.",
+        "dayDiscipline": "{{duration}} Day Discipline"
+    },
+    "progressBar": {
+        "progress": "Progress",
+        "dayOfTotal": "Progress: day {{current}} of {{total}}"
+    },
+    "streakBadge": {
+        "streakDays": "Streak: {{count}} days"
+    },
+    "streakCalendar": {
+        "dayStatus": "Day {{index}}: {{status}}",
+        "done": "Done",
+        "missed": "Missed",
+        "upcoming": "Upcoming"
+    },
+    "aboutPage": {
+        "title": "About the Project",
+        "theIdea": "The Idea",
+        "idea1": "This application is built around a simple but powerful concept: supporting your wishes through short periods of discipline.",
+        "idea2": "In many cultures, people practice temporary self-restraint or \"ascetic commitments\" to strengthen their intention toward something meaningful. The idea is that when we consciously give up something or practice discipline for a limited time, we focus our energy and attention on what truly matters to us.",
+        "idea3": "This app brings that idea into a modern, simple digital experience.",
+        "idea4": "Instead of just writing down goals or wishes, you actively support them through small, intentional actions.",
+        "howItWorks": "How It Works",
+        "processSimple": "The process is simple:",
+        "createWish": "Create a Wish",
+        "createWishDesc": "Start by writing down something meaningful you would like to happen in your life. It could be a new job, improved health, personal growth, or any other intention.",
+        "makeCommitment": "Make a Commitment",
+        "makeCommitmentDesc": "Choose a short discipline challenge that you will follow for a number of days. Examples:",
+        "example1": "No chocolate for 7 days",
+        "example2": "No alcohol for 10 days",
+        "example3": "Exercise every day for 14 days",
+        "example4": "Limit social media use",
+        "checkInDaily": "Check In Daily",
+        "checkInDailyDesc": "Each day you confirm whether you kept your promise. This builds a streak and keeps you accountable.",
+        "completeChallenge": "Complete the Challenge",
+        "completeChallengeDesc": "If you successfully complete the commitment period, you have symbolically supported your wish through discipline and focus.",
+        "closeWish": "Close the Wish When It Comes True",
+        "closeWishDesc": "The wish can stay open as long as needed. When it eventually happens, you can return to the app and mark it as fulfilled.",
+        "whyThisHelps": "Why This Helps",
+        "whyIntro": "This approach works because it combines several powerful psychological principles:",
+        "focus": "Focus",
+        "focusDesc": "A commitment reminds you daily about what truly matters to you.",
+        "discipline": "Discipline",
+        "disciplineDesc": "Short challenges help build self-control and consistency.",
+        "accountability": "Accountability",
+        "accountabilityDesc": "Daily check-ins create awareness of your actions.",
+        "motivation": "Motivation",
+        "motivationDesc": "Watching your progress grow keeps you engaged and inspired.",
+        "reflection": "Reflection",
+        "reflectionDesc": "When your wish eventually comes true, you can look back at the effort you invested.",
+        "personalJourney": "A Personal Journey",
+        "personalJourney1": "This app is not just about tracking habits. It is about creating a meaningful connection between your actions and your intentions.",
+        "personalJourney2": "Each wish becomes a small journey.",
+        "personalJourney3": "Over time, you build a collection of wishes, commitments, and stories of personal growth.",
+        "dataStorage": "Where Your Data Is Stored",
+        "dataStorage1": "Your wishes and commitments are stored only in your browser (local storage). Nothing is sent to or saved on a server.",
+        "dataStorage2": "Data is tied to the device and browser you use. If you open the app on a different device or in a different browser, you will not see your existing wishes or progress. There is no sync or cloud backup.",
+        "shareProgress": "Share Your Progress",
+        "shareProgress1": "You can also share your progress with others using visual cards that show your discipline streak and challenge progress.",
+        "shareProgress2": "This makes it easier to celebrate milestones and stay motivated.",
+        "startSmall": "Start Small",
+        "startSmall1": "You do not need a big goal to begin.",
+        "startSmall2": "Start with a small wish and a short commitment. Even a few days of discipline can create a powerful sense of progress.",
+        "tagline": "Your wishes deserve your attention, intention, and effort.",
+        "footer": "Designed and implemented by",
+        "footerWith": "with love, passion, and Cursor"
+    },
+    "locale": {
+        "selectLabel": "Language",
+        "en": "English",
+        "ru": "Русский"
+    }
+}

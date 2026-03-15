@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { WishStoreService } from '../../services/wish-store.service';
 import { DeleteReflectionDialogService } from '../../services/delete-reflection-dialog.service';
 
 @Component({
     selector: 'app-delete-reflection-dialog',
+    imports: [TranslatePipe],
     templateUrl: './delete-reflection-dialog.component.html',
     styleUrl: './delete-reflection-dialog.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

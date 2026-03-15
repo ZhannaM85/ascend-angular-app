@@ -3,49 +3,45 @@
         [routerLink]="['/wish', idParam()]"
         class="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-700"
     >
-        ← Back to Wish
+        {{ 'editWishPage.backToWish' | translate }}
     </a>
-    <h1 class="text-xl font-bold text-gray-800">Edit Wish</h1>
+    <h1 class="text-xl font-bold text-gray-800">{{ 'editWishPage.title' | translate }}</h1>
 
     @if (wish(); as w) {
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
             <div>
-                <label for="title" class="mb-1 block text-sm font-medium text-gray-700"
-                    >Wish Title</label
-                >
+                <label for="title" class="mb-1 block text-sm font-medium text-gray-700">{{ 'createWishPage.wishTitle' | translate }}</label>
                 <input
                     id="title"
                     type="text"
                     formControlName="title"
                     class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                    placeholder="e.g. Get a new job"
+                    [placeholder]="'createWishPage.wishTitlePlaceholder' | translate"
                     required
                 />
                 @if (form.controls.title.invalid && form.controls.title.touched) {
-                    <p class="mt-1 text-sm text-red-600">Title is required.</p>
+                    <p class="mt-1 text-sm text-red-600">{{ 'createWishPage.titleRequired' | translate }}</p>
                 }
             </div>
 
             <div>
-                <label for="description" class="mb-1 block text-sm font-medium text-gray-700"
-                    >Description (optional)</label
-                >
+                <label for="description" class="mb-1 block text-sm font-medium text-gray-700">{{ 'createWishPage.descriptionOptional' | translate }}</label>
                 <textarea
                     id="description"
                     formControlName="description"
                     rows="2"
                     class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                    placeholder="Optional details"
+                    [placeholder]="'createWishPage.optionalDetails' | translate"
                 ></textarea>
             </div>
 
             <div>
-                <label class="mb-1 block text-sm font-medium text-gray-700">Image (optional)</label>
+                <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'createWishPage.imageOptional' | translate }}</label>
                 @if (imageDataUrl(); as dataUrl) {
                     <div class="relative inline-block">
                         <img
                             [src]="dataUrl"
-                            alt="Wish"
+                            [alt]="'createWishPage.wishPreview' | translate"
                             class="max-h-48 rounded-xl border border-gray-200 object-cover"
                         />
                         <button
@@ -53,7 +49,7 @@
                             class="absolute right-2 top-2 rounded-lg bg-black/60 px-2 py-1 text-xs text-white transition hover:bg-black/80"
                             (click)="removeImage()"
                         >
-                            Remove
+                            {{ 'createWishPage.remove' | translate }}
                         </button>
                     </div>
                 } @else {
@@ -66,7 +62,7 @@
                     />
                 }
                 @if (imageCompressing()) {
-                    <p class="mt-1 text-sm text-gray-500">Compressing…</p>
+                    <p class="mt-1 text-sm text-gray-500">{{ 'createWishPage.compressing' | translate }}</p>
                 }
                 @if (imageError()) {
                     <p class="mt-1 text-sm text-red-600">{{ imageError() }}</p>
@@ -75,32 +71,24 @@
 
             @if (hasCommitment) {
                 <div class="border-t border-gray-200 pt-6">
-                    <h2 class="mb-3 text-lg font-semibold text-gray-800">Commitment</h2>
+                    <h2 class="mb-3 text-lg font-semibold text-gray-800">{{ 'createWishPage.commitment' | translate }}</h2>
                     <div class="space-y-4">
                         <div>
-                            <label
-                                for="commitmentTitle"
-                                class="mb-1 block text-sm font-medium text-gray-700"
-                                >Commitment Title</label
-                            >
+                            <label for="commitmentTitle" class="mb-1 block text-sm font-medium text-gray-700">{{ 'createWishPage.commitmentTitle' | translate }}</label>
                             <input
                                 id="commitmentTitle"
                                 type="text"
                                 formControlName="commitmentTitle"
                                 class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                placeholder="e.g. No chocolate"
+                                [placeholder]="'createWishPage.commitmentPlaceholder' | translate"
                                 required
                             />
                             @if (form.controls.commitmentTitle.invalid && form.controls.commitmentTitle.touched) {
-                                <p class="mt-1 text-sm text-red-600">Commitment is required.</p>
+                                <p class="mt-1 text-sm text-red-600">{{ 'createWishPage.commitmentRequired' | translate }}</p>
                             }
                         </div>
                         <div>
-                            <label
-                                for="duration"
-                                class="mb-1 block text-sm font-medium text-gray-700"
-                                >Duration (days)</label
-                            >
+                            <label for="duration" class="mb-1 block text-sm font-medium text-gray-700">{{ 'createWishPage.durationDays' | translate }}</label>
                             <input
                                 id="duration"
                                 type="number"
@@ -110,15 +98,11 @@
                                 class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                             />
                             @if (form.controls.duration.invalid && form.controls.duration.touched) {
-                                <p class="mt-1 text-sm text-red-600">Enter 1–365 days.</p>
+                                <p class="mt-1 text-sm text-red-600">{{ 'createWishPage.durationInvalid' | translate }}</p>
                             }
                         </div>
                         <div>
-                            <label
-                                for="commitmentStartDate"
-                                class="mb-1 block text-sm font-medium text-gray-700"
-                                >Start date</label
-                            >
+                            <label for="commitmentStartDate" class="mb-1 block text-sm font-medium text-gray-700">{{ 'createWishPage.startDate' | translate }}</label>
                             <input
                                 id="commitmentStartDate"
                                 type="date"
@@ -135,11 +119,11 @@
                 class="w-full rounded-xl bg-indigo-600 py-3 text-base font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-50"
                 [disabled]="form.invalid"
             >
-                Save Changes
+                {{ 'editWishPage.saveChanges' | translate }}
             </button>
         </form>
     } @else {
-        <p class="text-gray-600">Wish not found.</p>
-        <a routerLink="/wishes" class="text-indigo-600 hover:underline">Back to Wishes</a>
+        <p class="text-gray-600">{{ 'editWishPage.wishNotFound' | translate }}</p>
+        <a routerLink="/wishes" class="text-indigo-600 hover:underline">{{ 'editWishPage.backToWishes' | translate }}</a>
     }
 </div>

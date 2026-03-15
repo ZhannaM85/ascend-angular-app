@@ -17,6 +17,7 @@ import { StreakCalendarComponent } from '../../components/streak-calendar/streak
 import { ShareService } from '../../services/share.service';
 import { FulfillDialogService } from '../../services/fulfill-dialog.service';
 import { DeleteWishDialogService } from '../../services/delete-wish-dialog.service';
+import { TranslatePipe } from '@ngx-translate/core';
 import { DeleteReflectionDialogService } from '../../services/delete-reflection-dialog.service';
 import type { Reflection } from '../../models/reflection.model';
 
@@ -35,6 +36,7 @@ function isSameCalendarDay(a: number, b: number): boolean {
     imports: [
         RouterLink,
         ReactiveFormsModule,
+        TranslatePipe,
         CommitmentProgressComponent,
         CompletionBannerComponent,
         DailyCheckinComponent,

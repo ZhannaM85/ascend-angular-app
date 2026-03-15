@@ -4,11 +4,11 @@
     <div class="card-inner">
         <p class="tagline">✨ Discipline for my wish</p>
         <section class="section">
-            <p class="label">WISH</p>
+            <p class="label">{{ 'shareCard.wish' | translate }}</p>
             <p class="value">{{ w.title }}</p>
         </section>
         <section class="section">
-            <p class="label">COMMITMENT</p>
+            <p class="label">{{ 'shareCard.commitment' | translate }}</p>
             <p class="value">{{ c.title }}</p>
         </section>
         <section class="section">
@@ -16,6 +16,6 @@
             <p class="value">Day {{ c.streak }} / {{ c.duration }}</p>
             <p class="streak">🔥 Streak: {{ c.streak }} days</p>
         </section>
-        <p class="footer">ascend.app</p>
+        <p class="footer">{{ 'shareCard.footer' | translate }}</p>
     </div>
 </div>

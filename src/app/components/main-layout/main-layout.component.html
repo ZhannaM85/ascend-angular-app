@@ -1,9 +1,9 @@
 <div class="flex min-h-screen flex-col bg-gray-100">
     <header class="sticky top-0 z-10 flex h-14 flex-wrap items-center justify-between gap-2 border-b border-gray-200 bg-white px-4 shadow-sm md:px-6">
-        <a routerLink="/wishes" class="text-xl font-semibold text-indigo-600" aria-label="Ascend home">
+        <a routerLink="/wishes" class="text-xl font-semibold text-indigo-600" [attr.aria-label]="'nav.ascendHome' | translate">
             Ascend
         </a>
-        <nav class="flex items-center gap-1" role="navigation" aria-label="Main">
+        <nav class="flex items-center gap-1" role="navigation" [attr.aria-label]="'nav.main' | translate">
             <a
                 routerLink="/wishes"
                 routerLinkActive="bg-gray-100 text-indigo-600 font-medium"
@@ -12,7 +12,7 @@
                 #wishesLink="routerLinkActive"
                 class="hidden rounded-lg px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600 md:inline-block"
             >
-                Wishes
+                {{ 'nav.wishes' | translate }}
             </a>
             <a
                 routerLink="/create-wish"
@@ -21,7 +21,7 @@
                 #createLink="routerLinkActive"
                 class="hidden rounded-lg px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600 md:inline-block"
             >
-                Create
+                {{ 'nav.create' | translate }}
             </a>
             <a
                 routerLink="/fulfilled"
@@ -30,17 +30,29 @@
                 #fulfilledLink="routerLinkActive"
                 class="hidden rounded-lg px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600 md:inline-block"
             >
-                Fulfilled
+                {{ 'nav.fulfilled' | translate }}
             </a>
             <a
                 routerLink="/about"
                 routerLinkActive="font-medium text-indigo-600"
                 [attr.aria-current]="(aboutLink.isActive ? 'page' : null) ?? null"
                 #aboutLink="routerLinkActive"
-                class="rounded-lg px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600"
+                class="hidden rounded-lg px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600 md:inline-block"
             >
-                About
+                {{ 'nav.about' | translate }}
             </a>
+            <label for="locale-select" class="sr-only">{{ 'locale.selectLabel' | translate }}</label>
+            <select
+                id="locale-select"
+                class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                [value]="localeService.currentLocale()"
+                (change)="localeService.setLocale($any($event.target).value)"
+                [attr.aria-label]="'locale.selectLabel' | translate"
+            >
+                @for (loc of localeService.getSupportedLocales(); track loc.id) {
+                    <option [value]="loc.id">{{ loc.label }}</option>
+                }
+            </select>
         </nav>
     </header>
     <main class="mx-auto min-w-0 w-full max-w-6xl flex-1 p-4 md:p-6">
@@ -55,7 +67,7 @@
     <nav
         class="sticky bottom-0 flex items-center justify-around border-t border-gray-200 bg-white py-2 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] md:hidden"
         role="navigation"
-        aria-label="Main"
+        [attr.aria-label]="'nav.main' | translate"
     >
         <a
             routerLink="/wishes"
@@ -66,7 +78,7 @@
             class="flex flex-col items-center gap-0.5 rounded-xl px-6 py-3 text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600"
         >
             <span aria-hidden="true">❤️</span>
-            <span>Wishes</span>
+            <span>{{ 'nav.wishes' | translate }}</span>
         </a>
         <a
             routerLink="/create-wish"
@@ -76,7 +88,7 @@
             class="flex flex-col items-center gap-0.5 rounded-xl px-6 py-3 text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600"
         >
             <span aria-hidden="true">➕</span>
-            <span>Create</span>
+            <span>{{ 'nav.create' | translate }}</span>
         </a>
         <a
             routerLink="/fulfilled"
@@ -86,7 +98,7 @@
             class="flex flex-col items-center gap-0.5 rounded-xl px-6 py-3 text-gray-600 transition hover:bg-gray-100 hover:text-indigo-600"
         >
             <span aria-hidden="true">✨</span>
-            <span>Fulfilled</span>
+            <span>{{ 'nav.fulfilled' | translate }}</span>
         </a>
     </nav>
 </div>

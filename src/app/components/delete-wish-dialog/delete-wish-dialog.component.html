@@ -8,10 +8,10 @@
     >
         <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
             <h2 id="delete-dialog-title" class="text-lg font-bold text-gray-900">
-                Delete wish?
+                {{ 'deleteWishDialog.title' | translate }}
             </h2>
             <p id="delete-dialog-description" class="mt-2 text-gray-600">
-                "{{ wish.title }}" and its commitment will be permanently removed. This cannot be undone.
+                {{ 'deleteWishDialog.description' | translate:{ title: wish.title } }}
             </p>
             <div class="mt-6 flex flex-wrap gap-2">
                 <button
@@ -19,14 +19,14 @@
                     class="flex-1 min-w-[7rem] rounded-xl border border-red-200 bg-white py-3 font-medium text-red-600 transition hover:bg-red-50"
                     (click)="confirmDelete()"
                 >
-                    Delete
+                    {{ 'deleteWishDialog.delete' | translate }}
                 </button>
                 <button
                     type="button"
                     class="flex-1 min-w-[7rem] rounded-xl border border-gray-300 bg-white py-3 font-medium text-gray-700 transition hover:bg-gray-100"
                     (click)="close()"
                 >
-                    Cancel
+                    {{ 'deleteWishDialog.cancel' | translate }}
                 </button>
             </div>
         </div>
