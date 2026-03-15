@@ -156,6 +156,7 @@
     },
     "aboutPage": {
         "title": "About the Project",
+        "privacyNotice": "All information is stored in your browser. Therefore everything is completely anonymous and visible only to you.",
         "theIdea": "The Idea",
         "idea1": "This application is built around a simple but powerful concept: supporting your wishes through short periods of discipline.",
         "idea2": "In many cultures, people practice temporary self-restraint or \"ascetic commitments\" to strengthen their intention toward something meaningful. The idea is that when we consciously give up something or practice discipline for a limited time, we focus our energy and attention on what truly matters to us.",
