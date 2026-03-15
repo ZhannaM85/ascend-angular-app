@@ -5,11 +5,12 @@ import type { Wish } from '../../models/wish.model';
 import { ShareService } from '../../services/share.service';
 import { WishStoreService } from '../../services/wish-store.service';
 import { DeleteWishDialogService } from '../../services/delete-wish-dialog.service';
+import { TranslatePipe } from '@ngx-translate/core';
 import { WishCardComponent } from '../../components/wish-card/wish-card.component';
 
 @Component({
     selector: 'app-wishes-page',
-    imports: [RouterLink, WishCardComponent],
+    imports: [RouterLink, TranslatePipe, WishCardComponent],
     templateUrl: './wishes-page.component.html',
     styleUrl: './wishes-page.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

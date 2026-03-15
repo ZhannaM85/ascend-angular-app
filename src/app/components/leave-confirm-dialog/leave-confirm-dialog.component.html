@@ -8,7 +8,7 @@
     >
         <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
             <h2 id="leave-confirm-dialog-title" class="text-lg font-bold text-gray-900">
-                Leave without saving?
+                {{ 'leaveConfirmDialog.title' | translate }}
             </h2>
             <p id="leave-confirm-dialog-description" class="mt-2 text-gray-600">
                 {{ message() }}
@@ -19,14 +19,14 @@
                     class="flex-1 min-w-[7rem] rounded-xl border border-red-200 bg-white py-3 font-medium text-red-600 transition hover:bg-red-50"
                     (click)="confirmLeave()"
                 >
-                    Leave
+                    {{ 'leaveConfirmDialog.leave' | translate }}
                 </button>
                 <button
                     type="button"
                     class="flex-1 min-w-[7rem] rounded-xl border border-gray-300 bg-white py-3 font-medium text-gray-700 transition hover:bg-gray-100"
                     (click)="cancel()"
                 >
-                    Cancel
+                    {{ 'leaveConfirmDialog.cancel' | translate }}
                 </button>
             </div>
         </div>

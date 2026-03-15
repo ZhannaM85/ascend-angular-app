@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { WishStoreService } from '../../services/wish-store.service';
 import { FulfillDialogService } from '../../services/fulfill-dialog.service';
 
 @Component({
     selector: 'app-fulfill-wish-dialog',
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, TranslatePipe],
     templateUrl: './fulfill-wish-dialog.component.html',
     styleUrl: './fulfill-wish-dialog.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

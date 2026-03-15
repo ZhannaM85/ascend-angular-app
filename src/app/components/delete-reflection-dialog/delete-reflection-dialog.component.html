@@ -8,10 +8,10 @@
     >
         <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
             <h2 id="delete-reflection-dialog-title" class="text-lg font-bold text-gray-900">
-                Delete reflection?
+                {{ 'deleteReflectionDialog.title' | translate }}
             </h2>
             <p id="delete-reflection-dialog-description" class="mt-2 text-gray-600">
-                This reflection from {{ formatDate(reflection.date) }} will be permanently removed.
+                {{ 'deleteReflectionDialog.description' | translate:{ date: formatDate(reflection.date) } }}
             </p>
             @if (reflection.text) {
                 <p class="mt-2 rounded-lg bg-gray-100 p-3 text-sm text-gray-700 line-clamp-3">
@@ -24,14 +24,14 @@
                     class="flex-1 min-w-[7rem] rounded-xl border border-red-200 bg-white py-3 font-medium text-red-600 transition hover:bg-red-50"
                     (click)="confirmDelete()"
                 >
-                    Delete
+                    {{ 'deleteReflectionDialog.delete' | translate }}
                 </button>
                 <button
                     type="button"
                     class="flex-1 min-w-[7rem] rounded-xl border border-gray-300 bg-white py-3 font-medium text-gray-700 transition hover:bg-gray-100"
                     (click)="close()"
                 >
-                    Cancel
+                    {{ 'deleteReflectionDialog.cancel' | translate }}
                 </button>
             </div>
         </div>

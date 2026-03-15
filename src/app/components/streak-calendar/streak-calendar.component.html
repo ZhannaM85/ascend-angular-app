@@ -8,7 +8,7 @@
             [class.text-gray-600]="day.status === 'missed'"
             [class.bg-indigo-100]="day.status === 'future'"
             [class.text-indigo-700]="day.status === 'future'"
-            [attr.aria-label]="'Day ' + day.dayIndex + ': ' + (day.status === 'checked' ? 'Done' : day.status === 'missed' ? 'Missed' : 'Upcoming')"
+            [attr.aria-label]="'streakCalendar.dayStatus' | translate:{ index: day.dayIndex, status: getStatusLabel(day.status) }"
         >
             <span class="text-xs">{{ day.label }}</span>
             @if (day.status === 'checked') {

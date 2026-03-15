@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LocaleService } from '../../services/locale.service';
 import { ShareModalComponent } from '../share-modal/share-modal.component';
 import { FulfillWishDialogComponent } from '../fulfill-wish-dialog/fulfill-wish-dialog.component';
 import { DeleteWishDialogComponent } from '../delete-wish-dialog/delete-wish-dialog.component';
@@ -12,6 +14,7 @@ import { LeaveConfirmDialogComponent } from '../leave-confirm-dialog/leave-confi
         RouterOutlet,
         RouterLink,
         RouterLinkActive,
+        TranslatePipe,
         ShareModalComponent,
         FulfillWishDialogComponent,
         DeleteWishDialogComponent,
@@ -22,4 +25,6 @@ import { LeaveConfirmDialogComponent } from '../leave-confirm-dialog/leave-confi
     styleUrl: './main-layout.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MainLayoutComponent {}
+export class MainLayoutComponent {
+    readonly localeService = inject(LocaleService);
+}

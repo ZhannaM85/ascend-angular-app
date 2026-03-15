@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-progress-bar',
+    imports: [TranslatePipe],
     templateUrl: './progress-bar.component.html',
     styleUrl: './progress-bar.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

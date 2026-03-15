@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
 import { toPng } from 'html-to-image';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ShareService } from '../../services/share.service';
 import { ShareCardComponent } from '../share-card/share-card.component';
 
 @Component({
     selector: 'app-share-modal',
-    imports: [ShareCardComponent],
+    imports: [TranslatePipe, ShareCardComponent],
     templateUrl: './share-modal.component.html',
     styleUrl: './share-modal.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

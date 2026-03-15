@@ -7,14 +7,12 @@
     >
         <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
             <h2 id="fulfill-dialog-title" class="text-lg font-bold text-gray-900">
-                ✨ Your wish was fulfilled!
+                {{ 'fulfillWishDialog.title' | translate }}
             </h2>
-            <p class="mt-2 text-gray-600">When did it happen?</p>
+            <p class="mt-2 text-gray-600">{{ 'fulfillWishDialog.whenDidItHappen' | translate }}</p>
             <form [formGroup]="form" (ngSubmit)="save()" class="mt-4 space-y-4">
                 <div>
-                    <label for="fulfilledDate" class="mb-1 block text-sm font-medium text-gray-700"
-                        >Date</label
-                    >
+                    <label for="fulfilledDate" class="mb-1 block text-sm font-medium text-gray-700">{{ 'fulfillWishDialog.date' | translate }}</label>
                     <input
                         id="fulfilledDate"
                         type="date"
@@ -23,15 +21,13 @@
                     />
                 </div>
                 <div>
-                    <label for="fulfillNote" class="mb-1 block text-sm font-medium text-gray-700"
-                        >Add a note (optional)</label
-                    >
+                    <label for="fulfillNote" class="mb-1 block text-sm font-medium text-gray-700">{{ 'fulfillWishDialog.addNoteOptional' | translate }}</label>
                     <textarea
                         id="fulfillNote"
                         formControlName="note"
                         rows="3"
                         class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                        placeholder="What happened?"
+                        [placeholder]="'fulfillWishDialog.whatHappened' | translate"
                     ></textarea>
                 </div>
                 <div class="flex gap-2">
@@ -39,14 +35,14 @@
                         type="submit"
                         class="flex-1 rounded-xl bg-indigo-600 py-3 font-medium text-white hover:bg-indigo-700"
                     >
-                        Save
+                        {{ 'fulfillWishDialog.save' | translate }}
                     </button>
                     <button
                         type="button"
                         class="rounded-xl border border-gray-300 bg-white px-4 py-3 font-medium text-gray-700 hover:bg-gray-100"
                         (click)="close()"
                     >
-                        Cancel
+                        {{ 'fulfillWishDialog.cancel' | translate }}
                     </button>
                 </div>
             </form>

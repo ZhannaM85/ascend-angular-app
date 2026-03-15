@@ -2,10 +2,10 @@
     <a
         routerLink="/create-wish"
         class="flex w-full items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-md transition hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        aria-label="Add a wish"
+        [attr.aria-label]="'wishesPage.addWish' | translate"
     >
         <span class="text-gray-400" aria-hidden="true">✏️</span>
-        <span class="flex-1 text-left text-gray-500">Add a wish...</span>
+        <span class="flex-1 text-left text-gray-500">{{ 'wishesPage.addWishPlaceholder' | translate }}</span>
         <span class="rounded-lg bg-indigo-600 p-1.5 text-white" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
         </span>
@@ -13,13 +13,13 @@
 
     @if (wishWithCommitment().length === 0) {
         <div class="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center shadow-sm">
-            <p class="text-gray-600">You don't have any wishes yet.</p>
-            <p class="mt-1 text-gray-500">Start your first discipline challenge.</p>
+            <p class="text-gray-600">{{ 'wishesPage.noWishesYet' | translate }}</p>
+            <p class="mt-1 text-gray-500">{{ 'wishesPage.startFirstChallenge' | translate }}</p>
             <a
                 routerLink="/create-wish"
                 class="mt-4 inline-flex h-12 items-center justify-center rounded-xl bg-indigo-600 px-6 text-sm font-medium text-white transition hover:bg-indigo-700"
             >
-                Create Wish
+                {{ 'wishesPage.createWish' | translate }}
             </a>
         </div>
     } @else {
