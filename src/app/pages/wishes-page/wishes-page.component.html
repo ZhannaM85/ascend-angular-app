@@ -28,6 +28,7 @@
                         [wish]="item.wish"
                         [commitment]="item.commitment ?? undefined"
                         (shareClick)="onShare(item)"
+                        (deleteClick)="onDelete(item)"
                     />
                 </li>
             }

@@ -66,6 +66,25 @@ export class WishDetailsPageComponent {
         return isSameCalendarDay(c.lastCheckIn, Date.now());
     });
 
+    readonly commitmentNotYetStarted = computed(() => {
+        const c = this.commitment();
+        if (!c) return false;
+        const todayStart = getStartOfDay(Date.now());
+        const commitmentStart = getStartOfDay(c.startDate);
+        return todayStart < commitmentStart;
+    });
+
+    readonly commitmentStartDateFormatted = computed(() => {
+        const c = this.commitment();
+        if (!c) return '';
+        return new Date(c.startDate).toLocaleDateString(undefined, {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    });
+
     readonly missedDayMessage = signal<string | null>(null);
     readonly justCompleted = signal(false);
 

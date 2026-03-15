@@ -56,7 +56,8 @@ export class WishStoreService {
         title: string,
         commitmentTitle: string,
         duration: number,
-        description?: string
+        description?: string,
+        commitmentStartDate?: number
     ): Wish {
         const wish: Wish = {
             id: generateId(),
@@ -64,13 +65,15 @@ export class WishStoreService {
             description,
             createdAt: Date.now()
         };
-        const now = getStartOfDay(Date.now());
+        const startDate = commitmentStartDate != null
+            ? getStartOfDay(commitmentStartDate)
+            : getStartOfDay(Date.now());
         const commitment: Commitment = {
             id: generateId(),
             wishId: wish.id,
             title: commitmentTitle,
             duration,
-            startDate: now,
+            startDate,
             streak: 0,
             completed: false
         };
@@ -88,6 +91,50 @@ export class WishStoreService {
         return this.wishesSignal().find((w) => w.id === id);
     }
 
+    updateWish(
+        wishId: string,
+        updates: { title?: string; description?: string }
+    ): void {
+        this.wishesSignal.update((list) =>
+            list.map((w) =>
+                w.id === wishId
+                    ? {
+                          ...w,
+                          ...(updates.title !== undefined && { title: updates.title }),
+                          ...(updates.description !== undefined && {
+                              description: updates.description
+                          })
+                      }
+                    : w
+            )
+        );
+        this.persist();
+    }
+
+    updateCommitment(
+        wishId: string,
+        updates: { title?: string; duration?: number; startDate?: number }
+    ): void {
+        const resolved = {
+            ...(updates.startDate !== undefined && {
+                startDate: getStartOfDay(updates.startDate)
+            })
+        };
+        this.commitmentsSignal.update((list) =>
+            list.map((c) =>
+                c.wishId === wishId
+                    ? {
+                          ...c,
+                          ...(updates.title !== undefined && { title: updates.title }),
+                          ...(updates.duration !== undefined && { duration: updates.duration }),
+                          ...resolved
+                      }
+                    : c
+            )
+        );
+        this.persist();
+    }
+
     /**
      * Returns true if a missed day was detected and streak was reset.
      */
@@ -100,6 +147,10 @@ export class WishStoreService {
 
         const now = Date.now();
         const todayStart = getStartOfDay(now);
+        const commitmentStart = getStartOfDay(commitment.startDate);
+        if (todayStart < commitmentStart) {
+            return { completed: false, missedDayReset: false };
+        }
         const lastCheck = commitment.lastCheckIn;
         let missedDayReset = false;
 
@@ -156,6 +207,12 @@ export class WishStoreService {
                     : w
             )
         );
+        this.persist();
+    }
+
+    deleteWish(wishId: string): void {
+        this.wishesSignal.update((list) => list.filter((w) => w.id !== wishId));
+        this.commitmentsSignal.update((list) => list.filter((c) => c.wishId !== wishId));
         this.persist();
     }
 }

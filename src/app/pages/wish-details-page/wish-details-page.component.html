@@ -1,12 +1,20 @@
 @if (wish(); as w) {
     @if (commitment(); as c) {
         <div class="space-y-4">
-            <a
-                routerLink="/wishes"
-                class="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-700"
-            >
-                ← Back to Wishes
-            </a>
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <a
+                    routerLink="/wishes"
+                    class="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-700"
+                >
+                    ← Back to Wishes
+                </a>
+                <a
+                    [routerLink]="['/wish', w.id, 'edit']"
+                    class="inline-flex items-center gap-1 rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                >
+                    Edit
+                </a>
+            </div>
 
             <h1 class="text-2xl font-bold text-gray-900">
                 <span aria-hidden="true">✨</span> {{ w.title }}
@@ -31,12 +39,21 @@
                 <app-streak-calendar [commitment]="c" />
             </div>
 
-            @if (c.completed) {
+            @if (commitmentNotYetStarted()) {
+                <div
+                    class="rounded-xl border border-gray-200 bg-gray-50 p-4 text-gray-600"
+                    role="status"
+                >
+                    <p class="font-medium">Your commitment starts on {{ commitmentStartDateFormatted() }}</p>
+                    <p class="mt-1 text-sm">Check-in will be available from that day.</p>
+                </div>
+            } @else if (c.completed) {
                 <app-completion-banner [duration]="c.duration" />
             } @else {
                 <app-daily-checkin
                     [alreadyCheckedToday]="alreadyCheckedToday()"
                     [completed]="c.completed"
+                    [disabled]="commitmentNotYetStarted()"
                     (checkIn)="onCheckIn()"
                 />
             }
@@ -61,7 +78,15 @@
         </div>
     } @else {
         <p class="text-gray-600">No commitment for this wish.</p>
-        <a routerLink="/wishes" class="text-indigo-600 hover:underline">Back to Wishes</a>
+        <div class="mt-2 flex flex-wrap gap-2">
+            <a
+                [routerLink]="['/wish', w.id, 'edit']"
+                class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+            >
+                Edit
+            </a>
+            <a routerLink="/wishes" class="text-indigo-600 hover:underline">Back to Wishes</a>
+        </div>
     }
 } @else {
     <p class="text-gray-600">Wish not found.</p>

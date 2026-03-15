@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ShareModalComponent } from '../share-modal/share-modal.component';
 import { FulfillWishDialogComponent } from '../fulfill-wish-dialog/fulfill-wish-dialog.component';
+import { DeleteWishDialogComponent } from '../delete-wish-dialog/delete-wish-dialog.component';
 
 @Component({
     selector: 'app-main-layout',
@@ -10,7 +11,8 @@ import { FulfillWishDialogComponent } from '../fulfill-wish-dialog/fulfill-wish-
         RouterLink,
         RouterLinkActive,
         ShareModalComponent,
-        FulfillWishDialogComponent
+        FulfillWishDialogComponent,
+        DeleteWishDialogComponent
     ],
     templateUrl: './main-layout.component.html',
     styleUrl: './main-layout.component.scss',
