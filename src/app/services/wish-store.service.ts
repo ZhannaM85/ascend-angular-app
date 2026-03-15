@@ -56,7 +56,8 @@ export class WishStoreService {
         title: string,
         commitmentTitle: string,
         duration: number,
-        description?: string
+        description?: string,
+        commitmentStartDate?: number
     ): Wish {
         const wish: Wish = {
             id: generateId(),
@@ -64,13 +65,15 @@ export class WishStoreService {
             description,
             createdAt: Date.now()
         };
-        const now = getStartOfDay(Date.now());
+        const startDate = commitmentStartDate != null
+            ? getStartOfDay(commitmentStartDate)
+            : getStartOfDay(Date.now());
         const commitment: Commitment = {
             id: generateId(),
             wishId: wish.id,
             title: commitmentTitle,
             duration,
-            startDate: now,
+            startDate,
             streak: 0,
             completed: false
         };
@@ -100,6 +103,10 @@ export class WishStoreService {
 
         const now = Date.now();
         const todayStart = getStartOfDay(now);
+        const commitmentStart = getStartOfDay(commitment.startDate);
+        if (todayStart < commitmentStart) {
+            return { completed: false, missedDayReset: false };
+        }
         const lastCheck = commitment.lastCheckIn;
         let missedDayReset = false;
 
