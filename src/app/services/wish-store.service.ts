@@ -57,12 +57,14 @@ export class WishStoreService {
         commitmentTitle: string,
         duration: number,
         description?: string,
-        commitmentStartDate?: number
+        commitmentStartDate?: number,
+        imageDataUrl?: string
     ): Wish {
         const wish: Wish = {
             id: generateId(),
             title,
             description,
+            ...(imageDataUrl && { imageDataUrl }),
             createdAt: Date.now()
         };
         const startDate = commitmentStartDate != null
@@ -93,20 +95,28 @@ export class WishStoreService {
 
     updateWish(
         wishId: string,
-        updates: { title?: string; description?: string }
+        updates: {
+            title?: string;
+            description?: string;
+            imageDataUrl?: string | null;
+        }
     ): void {
         this.wishesSignal.update((list) =>
-            list.map((w) =>
-                w.id === wishId
-                    ? {
-                          ...w,
-                          ...(updates.title !== undefined && { title: updates.title }),
-                          ...(updates.description !== undefined && {
-                              description: updates.description
-                          })
-                      }
-                    : w
-            )
+            list.map((w) => {
+                if (w.id !== wishId) return w;
+                const next = { ...w };
+                if (updates.title !== undefined) next.title = updates.title;
+                if (updates.description !== undefined)
+                    next.description = updates.description;
+                if (updates.imageDataUrl !== undefined) {
+                    if (updates.imageDataUrl === null || updates.imageDataUrl === '') {
+                        delete next.imageDataUrl;
+                    } else {
+                        next.imageDataUrl = updates.imageDataUrl;
+                    }
+                }
+                return next;
+            })
         );
         this.persist();
     }
