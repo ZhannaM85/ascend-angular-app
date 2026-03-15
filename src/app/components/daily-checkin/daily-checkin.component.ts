@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-daily-checkin',
+    imports: [TranslatePipe],
     templateUrl: './daily-checkin.component.html',
     styleUrl: './daily-checkin.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

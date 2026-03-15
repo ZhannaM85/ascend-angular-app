@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import type { Commitment } from '../../models/commitment.model';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -12,12 +13,21 @@ function getStartOfDay(ts: number): number {
 
 @Component({
     selector: 'app-streak-calendar',
+    imports: [TranslatePipe],
     templateUrl: './streak-calendar.component.html',
     styleUrl: './streak-calendar.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StreakCalendarComponent {
+    private readonly translate = inject(TranslateService);
+
     readonly commitment = input.required<Commitment>();
+
+    getStatusLabel(status: 'checked' | 'missed' | 'future'): string {
+        if (status === 'checked') return this.translate.instant('streakCalendar.done');
+        if (status === 'missed') return this.translate.instant('streakCalendar.missed');
+        return this.translate.instant('streakCalendar.upcoming');
+    }
 
     readonly days = computed(() => {
         const c = this.commitment();

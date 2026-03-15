@@ -1,7 +1,7 @@
 <div class="rounded-xl border border-green-200 bg-green-50 p-4 text-center" role="status">
-    <p class="text-lg font-semibold text-green-800">🎉 Discipline completed!</p>
+    <p class="text-lg font-semibold text-green-800">{{ 'completionBanner.disciplineCompleted' | translate }}</p>
     <p class="mt-1 text-sm text-green-700">
-        You supported your wish with {{ duration() }} days of discipline.
+        {{ 'completionBanner.supportedWithDays' | translate:{ duration: duration() } }}
     </p>
-    <p class="mt-2 text-sm font-medium text-green-800">{{ duration() }} Day Discipline</p>
+    <p class="mt-2 text-sm font-medium text-green-800">{{ 'completionBanner.dayDiscipline' | translate:{ duration: duration() } }}</p>
 </div>
