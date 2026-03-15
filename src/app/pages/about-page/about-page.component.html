@@ -1,7 +1,17 @@
 <div class="prose prose-gray mx-auto max-w-[65ch] pb-12">
     <h1 class="text-2xl font-bold text-gray-900">{{ 'aboutPage.title' | translate }}</h1>
 
-    <section class="mt-6">
+    <div
+        class="mt-6 rounded-xl border-2 border-indigo-200 bg-indigo-50 p-4 text-indigo-900 shadow-sm"
+        role="status"
+    >
+        <p class="flex items-start gap-3 font-medium">
+            <span class="shrink-0 text-2xl" aria-hidden="true">🔒</span>
+            <span>{{ 'aboutPage.privacyNotice' | translate }}</span>
+        </p>
+    </div>
+
+    <section class="mt-8">
         <h2 class="text-lg font-semibold text-gray-800">{{ 'aboutPage.theIdea' | translate }}</h2>
         <p class="mt-2 text-gray-600">{{ 'aboutPage.idea1' | translate }}</p>
         <p class="mt-2 text-gray-600">{{ 'aboutPage.idea2' | translate }}</p>
