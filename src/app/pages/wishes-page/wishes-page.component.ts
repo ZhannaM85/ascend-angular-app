@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { RouterLink } from '@angular/router';
 import type { Commitment } from '../../models/commitment.model';
 import type { Wish } from '../../models/wish.model';
-import { WishStoreService } from '../../services/wish-store.service';
 import { ShareService } from '../../services/share.service';
+import { WishStoreService } from '../../services/wish-store.service';
+import { DeleteWishDialogService } from '../../services/delete-wish-dialog.service';
 import { WishCardComponent } from '../../components/wish-card/wish-card.component';
 
 @Component({
@@ -16,6 +17,7 @@ import { WishCardComponent } from '../../components/wish-card/wish-card.componen
 export class WishesPageComponent {
     private readonly store = inject(WishStoreService);
     private readonly shareService = inject(ShareService);
+    private readonly deleteDialog = inject(DeleteWishDialogService);
 
     readonly activeWishes = this.store.activeWishes;
 
@@ -30,5 +32,9 @@ export class WishesPageComponent {
         if (item.commitment) {
             this.shareService.open(item.wish, item.commitment);
         }
+    }
+
+    onDelete(item: { wish: Wish }): void {
+        this.deleteDialog.open(item.wish);
     }
 }

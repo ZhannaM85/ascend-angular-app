@@ -17,4 +17,5 @@ export class WishCardComponent {
     readonly commitment = input.required<Commitment | undefined>();
 
     readonly shareClick = output<void>();
+    readonly deleteClick = output<void>();
 }

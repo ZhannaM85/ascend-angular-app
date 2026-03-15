@@ -120,9 +120,9 @@ Deploys automatically when code is **pushed or merged to `master`**.
 
 ## Data and persistence
 
-- **Wishes** and **commitments** are stored in LocalStorage under keys `wishes` and `commitments`.
+- **Wishes** and **commitments** are stored in **LocalStorage** (browser storage) under keys `wishes` and `commitments`. Data is **not** stored on any server.
 - **WishStoreService** exposes signals (`wishes`, `commitments`, `activeWishes`, `fulfilledWishes`) and methods to add/update/check-in/fulfill; every change is persisted via **StorageService**.
-- No server or database: data stays in the browser.
+- **Data is device- and browser-specific:** if you open the app on a different device or in a different browser, you will not see your existing wishes or progress. There is no sync or cloud backup.
 
 ---
 

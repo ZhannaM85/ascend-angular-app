@@ -22,6 +22,13 @@ export const routes: Routes = [
                     )
             },
             {
+                path: 'wish/:id/edit',
+                loadComponent: () =>
+                    import('./pages/edit-wish-page/edit-wish-page.component').then(
+                        (m) => m.EditWishPageComponent
+                    )
+            },
+            {
                 path: 'create-wish',
                 loadComponent: () =>
                     import('./pages/create-wish-page/create-wish-page.component').then(
