@@ -5,6 +5,7 @@ import {
     inject,
     signal
 } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -15,6 +16,9 @@ import { DailyCheckinComponent } from '../../components/daily-checkin/daily-chec
 import { StreakCalendarComponent } from '../../components/streak-calendar/streak-calendar.component';
 import { ShareService } from '../../services/share.service';
 import { FulfillDialogService } from '../../services/fulfill-dialog.service';
+import { DeleteWishDialogService } from '../../services/delete-wish-dialog.service';
+import { DeleteReflectionDialogService } from '../../services/delete-reflection-dialog.service';
+import type { Reflection } from '../../models/reflection.model';
 
 function getStartOfDay(ts: number): number {
     const d = new Date(ts);
@@ -30,6 +34,7 @@ function isSameCalendarDay(a: number, b: number): boolean {
     selector: 'app-wish-details-page',
     imports: [
         RouterLink,
+        ReactiveFormsModule,
         CommitmentProgressComponent,
         CompletionBannerComponent,
         DailyCheckinComponent,
@@ -44,6 +49,9 @@ export class WishDetailsPageComponent {
     private readonly store = inject(WishStoreService);
     private readonly shareService = inject(ShareService);
     private readonly fulfillDialog = inject(FulfillDialogService);
+    private readonly deleteWishDialog = inject(DeleteWishDialogService);
+    private readonly deleteReflectionDialog = inject(DeleteReflectionDialogService);
+    private readonly fb = inject(FormBuilder);
 
     private readonly idParam = toSignal(
         this.route.paramMap.pipe(map((p) => p.get('id'))),
@@ -85,8 +93,19 @@ export class WishDetailsPageComponent {
         });
     });
 
+    readonly reflections = computed(() => {
+        const w = this.wish();
+        return w ? this.store.getReflectionsForWish(w.id) : [];
+    });
+
+    readonly reflectionForm = this.fb.nonNullable.group({
+        text: ['', [Validators.required, Validators.minLength(1)]]
+    });
+
     readonly missedDayMessage = signal<string | null>(null);
     readonly justCompleted = signal(false);
+    readonly editingReflectionId = signal<string | null>(null);
+    readonly editingReflectionText = signal('');
 
     onCheckIn(): void {
         const c = this.commitment();
@@ -111,5 +130,49 @@ export class WishDetailsPageComponent {
     onMarkFulfilled(): void {
         const w = this.wish();
         if (w) this.fulfillDialog.open(w);
+    }
+
+    onDeleteWish(): void {
+        const w = this.wish();
+        if (w) this.deleteWishDialog.open(w);
+    }
+
+    formatReflectionDate(ts: number): string {
+        return new Date(ts).toLocaleDateString(undefined, {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    }
+
+    onSubmitReflection(): void {
+        const w = this.wish();
+        if (!w || this.reflectionForm.invalid) return;
+        const v = this.reflectionForm.getRawValue();
+        this.store.addReflection(w.id, v.text);
+        this.reflectionForm.reset({ text: '' });
+    }
+
+    onDeleteReflection(reflection: Reflection): void {
+        this.deleteReflectionDialog.open(reflection);
+    }
+
+    startEditReflection(r: Reflection): void {
+        this.editingReflectionId.set(r.id);
+        this.editingReflectionText.set(r.text);
+    }
+
+    cancelEditReflection(): void {
+        this.editingReflectionId.set(null);
+        this.editingReflectionText.set('');
+    }
+
+    saveReflection(reflectionId: string): void {
+        const text = this.editingReflectionText().trim();
+        if (text) {
+            this.store.updateReflection(reflectionId, text);
+        }
+        this.cancelEditReflection();
     }
 }

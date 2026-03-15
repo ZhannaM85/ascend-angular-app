@@ -11,6 +11,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { WishStoreService } from '../../services/wish-store.service';
+import { ImageCompressionService } from '../../services/image-compression.service';
 
 @Component({
     selector: 'app-edit-wish-page',
@@ -24,6 +25,7 @@ export class EditWishPageComponent {
     private readonly store = inject(WishStoreService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
+    private readonly imageCompression = inject(ImageCompressionService);
 
     readonly idParam = toSignal(
         this.route.paramMap.pipe(map((p) => p.get('id'))),
@@ -49,6 +51,9 @@ export class EditWishPageComponent {
     });
 
     private readonly hasPatched = signal(false);
+    readonly imageDataUrl = signal<string | null>(null);
+    readonly imageError = signal<string | null>(null);
+    readonly imageCompressing = signal(false);
 
     constructor() {
         effect(() => {
@@ -59,6 +64,7 @@ export class EditWishPageComponent {
                     title: w.title,
                     description: w.description ?? ''
                 });
+                this.imageDataUrl.set(w.imageDataUrl ?? null);
                 if (c) {
                     this.form.patchValue({
                         commitmentTitle: c.title,
@@ -82,6 +88,28 @@ export class EditWishPageComponent {
         return this.commitment() != null;
     }
 
+    async onImageSelected(event: Event): Promise<void> {
+        const input = event.target as HTMLInputElement;
+        const file = input.files?.[0];
+        input.value = '';
+        this.imageError.set(null);
+        if (!file) return;
+        this.imageCompressing.set(true);
+        try {
+            const dataUrl = await this.imageCompression.compress(file);
+            this.imageDataUrl.set(dataUrl);
+        } catch {
+            this.imageError.set('Could not process image. Try a different file.');
+        } finally {
+            this.imageCompressing.set(false);
+        }
+    }
+
+    removeImage(): void {
+        this.imageDataUrl.set(null);
+        this.imageError.set(null);
+    }
+
     onSubmit(): void {
         if (this.form.invalid) return;
         const wishId = this.idParam();
@@ -89,7 +117,8 @@ export class EditWishPageComponent {
         const v = this.form.getRawValue();
         this.store.updateWish(wishId, {
             title: v.title,
-            description: v.description || undefined
+            description: v.description || undefined,
+            imageDataUrl: this.imageDataUrl()
         });
         if (this.hasCommitment) {
             const startDateMs = new Date(v.commitmentStartDate).getTime();
