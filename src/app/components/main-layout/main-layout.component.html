@@ -45,8 +45,8 @@
             <select
                 id="locale-select"
                 class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                [value]="localeService.currentLocale()"
-                (change)="localeService.setLocale($any($event.target).value)"
+                [ngModel]="localeService.currentLocale()"
+                (ngModelChange)="localeService.setLocale($event)"
                 [attr.aria-label]="'locale.selectLabel' | translate"
             >
                 @for (loc of localeService.getSupportedLocales(); track loc.id) {
