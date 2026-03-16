@@ -9,13 +9,23 @@ function isLocaleId(value: string): value is LocaleId {
     return SUPPORTED.includes(value as LocaleId);
 }
 
+function getInitialLocale(): LocaleId {
+    if (typeof window === 'undefined') {
+        return 'en';
+    }
+    const saved = window.localStorage.getItem(LOCALE_STORAGE_KEY);
+    return saved && isLocaleId(saved) ? saved : 'en';
+}
+
 @Injectable({
     providedIn: 'root'
 })
 export class LocaleService {
     private readonly translate = inject(TranslateService);
 
-    readonly currentLocale = signal<LocaleId>('en');
+    private readonly initialLocale: LocaleId = getInitialLocale();
+
+    readonly currentLocale = signal<LocaleId>(this.initialLocale);
 
     readonly localeLabel = computed(() => {
         const id = this.currentLocale();
@@ -24,10 +34,8 @@ export class LocaleService {
 
     constructor() {
         this.translate.addLangs([...SUPPORTED]);
-        const saved = localStorage.getItem(LOCALE_STORAGE_KEY);
-        const lang: LocaleId = saved && isLocaleId(saved) ? saved : 'en';
-        this.translate.use(lang);
-        this.currentLocale.set(lang);
+        this.translate.setDefaultLang('en');
+        this.translate.use(this.initialLocale);
         this.translate.onLangChange.subscribe((e) => {
             if (isLocaleId(e.lang)) this.currentLocale.set(e.lang);
         });
@@ -35,7 +43,7 @@ export class LocaleService {
 
     setLocale(locale: LocaleId): void {
         this.translate.use(locale);
-        localStorage.setItem(LOCALE_STORAGE_KEY, locale);
+        window.localStorage.setItem(LOCALE_STORAGE_KEY, locale);
         this.currentLocale.set(locale);
     }
 
