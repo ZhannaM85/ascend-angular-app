@@ -102,13 +102,13 @@
                         <p class="mt-1 text-sm text-red-600">{{ 'createWishPage.durationInvalid' | translate }}</p>
                     }
                 </div>
-                <div>
+                <div class="date-field">
                     <label for="commitmentStartDate" class="mb-1 block text-sm font-medium text-gray-700">{{ 'createWishPage.startDate' | translate }}</label>
                     <input
                         id="commitmentStartDate"
                         type="date"
                         formControlName="commitmentStartDate"
-                        class="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                        class="w-full max-w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 date-input"
                     />
                     <p class="mt-1 text-sm text-gray-500">{{ 'createWishPage.startDateHint' | translate }}</p>
                 </div>
