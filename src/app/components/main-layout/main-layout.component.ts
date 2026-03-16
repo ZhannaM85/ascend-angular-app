@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LocaleService } from '../../services/locale.service';
 import { ShareModalComponent } from '../share-modal/share-modal.component';
@@ -14,6 +15,7 @@ import { LeaveConfirmDialogComponent } from '../leave-confirm-dialog/leave-confi
         RouterOutlet,
         RouterLink,
         RouterLinkActive,
+        FormsModule,
         TranslatePipe,
         ShareModalComponent,
         FulfillWishDialogComponent,
