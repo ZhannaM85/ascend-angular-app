@@ -36,3 +36,13 @@
 .date-input::-webkit-inner-spin-button {
     display: none;
 }
+
+/* iOS Safari can render the date text as centered; keep it left to avoid "cut off" look */
+@supports (-webkit-touch-callout: none) {
+    .date-input {
+        text-align: left;
+        width: 100%;
+        max-width: calc(100vw - 2rem);
+        overflow: hidden;
+    }
+}

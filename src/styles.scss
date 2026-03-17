@@ -7,3 +7,9 @@ body {
     @apply overflow-x-hidden bg-gray-100 text-gray-800 antialiased;
     min-height: 100vh;
 }
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+}
