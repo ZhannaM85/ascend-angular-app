@@ -8,7 +8,7 @@
     align-items: stretch;
     justify-content: center;
     background: rgba(0, 0, 0, 0.6);
-    padding: 16px;
+    padding: 0;
 }
 
 .share-modal-panel {
@@ -26,9 +26,45 @@
     flex: 1 1 auto;
     min-height: 0;
     display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: hidden;
+    position: relative;
+}
+
+.share-modal-iconActions {
+    position: absolute;
+    top: max(12px, env(safe-area-inset-top));
+    right: max(12px, env(safe-area-inset-right));
+    z-index: 2;
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+}
+
+.share-modal-iconButton {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    cursor: pointer;
+}
+
+.share-modal-iconButton:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.share-modal-iconButton:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.9);
+    outline-offset: 2px;
 }
 
 .share-modal-cardScale {
@@ -38,20 +74,15 @@
      */
     --card-w: 1080;
     --card-h: 1920;
-    --panel-pad: 16px;
-    --actions-reserved: 180px;
+    --panel-pad: 0px;
 
-    transform-origin: center;
-    transform: scale(
-        min(
-            calc((100vw - (var(--panel-pad) * 2)) / (var(--card-w) * 1px)),
-            calc((100dvh - var(--actions-reserved) - (var(--panel-pad) * 2)) / (var(--card-h) * 1px))
-        )
+    width: calc(var(--card-w) * 1px);
+    height: calc(var(--card-h) * 1px);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform-origin: top center;
+    transform: translateX(-50%) scale(
+        calc((100dvh - (var(--panel-pad) * 2)) / (var(--card-h) * 1px))
     );
-}
-
-.share-modal-actions {
-    flex: 0 0 auto;
-    padding-top: 16px;
-    padding-bottom: max(16px, env(safe-area-inset-bottom));
 }
