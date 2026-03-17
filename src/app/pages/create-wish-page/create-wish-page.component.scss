@@ -39,10 +39,14 @@
 
 /* iOS Safari can render the date text as centered; keep it left to avoid "cut off" look */
 @supports (-webkit-touch-callout: none) {
+    .date-field {
+        width: 320px !important;
+        max-width: 100% !important;
+    }
+
     .date-input {
         text-align: left;
-        width: 100%;
-        max-width: calc(100vw - 2rem);
-        overflow: hidden;
+        width: 320px !important;
+        max-width: 100% !important;
     }
 }
