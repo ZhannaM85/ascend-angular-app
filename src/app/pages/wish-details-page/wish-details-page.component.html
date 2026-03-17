@@ -58,7 +58,7 @@
                 <p class="mb-2 text-xs font-medium uppercase tracking-wide text-gray-500">
                     {{ 'wishDetailsPage.progress' | translate }}
                 </p>
-                <app-streak-calendar [commitment]="c" />
+                <app-streak-calendar [commitment]="c" (toggle)="onToggleDay($event.dayStart, $event.checked)" />
             </div>
 
             @if (commitmentNotYetStarted()) {

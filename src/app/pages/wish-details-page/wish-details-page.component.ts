@@ -114,12 +114,15 @@ export class WishDetailsPageComponent {
         if (!c) return;
         this.missedDayMessage.set(null);
         const result = this.store.checkIn(c.id);
-        if (result.missedDayReset) {
-            this.missedDayMessage.set('You missed a day. Progress lost. Start again today.');
-        }
         if (result.completed) {
             this.justCompleted.set(true);
         }
+    }
+
+    onToggleDay(dayStart: number, checked: boolean): void {
+        const c = this.commitment();
+        if (!c) return;
+        this.store.toggleCheckIn(c.id, dayStart, checked);
     }
 
     onShare(): void {
