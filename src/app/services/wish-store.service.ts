@@ -166,11 +166,6 @@ export class WishStoreService {
         wishId: string,
         updates: { title?: string; duration?: number; startDate?: number }
     ): void {
-        const resolved = {
-            ...(updates.startDate !== undefined && {
-                startDate: getStartOfDay(updates.startDate)
-            })
-        };
         this.commitmentsSignal.update((list) =>
             list.map((c) =>
                 c.wishId === wishId
@@ -178,7 +173,45 @@ export class WishStoreService {
                           ...c,
                           ...(updates.title !== undefined && { title: updates.title }),
                           ...(updates.duration !== undefined && { duration: updates.duration }),
-                          ...resolved
+                          ...(() => {
+                              if (updates.startDate === undefined) {
+                                  const nextDuration = updates.duration ?? c.duration;
+                                  const nextCompleted = c.streak >= nextDuration;
+                                  return nextCompleted === c.completed
+                                      ? {}
+                                      : { completed: nextCompleted };
+                              }
+
+                              const nextStartDate = getStartOfDay(updates.startDate);
+                              const nextDuration = updates.duration ?? c.duration;
+
+                              if (c.lastCheckIn == null) {
+                                  return {
+                                      startDate: nextStartDate,
+                                      streak: 0,
+                                      completed: false
+                                  };
+                              }
+
+                              const lastCheckStart = getStartOfDay(c.lastCheckIn);
+                              if (lastCheckStart < nextStartDate) {
+                                  return {
+                                      startDate: nextStartDate,
+                                      streak: 0,
+                                      lastCheckIn: undefined,
+                                      completed: false
+                                  };
+                              }
+
+                              const maxPossibleStreak = daysBetween(nextStartDate, lastCheckStart) + 1;
+                              const nextStreak = Math.max(0, Math.min(c.streak, maxPossibleStreak));
+                              return {
+                                  startDate: nextStartDate,
+                                  streak: nextStreak,
+                                  ...(nextStreak === 0 ? { lastCheckIn: undefined } : {}),
+                                  completed: nextStreak >= nextDuration
+                              };
+                          })()
                       }
                     : c
             )
