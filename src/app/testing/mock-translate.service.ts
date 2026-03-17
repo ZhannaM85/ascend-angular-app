@@ -1,5 +1,10 @@
-import { Subject } from 'rxjs';
-import type { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { of, Subject } from 'rxjs';
+import type {
+    InterpolatableTranslationObject,
+    LangChangeEvent,
+    Language,
+    TranslateService
+} from '@ngx-translate/core';
 
 export function createMockTranslateService(
     overrides?: Partial<TranslateService>
@@ -7,9 +12,10 @@ export function createMockTranslateService(
     const onLangChange = new Subject<LangChangeEvent>();
 
     return {
-        addLangs: () => undefined,
-        setDefaultLang: () => undefined,
-        use: () => undefined,
+        addLangs: (_languages: Language[]) => undefined,
+        setDefaultLang: (_lang: Language) =>
+            of({} as InterpolatableTranslationObject),
+        use: (_lang: Language) => of({} as InterpolatableTranslationObject),
         instant: (key: string) => key,
         onLangChange: onLangChange.asObservable(),
         ...overrides
