@@ -1,11 +1,13 @@
 /* Create wish page styles */
 
 .date-field {
-    overflow-x: hidden;
+    min-width: 0;
 }
 
 .date-input {
+    display: block;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    padding-right: 3.25rem;
 }
