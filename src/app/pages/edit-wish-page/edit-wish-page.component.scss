@@ -1,11 +1,38 @@
 /* Edit wish page styles */
 
 .date-field {
-    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .date-input {
+    display: block;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    min-width: 0;
+    background-clip: padding-box;
+}
+
+/* Keep native date internals from forcing overflow (iOS/Chrome/WebKit/Blink) */
+.date-input::-webkit-date-and-time-value {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    margin: 0;
+    padding: 0;
+    opacity: 0.75;
+}
+
+.date-input::-webkit-clear-button,
+.date-input::-webkit-inner-spin-button {
+    display: none;
 }
