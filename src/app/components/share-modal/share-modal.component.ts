@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, Injector, viewChild } from '@angular/core';
 import { toPng } from 'html-to-image';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ShareService } from '../../services/share.service';
@@ -13,9 +13,31 @@ import { ShareCardComponent } from '../share-card/share-card.component';
 })
 export class ShareModalComponent {
     private readonly shareService = inject(ShareService);
+    private readonly injector = inject(Injector);
 
     readonly shareCardRef = viewChild(ShareCardComponent);
     readonly shareState = this.shareService.shareState;
+
+    constructor() {
+        effect((onCleanup) => {
+            if (typeof document === 'undefined') return;
+
+            const isOpen = Boolean(this.shareState());
+            if (!isOpen) return;
+
+            const body = document.body;
+            const prevOverflow = body.style.overflow;
+            const prevOverscroll = body.style.overscrollBehavior;
+
+            body.style.overflow = 'hidden';
+            body.style.overscrollBehavior = 'none';
+
+            onCleanup(() => {
+                body.style.overflow = prevOverflow;
+                body.style.overscrollBehavior = prevOverscroll;
+            });
+        }, { injector: this.injector });
+    }
 
     close(): void {
         this.shareService.close();
