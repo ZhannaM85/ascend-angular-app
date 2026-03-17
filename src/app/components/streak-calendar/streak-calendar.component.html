@@ -1,6 +1,7 @@
 <div class="flex flex-wrap gap-2">
     @for (day of days(); track day.dayIndex) {
-        <div
+        <button
+            type="button"
             class="flex h-10 w-10 flex-col items-center justify-center rounded-full text-sm"
             [class.bg-green-100]="day.status === 'checked'"
             [class.text-green-800]="day.status === 'checked'"
@@ -9,6 +10,9 @@
             [class.bg-indigo-100]="day.status === 'future'"
             [class.text-indigo-700]="day.status === 'future'"
             [attr.aria-label]="'streakCalendar.dayStatus' | translate:{ index: day.dayIndex, status: getStatusLabel(day.status) }"
+            [attr.aria-pressed]="day.status === 'checked'"
+            [disabled]="day.status === 'future'"
+            (click)="onToggle(day.dayIndex)"
         >
             <span class="text-xs">{{ day.label }}</span>
             @if (day.status === 'checked') {
@@ -18,6 +22,6 @@
             } @else {
                 <span aria-hidden="true">⏳</span>
             }
-        </div>
+        </button>
     }
 </div>
