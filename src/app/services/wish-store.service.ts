@@ -24,6 +24,42 @@ function daysBetween(a: number, b: number): number {
     return Math.floor((end - start) / (24 * 60 * 60 * 1000));
 }
 
+function uniqSorted(nums: number[]): number[] {
+    return [...new Set(nums)].sort((a, b) => a - b);
+}
+
+function computeProgress(c: Commitment): Pick<Commitment, 'streak' | 'completed' | 'lastCheckIn'> {
+    const start = getStartOfDay(c.startDate);
+    const duration = Math.max(0, c.duration);
+    const endExclusive = start + duration * 24 * 60 * 60 * 1000;
+
+    const all = uniqSorted((c.checkIns ?? []).map(getStartOfDay));
+    const inWindow = all.filter((d) => d >= start && d < endExclusive);
+    const lastCheckIn = all.length > 0 ? all[all.length - 1] : undefined;
+
+    return {
+        streak: inWindow.length,
+        completed: duration > 0 && inWindow.length >= duration,
+        lastCheckIn
+    };
+}
+
+function migrateCommitment(raw: Commitment): Commitment {
+    if (raw.checkIns && Array.isArray(raw.checkIns)) {
+        const normalized: Commitment = { ...raw, checkIns: uniqSorted(raw.checkIns.map(getStartOfDay)) };
+        return { ...normalized, ...computeProgress(normalized) };
+    }
+
+    // Legacy migration: old model assumed the first `streak` days were checked.
+    const start = getStartOfDay(raw.startDate);
+    const legacyCheckIns: number[] = [];
+    for (let i = 0; i < Math.max(0, raw.streak); i++) {
+        legacyCheckIns.push(start + i * 24 * 60 * 60 * 1000);
+    }
+    const migrated: Commitment = { ...raw, checkIns: uniqSorted(legacyCheckIns) };
+    return { ...migrated, ...computeProgress(migrated) };
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -47,7 +83,7 @@ export class WishStoreService {
 
     constructor() {
         this.wishesSignal.set(this.storage.loadWishes());
-        this.commitmentsSignal.set(this.storage.loadCommitments());
+        this.commitmentsSignal.set(this.storage.loadCommitments().map(migrateCommitment));
         this.reflectionsSignal.set(this.storage.loadReflections());
     }
 
@@ -117,6 +153,7 @@ export class WishStoreService {
             title: commitmentTitle,
             duration,
             startDate,
+            checkIns: [],
             streak: 0,
             completed: false
         };
@@ -173,45 +210,16 @@ export class WishStoreService {
                           ...c,
                           ...(updates.title !== undefined && { title: updates.title }),
                           ...(updates.duration !== undefined && { duration: updates.duration }),
-                          ...(() => {
-                              if (updates.startDate === undefined) {
-                                  const nextDuration = updates.duration ?? c.duration;
-                                  const nextCompleted = c.streak >= nextDuration;
-                                  return nextCompleted === c.completed
-                                      ? {}
-                                      : { completed: nextCompleted };
-                              }
-
-                              const nextStartDate = getStartOfDay(updates.startDate);
-                              const nextDuration = updates.duration ?? c.duration;
-
-                              if (c.lastCheckIn == null) {
-                                  return {
-                                      startDate: nextStartDate,
-                                      streak: 0,
-                                      completed: false
-                                  };
-                              }
-
-                              const lastCheckStart = getStartOfDay(c.lastCheckIn);
-                              if (lastCheckStart < nextStartDate) {
-                                  return {
-                                      startDate: nextStartDate,
-                                      streak: 0,
-                                      lastCheckIn: undefined,
-                                      completed: false
-                                  };
-                              }
-
-                              const maxPossibleStreak = daysBetween(nextStartDate, lastCheckStart) + 1;
-                              const nextStreak = Math.max(0, Math.min(c.streak, maxPossibleStreak));
-                              return {
-                                  startDate: nextStartDate,
-                                  streak: nextStreak,
-                                  ...(nextStreak === 0 ? { lastCheckIn: undefined } : {}),
-                                  completed: nextStreak >= nextDuration
-                              };
-                          })()
+                          ...(updates.startDate !== undefined && {
+                              startDate: getStartOfDay(updates.startDate)
+                          }),
+                          ...computeProgress({
+                              ...c,
+                              ...(updates.duration !== undefined && { duration: updates.duration }),
+                              ...(updates.startDate !== undefined && {
+                                  startDate: getStartOfDay(updates.startDate)
+                              })
+                          })
                       }
                     : c
             )
@@ -235,51 +243,45 @@ export class WishStoreService {
         if (todayStart < commitmentStart) {
             return { completed: false, missedDayReset: false };
         }
-        const lastCheck = commitment.lastCheckIn;
-        let missedDayReset = false;
-
-        if (lastCheck != null) {
-            if (isSameCalendarDay(lastCheck, now)) {
-                // Already checked today - no-op
-                return { completed: false, missedDayReset: false };
-            }
-            if (daysBetween(lastCheck, now) > 1) {
-                missedDayReset = true;
-                // Reset: streak = 0, startDate = today
-                this.commitmentsSignal.update((list) =>
-                    list.map((c) =>
-                        c.id === commitmentId
-                            ? {
-                                  ...c,
-                                  streak: 0,
-                                  startDate: todayStart,
-                                  lastCheckIn: todayStart
-                              }
-                            : c
-                    )
-                );
-                this.persist();
-                return { completed: false, missedDayReset: true };
-            }
+        const alreadyChecked = (commitment.checkIns ?? []).some((d) =>
+            isSameCalendarDay(d, todayStart)
+        );
+        if (alreadyChecked) {
+            return { completed: false, missedDayReset: false };
         }
 
-        const newStreak = commitment.streak + 1;
-        const isCompleted = newStreak >= commitment.duration;
-
         this.commitmentsSignal.update((list) =>
-            list.map((c) =>
-                c.id === commitmentId
-                    ? {
-                          ...c,
-                          streak: newStreak,
-                          lastCheckIn: todayStart,
-                          completed: isCompleted
-                      }
-                    : c
-            )
+            list.map((c) => {
+                if (c.id !== commitmentId) return c;
+                const next: Commitment = {
+                    ...c,
+                    checkIns: uniqSorted([...(c.checkIns ?? []), todayStart])
+                };
+                return { ...next, ...computeProgress(next) };
+            })
         );
         this.persist();
-        return { completed: isCompleted, missedDayReset: false };
+        const updated = this.commitmentsSignal().find((c) => c.id === commitmentId);
+        return { completed: !!updated?.completed, missedDayReset: false };
+    }
+
+    toggleCheckIn(commitmentId: string, day: number, checked: boolean): void {
+        const todayStart = getStartOfDay(Date.now());
+        const dayStart = getStartOfDay(day);
+        if (dayStart > todayStart) return;
+
+        this.commitmentsSignal.update((list) =>
+            list.map((c) => {
+                if (c.id !== commitmentId) return c;
+                const current = uniqSorted((c.checkIns ?? []).map(getStartOfDay));
+                const nextCheckIns = checked
+                    ? uniqSorted([...current, dayStart])
+                    : current.filter((d) => d !== dayStart);
+                const next: Commitment = { ...c, checkIns: nextCheckIns };
+                return { ...next, ...computeProgress(next) };
+            })
+        );
+        this.persist();
     }
 
     markWishFulfilled(wishId: string, fulfilledDate?: number, note?: string): void {
