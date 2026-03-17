@@ -8,7 +8,7 @@
     align-items: stretch;
     justify-content: center;
     background: rgba(0, 0, 0, 0.6);
-    padding: 0;
+    padding: 20px;
 }
 
 .share-modal-panel {
@@ -74,7 +74,7 @@
      */
     --card-w: 1080;
     --card-h: 1920;
-    --panel-pad: 0px;
+    --panel-pad: 20px;
 
     width: calc(var(--card-w) * 1px);
     height: calc(var(--card-h) * 1px);
