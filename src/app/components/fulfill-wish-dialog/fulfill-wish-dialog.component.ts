@@ -21,9 +21,9 @@ export class FulfillWishDialogComponent {
 
     private readonly router = inject(Router);
 
-    readonly wishToFulfill = this.dialog.wishToFulfill;
+    public readonly wishToFulfill = this.dialog.wishToFulfill;
 
-    readonly form = this.fb.nonNullable.group({
+    public readonly form = this.fb.nonNullable.group({
         fulfilledDate: [new Date().toISOString().slice(0, 10), Validators.required],
         note: ['']
     });
@@ -43,14 +43,14 @@ export class FulfillWishDialogComponent {
     /**
      * Closes the fulfill dialog without saving.
      */
-    close(): void {
+    public close(): void {
         this.dialog.close();
     }
 
     /**
      * Marks the wish as fulfilled and navigates to fulfilled list.
      */
-    save(): void {
+    public save(): void {
         const wish = this.wishToFulfill();
         if (!wish || this.form.invalid) return;
         const v = this.form.getRawValue();

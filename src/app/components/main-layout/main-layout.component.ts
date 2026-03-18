@@ -28,5 +28,5 @@ import { LeaveConfirmDialogComponent } from '../leave-confirm-dialog/leave-confi
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainLayoutComponent {
-    readonly localeService = inject(LocaleService);
+    public readonly localeService = inject(LocaleService);
 }

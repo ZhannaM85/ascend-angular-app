@@ -27,9 +27,9 @@ function getStartOfDay(ts: number): number {
 export class StreakCalendarComponent {
     private readonly translate = inject(TranslateService);
 
-    readonly commitment = input.required<Commitment>();
+    public readonly commitment = input.required<Commitment>();
 
-    readonly dayToggled = output<{ dayStart: number; checked: boolean }>();
+    public readonly dayToggled = output<{ dayStart: number; checked: boolean }>();
 
     /**
      * Returns the translated label for a day's status.
@@ -37,13 +37,13 @@ export class StreakCalendarComponent {
      * @param status - The day status.
      * @returns Translated label string.
      */
-    getStatusLabel(status: 'checked' | 'missed' | 'future'): string {
+    public getStatusLabel(status: 'checked' | 'missed' | 'future'): string {
         if (status === 'checked') return this.translate.instant('streakCalendar.done');
         if (status === 'missed') return this.translate.instant('streakCalendar.missed');
         return this.translate.instant('streakCalendar.upcoming');
     }
 
-    readonly days = computed(() => {
+    public readonly days = computed(() => {
         const c = this.commitment();
         const startDate = getStartOfDay(c.startDate);
         const todayStart = getStartOfDay(Date.now());
@@ -66,7 +66,7 @@ export class StreakCalendarComponent {
      *
      * @param dayIndex - 1-based index of the day in the commitment.
      */
-    onToggle(dayIndex: number): void {
+    public onToggle(dayIndex: number): void {
         const c = this.commitment();
         const startDate = getStartOfDay(c.startDate);
         const dayStart = startDate + (dayIndex - 1) * MS_PER_DAY;

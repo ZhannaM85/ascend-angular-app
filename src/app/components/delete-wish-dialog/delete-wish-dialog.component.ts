@@ -15,19 +15,19 @@ export class DeleteWishDialogComponent {
 
     private readonly dialog = inject(DeleteWishDialogService);
 
-    readonly wishToDelete = this.dialog.wishToDelete;
+    public readonly wishToDelete = this.dialog.wishToDelete;
 
     /**
      * Closes the dialog without deleting.
      */
-    close(): void {
+    public close(): void {
         this.dialog.close();
     }
 
     /**
      * Deletes the wish and closes the dialog.
      */
-    confirmDelete(): void {
+    public confirmDelete(): void {
         const wish = this.wishToDelete();
         if (!wish) return;
         this.store.deleteWish(wish.id);

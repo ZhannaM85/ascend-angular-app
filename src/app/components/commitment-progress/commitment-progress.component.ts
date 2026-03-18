@@ -12,7 +12,7 @@ import { StreakBadgeComponent } from '../streak-badge/streak-badge.component';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommitmentProgressComponent {
-    readonly commitment = input.required<Commitment>();
+    public readonly commitment = input.required<Commitment>();
 
-    readonly showKeepGoing = input<boolean>(true);
+    public readonly showKeepGoing = input<boolean>(true);
 }

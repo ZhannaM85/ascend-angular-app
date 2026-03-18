@@ -16,9 +16,9 @@ export class ShareModalComponent {
 
     private readonly injector = inject(Injector);
 
-    readonly shareCardRef = viewChild(ShareCardComponent);
+    public readonly shareCardRef = viewChild(ShareCardComponent);
 
-    readonly shareState = this.shareService.shareState;
+    public readonly shareState = this.shareService.shareState;
 
     constructor() {
         effect((onCleanup) => {
@@ -44,7 +44,7 @@ export class ShareModalComponent {
     /**
      * Closes the share modal.
      */
-    close(): void {
+    public close(): void {
         this.shareService.close();
     }
 
@@ -61,7 +61,7 @@ export class ShareModalComponent {
     /**
      * Downloads the share card as a PNG image.
      */
-    async download(): Promise<void> {
+    public async download(): Promise<void> {
         const el = this.getCardElement();
         if (!el) return;
         try {
@@ -78,7 +78,7 @@ export class ShareModalComponent {
     /**
      * Shares via Web Share API if available; otherwise triggers download.
      */
-    async share(): Promise<void> {
+    public async share(): Promise<void> {
         const el = this.getCardElement();
         if (!el) return;
         try {

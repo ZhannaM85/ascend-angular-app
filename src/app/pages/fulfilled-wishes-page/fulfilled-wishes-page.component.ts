@@ -17,9 +17,9 @@ export class FulfilledWishesPageComponent {
 
     private readonly shareService = inject(ShareService);
 
-    readonly fulfilledWishes = this.store.fulfilledWishes;
+    public readonly fulfilledWishes = this.store.fulfilledWishes;
 
-    readonly listWithCommitments = computed(() => {
+    public readonly listWithCommitments = computed(() => {
         return this.fulfilledWishes().map((wish) => ({
             wish,
             commitment: this.store.getCommitmentForWish(wish.id)
@@ -32,7 +32,7 @@ export class FulfilledWishesPageComponent {
      * @param ts - Timestamp in milliseconds, or undefined.
      * @returns Formatted date string or empty string.
      */
-    formatDate(ts: number | undefined): string {
+    public formatDate(ts: number | undefined): string {
         if (ts == null) return '';
         return new Date(ts).toLocaleDateString(undefined, {
             month: 'short',
@@ -46,7 +46,7 @@ export class FulfilledWishesPageComponent {
      *
      * @param item - Object with wish and optional commitment.
      */
-    shareStory(item: { wish: Wish; commitment: Commitment | undefined }): void {
+    public shareStory(item: { wish: Wish; commitment: Commitment | undefined }): void {
         if (item.commitment) {
             this.shareService.open(item.wish, item.commitment);
         }

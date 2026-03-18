@@ -35,13 +35,13 @@ export class CreateWishPageComponent {
 
     private readonly translate = inject(TranslateService);
 
-    readonly imageDataUrl = signal<string | null>(null);
+    public readonly imageDataUrl = signal<string | null>(null);
 
-    readonly imageError = signal<string | null>(null);
+    public readonly imageError = signal<string | null>(null);
 
-    readonly imageCompressing = signal(false);
+    public readonly imageCompressing = signal(false);
 
-    readonly form = this.fb.nonNullable.group({
+    public readonly form = this.fb.nonNullable.group({
         title: ['', [Validators.required, Validators.minLength(1)]],
         description: [''],
         commitmentTitle: ['', [Validators.required, Validators.minLength(1)]],
@@ -54,7 +54,7 @@ export class CreateWishPageComponent {
      *
      * @param event - The file input change event.
      */
-    async onImageSelected(event: Event): Promise<void> {
+    public async onImageSelected(event: Event): Promise<void> {
         const input = event.target as HTMLInputElement;
         const file = input.files?.[0];
         input.value = '';
@@ -74,7 +74,7 @@ export class CreateWishPageComponent {
     /**
      * Clears the selected image.
      */
-    removeImage(): void {
+    public removeImage(): void {
         this.imageDataUrl.set(null);
         this.imageError.set(null);
     }
@@ -84,14 +84,14 @@ export class CreateWishPageComponent {
      *
      * @returns True if there are unsaved changes.
      */
-    hasUnsavedChanges(): boolean {
+    public hasUnsavedChanges(): boolean {
         return this.form.dirty || this.imageDataUrl() !== null;
     }
 
     /**
      * Handles back navigation with unsaved changes confirmation.
      */
-    async onBackClick(): Promise<void> {
+    public async onBackClick(): Promise<void> {
         if (this.hasUnsavedChanges()) {
             const leave = await this.leaveConfirm.showConfirm(
                 this.translate.instant('leaveConfirmMessage.unsavedChanges')
@@ -107,7 +107,7 @@ export class CreateWishPageComponent {
     /**
      * Creates the wish and commitment, then navigates to wish details.
      */
-    onSubmit(): void {
+    public onSubmit(): void {
         if (this.form.invalid) return;
         const v = this.form.getRawValue();
         const startDateMs = new Date(v.commitmentStartDate).getTime();

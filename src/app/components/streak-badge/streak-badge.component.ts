@@ -9,5 +9,5 @@ import { TranslatePipe } from '@ngx-translate/core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StreakBadgeComponent {
-    readonly streak = input.required<number>();
+    public readonly streak = input.required<number>();
 }

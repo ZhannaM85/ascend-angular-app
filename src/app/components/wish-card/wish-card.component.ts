@@ -15,11 +15,11 @@ import { StreakBadgeComponent } from '../streak-badge/streak-badge.component';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WishCardComponent {
-    readonly wish = input.required<Wish>();
+    public readonly wish = input.required<Wish>();
 
-    readonly commitment = input.required<Commitment | undefined>();
+    public readonly commitment = input.required<Commitment | undefined>();
 
-    readonly shareClick = output<void>();
+    public readonly shareClick = output<void>();
 
-    readonly deleteClick = output<void>();
+    public readonly deleteClick = output<void>();
 }

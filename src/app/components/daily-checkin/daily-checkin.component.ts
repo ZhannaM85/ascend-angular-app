@@ -9,11 +9,11 @@ import { TranslatePipe } from '@ngx-translate/core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DailyCheckinComponent {
-    readonly alreadyCheckedToday = input.required<boolean>();
+    public readonly alreadyCheckedToday = input.required<boolean>();
 
-    readonly disabled = input<boolean>(false);
+    public readonly disabled = input<boolean>(false);
 
-    readonly completed = input<boolean>(false);
+    public readonly completed = input<boolean>(false);
 
-    readonly checkIn = output<void>();
+    public readonly checkIn = output<void>();
 }
