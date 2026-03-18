@@ -14,15 +14,16 @@ import type { Wish } from '../../models/wish.model';
 export class ShareCardComponent {
     private readonly elementRef = inject(ElementRef);
 
-    readonly wish = input.required<Wish>();
-    readonly commitment = input.required<Commitment>();
+    public readonly wish = input.required<Wish>();
+
+    public readonly commitment = input.required<Commitment>();
 
     /**
      * Root DOM element used for image capture (share/download).
      *
      * @returns The first child element of the host.
      */
-    get rootElement(): HTMLElement {
+    public get rootElement(): HTMLElement {
         return this.elementRef.nativeElement.firstElementChild as HTMLElement;
     }
 }

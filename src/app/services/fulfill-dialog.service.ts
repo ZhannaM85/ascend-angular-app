@@ -5,21 +5,21 @@ import type { Wish } from '../models/wish.model';
     providedIn: 'root'
 })
 export class FulfillDialogService {
-    readonly wishToFulfill = signal<Wish | null>(null);
+    public readonly wishToFulfill = signal<Wish | null>(null);
 
     /**
      * Opens the fulfill dialog for the given wish.
      *
      * @param wish - The wish to fulfill.
      */
-    open(wish: Wish): void {
+    public open(wish: Wish): void {
         this.wishToFulfill.set(wish);
     }
 
     /**
      * Closes the fulfill dialog.
      */
-    close(): void {
+    public close(): void {
         this.wishToFulfill.set(null);
     }
 }

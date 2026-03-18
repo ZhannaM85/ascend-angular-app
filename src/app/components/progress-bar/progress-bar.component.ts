@@ -9,11 +9,13 @@ import { TranslatePipe } from '@ngx-translate/core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProgressBarComponent {
-    readonly current = input.required<number>();
-    readonly total = input.required<number>();
-    readonly showLabel = input<boolean>(true);
+    public readonly current = input.required<number>();
 
-    readonly percent = computed(() => {
+    public readonly total = input.required<number>();
+
+    public readonly showLabel = input<boolean>(true);
+
+    public readonly percent = computed(() => {
         const t = this.total();
         const c = this.current();
         return t > 0 ? Math.min(100, (c / t) * 100) : 0;

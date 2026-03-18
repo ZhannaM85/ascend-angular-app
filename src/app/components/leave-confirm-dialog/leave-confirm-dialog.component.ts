@@ -12,20 +12,21 @@ import { LeaveConfirmDialogService } from '../../services/leave-confirm-dialog.s
 export class LeaveConfirmDialogComponent {
     private readonly dialog = inject(LeaveConfirmDialogService);
 
-    readonly visible = this.dialog.visible;
-    readonly message = this.dialog.message;
+    public readonly visible = this.dialog.visible;
+
+    public readonly message = this.dialog.message;
 
     /**
      * Confirms the user wants to leave.
      */
-    confirmLeave(): void {
+    public confirmLeave(): void {
         this.dialog.confirmLeave();
     }
 
     /**
      * Cancels and keeps the user on the current page.
      */
-    cancel(): void {
+    public cancel(): void {
         this.dialog.cancel();
     }
 }

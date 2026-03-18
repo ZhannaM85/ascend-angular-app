@@ -37,28 +37,33 @@ function toLocalDateString(ts: number): string {
 })
 export class EditWishPageComponent {
     private readonly fb = inject(FormBuilder);
+
     private readonly store = inject(WishStoreService);
+
     private readonly router = inject(Router);
+
     private readonly route = inject(ActivatedRoute);
+
     private readonly imageCompression = inject(ImageCompressionService);
+
     private readonly translate = inject(TranslateService);
 
-    readonly idParam = toSignal(
+    public readonly idParam = toSignal(
         this.route.paramMap.pipe(map((p) => p.get('id'))),
         { initialValue: undefined }
     );
 
-    readonly wish = computed(() => {
+    public readonly wish = computed(() => {
         const id = this.idParam();
         return id ? this.store.getWish(id) : undefined;
     });
 
-    readonly commitment = computed(() => {
+    public readonly commitment = computed(() => {
         const w = this.wish();
         return w ? this.store.getCommitmentForWish(w.id) : undefined;
     });
 
-    readonly form = this.fb.nonNullable.group({
+    public readonly form = this.fb.nonNullable.group({
         title: ['', [Validators.required, Validators.minLength(1)]],
         description: [''],
         commitmentTitle: ['', [Validators.required, Validators.minLength(1)]],
@@ -67,9 +72,12 @@ export class EditWishPageComponent {
     });
 
     private readonly hasPatched = signal(false);
-    readonly imageDataUrl = signal<string | null>(null);
-    readonly imageError = signal<string | null>(null);
-    readonly imageCompressing = signal(false);
+
+    public readonly imageDataUrl = signal<string | null>(null);
+
+    public readonly imageError = signal<string | null>(null);
+
+    public readonly imageCompressing = signal(false);
 
     constructor() {
         effect(() => {
@@ -103,7 +111,7 @@ export class EditWishPageComponent {
     /**
      * Whether the wish has an associated commitment.
      */
-    get hasCommitment(): boolean {
+    public get hasCommitment(): boolean {
         return this.commitment() != null;
     }
 
@@ -112,7 +120,7 @@ export class EditWishPageComponent {
      *
      * @param event - The file input change event.
      */
-    async onImageSelected(event: Event): Promise<void> {
+    public async onImageSelected(event: Event): Promise<void> {
         const input = event.target as HTMLInputElement;
         const file = input.files?.[0];
         input.value = '';
@@ -132,7 +140,7 @@ export class EditWishPageComponent {
     /**
      * Clears the selected image.
      */
-    removeImage(): void {
+    public removeImage(): void {
         this.imageDataUrl.set(null);
         this.imageError.set(null);
     }
@@ -140,7 +148,7 @@ export class EditWishPageComponent {
     /**
      * Saves wish and commitment changes, then navigates to wish details.
      */
-    onSubmit(): void {
+    public onSubmit(): void {
         if (this.form.invalid) return;
         const wishId = this.idParam();
         if (!wishId) return;

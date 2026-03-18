@@ -11,7 +11,7 @@ export interface ShareContext {
     providedIn: 'root'
 })
 export class ShareService {
-    readonly shareState = signal<ShareContext | null>(null);
+    public readonly shareState = signal<ShareContext | null>(null);
 
     /**
      * Opens the share modal for the given wish and commitment.
@@ -19,14 +19,14 @@ export class ShareService {
      * @param wish - The wish to share.
      * @param commitment - The commitment to share.
      */
-    open(wish: Wish, commitment: Commitment): void {
+    public open(wish: Wish, commitment: Commitment): void {
         this.shareState.set({ wish, commitment });
     }
 
     /**
      * Closes the share modal.
      */
-    close(): void {
+    public close(): void {
         this.shareState.set(null);
     }
 }

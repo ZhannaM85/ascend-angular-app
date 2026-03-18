@@ -20,7 +20,7 @@ export class ImageCompressionService {
      * @returns Promise resolving to base64 data URL.
      * @throws Error if file is not an image or compression fails.
      */
-    async compress(
+    public async compress(
         file: File,
         options?: { maxWidth?: number; quality?: number }
     ): Promise<string> {

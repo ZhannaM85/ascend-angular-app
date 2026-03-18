@@ -5,21 +5,21 @@ import type { Reflection } from '../models/reflection.model';
     providedIn: 'root'
 })
 export class DeleteReflectionDialogService {
-    readonly reflectionToDelete = signal<Reflection | null>(null);
+    public readonly reflectionToDelete = signal<Reflection | null>(null);
 
     /**
      * Opens the delete reflection dialog for the given reflection.
      *
      * @param reflection - The reflection to delete.
      */
-    open(reflection: Reflection): void {
+    public open(reflection: Reflection): void {
         this.reflectionToDelete.set(reflection);
     }
 
     /**
      * Closes the delete reflection dialog.
      */
-    close(): void {
+    public close(): void {
         this.reflectionToDelete.set(null);
     }
 }

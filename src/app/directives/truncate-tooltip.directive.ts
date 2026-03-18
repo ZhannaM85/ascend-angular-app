@@ -18,10 +18,11 @@ import {
 })
 export class TruncateTooltipDirective implements AfterViewInit, OnDestroy {
     private readonly el = inject(ElementRef<HTMLElement>);
+
     private resizeObserver: ResizeObserver | null = null;
 
     /** Full text to show in tooltip when content is truncated. */
-    readonly appTruncateTooltip = input.required<string>();
+    public readonly appTruncateTooltip = input.required<string>();
 
     constructor() {
         effect(() => {
@@ -30,13 +31,13 @@ export class TruncateTooltipDirective implements AfterViewInit, OnDestroy {
         });
     }
 
-    ngAfterViewInit(): void {
+    public ngAfterViewInit(): void {
         this.updateTitle();
         this.resizeObserver = new ResizeObserver(() => this.updateTitle());
         this.resizeObserver.observe(this.el.nativeElement);
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.resizeObserver?.disconnect();
     }
 
