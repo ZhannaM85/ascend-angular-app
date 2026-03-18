@@ -15,10 +15,16 @@ export class LeaveConfirmDialogComponent {
     readonly visible = this.dialog.visible;
     readonly message = this.dialog.message;
 
+    /**
+     * Confirms the user wants to leave.
+     */
     confirmLeave(): void {
         this.dialog.confirmLeave();
     }
 
+    /**
+     * Cancels and keeps the user on the current page.
+     */
     cancel(): void {
         this.dialog.cancel();
     }

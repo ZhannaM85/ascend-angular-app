@@ -6,6 +6,12 @@ import type {
     TranslateService
 } from '@ngx-translate/core';
 
+/**
+ * Creates a mock TranslateService for unit tests.
+ *
+ * @param overrides - Optional partial overrides for the mock.
+ * @returns Partial TranslateService for testing.
+ */
 export function createMockTranslateService(
     overrides?: Partial<TranslateService>
 ): Partial<TranslateService> {

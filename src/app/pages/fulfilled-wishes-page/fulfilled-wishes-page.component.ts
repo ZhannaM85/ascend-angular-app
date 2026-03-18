@@ -25,6 +25,12 @@ export class FulfilledWishesPageComponent {
         }));
     });
 
+    /**
+     * Formats a timestamp for display in the fulfilled list.
+     *
+     * @param ts - Timestamp in milliseconds, or undefined.
+     * @returns Formatted date string or empty string.
+     */
     formatDate(ts: number | undefined): string {
         if (ts == null) return '';
         return new Date(ts).toLocaleDateString(undefined, {
@@ -34,6 +40,11 @@ export class FulfilledWishesPageComponent {
         });
     }
 
+    /**
+     * Opens the share modal for a fulfilled wish.
+     *
+     * @param item - Object with wish and optional commitment.
+     */
     shareStory(item: { wish: Wish; commitment: Commitment | undefined }): void {
         if (item.commitment) {
             this.shareService.open(item.wish, item.commitment);

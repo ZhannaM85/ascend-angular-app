@@ -16,10 +16,16 @@ export class DeleteWishDialogComponent {
 
     readonly wishToDelete = this.dialog.wishToDelete;
 
+    /**
+     * Closes the dialog without deleting.
+     */
     close(): void {
         this.dialog.close();
     }
 
+    /**
+     * Deletes the wish and closes the dialog.
+     */
     confirmDelete(): void {
         const wish = this.wishToDelete();
         if (!wish) return;

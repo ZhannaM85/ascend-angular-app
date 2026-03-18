@@ -5,6 +5,12 @@ import type { Commitment } from '../../models/commitment.model';
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const DAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
+/**
+ * Returns the timestamp for midnight (00:00:00) of the given date in local timezone.
+ *
+ * @param ts - Timestamp in milliseconds.
+ * @returns Timestamp for midnight of that day in local timezone.
+ */
 function getStartOfDay(ts: number): number {
     const d = new Date(ts);
     d.setHours(0, 0, 0, 0);
@@ -24,6 +30,12 @@ export class StreakCalendarComponent {
     readonly commitment = input.required<Commitment>();
     readonly toggle = output<{ dayStart: number; checked: boolean }>();
 
+    /**
+     * Returns the translated label for a day's status.
+     *
+     * @param status - The day status.
+     * @returns Translated label string.
+     */
     getStatusLabel(status: 'checked' | 'missed' | 'future'): string {
         if (status === 'checked') return this.translate.instant('streakCalendar.done');
         if (status === 'missed') return this.translate.instant('streakCalendar.missed');
@@ -48,6 +60,11 @@ export class StreakCalendarComponent {
         return result;
     });
 
+    /**
+     * Handles toggle of a day's check-in; emits only for past days.
+     *
+     * @param dayIndex - 1-based index of the day in the commitment.
+     */
     onToggle(dayIndex: number): void {
         const c = this.commitment();
         const startDate = getStartOfDay(c.startDate);

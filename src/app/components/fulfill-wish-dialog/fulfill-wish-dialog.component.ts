@@ -37,10 +37,16 @@ export class FulfillWishDialogComponent {
         });
     }
 
+    /**
+     * Closes the fulfill dialog without saving.
+     */
     close(): void {
         this.dialog.close();
     }
 
+    /**
+     * Marks the wish as fulfilled and navigates to fulfilled list.
+     */
     save(): void {
         const wish = this.wishToFulfill();
         if (!wish || this.form.invalid) return;

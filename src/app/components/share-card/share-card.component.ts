@@ -17,6 +17,11 @@ export class ShareCardComponent {
     readonly wish = input.required<Wish>();
     readonly commitment = input.required<Commitment>();
 
+    /**
+     * Root DOM element used for image capture (share/download).
+     *
+     * @returns The first child element of the host.
+     */
     get rootElement(): HTMLElement {
         return this.elementRef.nativeElement.firstElementChild as HTMLElement;
     }
