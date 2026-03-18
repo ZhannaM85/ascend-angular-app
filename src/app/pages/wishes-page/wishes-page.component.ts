@@ -29,12 +29,22 @@ export class WishesPageComponent {
         }));
     });
 
+    /**
+     * Opens the share modal for a wish with commitment.
+     *
+     * @param item - Object with wish and optional commitment.
+     */
     onShare(item: { wish: Wish; commitment: Commitment | undefined }): void {
         if (item.commitment) {
             this.shareService.open(item.wish, item.commitment);
         }
     }
 
+    /**
+     * Opens the delete wish dialog.
+     *
+     * @param item - Object with the wish to delete.
+     */
     onDelete(item: { wish: Wish }): void {
         this.deleteDialog.open(item.wish);
     }

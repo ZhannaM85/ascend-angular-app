@@ -16,10 +16,19 @@ export class DeleteReflectionDialogComponent {
 
     readonly reflectionToDelete = this.dialog.reflectionToDelete;
 
+    /**
+     * Closes the dialog without deleting.
+     */
     close(): void {
         this.dialog.close();
     }
 
+    /**
+     * Formats a timestamp for display in the dialog.
+     *
+     * @param ts - Timestamp in milliseconds.
+     * @returns Formatted date string.
+     */
     formatDate(ts: number): string {
         return new Date(ts).toLocaleDateString(undefined, {
             weekday: 'long',
@@ -29,6 +38,9 @@ export class DeleteReflectionDialogComponent {
         });
     }
 
+    /**
+     * Deletes the reflection and closes the dialog.
+     */
     confirmDelete(): void {
         const reflection = this.reflectionToDelete();
         if (!reflection) return;

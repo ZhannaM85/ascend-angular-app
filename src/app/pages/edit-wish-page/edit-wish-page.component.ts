@@ -6,15 +6,6 @@ import {
     inject,
     signal
 } from '@angular/core';
-
-/** Format timestamp as YYYY-MM-DD in local timezone (for date inputs). */
-function toLocalDateString(ts: number): string {
-    const d = new Date(ts);
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${y}-${m}-${day}`;
-}
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -22,6 +13,20 @@ import { map } from 'rxjs';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { WishStoreService } from '../../services/wish-store.service';
 import { ImageCompressionService } from '../../services/image-compression.service';
+
+/**
+ * Formats a timestamp as YYYY-MM-DD in local timezone (for date inputs).
+ *
+ * @param ts - Timestamp in milliseconds.
+ * @returns Date string in YYYY-MM-DD format.
+ */
+function toLocalDateString(ts: number): string {
+    const d = new Date(ts);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+}
 
 @Component({
     selector: 'app-edit-wish-page',
@@ -95,10 +100,18 @@ export class EditWishPageComponent {
         });
     }
 
+    /**
+     * Whether the wish has an associated commitment.
+     */
     get hasCommitment(): boolean {
         return this.commitment() != null;
     }
 
+    /**
+     * Handles image file selection and compression.
+     *
+     * @param event - The file input change event.
+     */
     async onImageSelected(event: Event): Promise<void> {
         const input = event.target as HTMLInputElement;
         const file = input.files?.[0];
@@ -116,11 +129,17 @@ export class EditWishPageComponent {
         }
     }
 
+    /**
+     * Clears the selected image.
+     */
     removeImage(): void {
         this.imageDataUrl.set(null);
         this.imageError.set(null);
     }
 
+    /**
+     * Saves wish and commitment changes, then navigates to wish details.
+     */
     onSubmit(): void {
         if (this.form.invalid) return;
         const wishId = this.idParam();

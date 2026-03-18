@@ -6,6 +6,9 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { routes } from './app.routes';
 
+/**
+ * Application configuration with router, HTTP, and i18n providers.
+ */
 export const appConfig: ApplicationConfig = {
     providers: [
         provideBrowserGlobalErrorListeners(),

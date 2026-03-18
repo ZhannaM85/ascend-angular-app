@@ -14,6 +14,11 @@ export class ImageCompressionService {
     /**
      * Compresses a file and returns a data URL (e.g. data:image/jpeg;base64,...).
      * Rejects if the file is not an image or compression fails.
+     *
+     * @param file - The image file to compress.
+     * @param options - Optional maxWidth and quality overrides.
+     * @returns Promise resolving to base64 data URL.
+     * @throws Error if file is not an image or compression fails.
      */
     async compress(
         file: File,
@@ -47,6 +52,14 @@ export class ImageCompressionService {
         });
     }
 
+    /**
+     * Draws the image to a canvas, resizes, and returns a JPEG data URL.
+     *
+     * @param img - The loaded image element.
+     * @param maxWidth - Maximum width in pixels.
+     * @param quality - JPEG quality 0-1.
+     * @returns Base64 data URL.
+     */
     private drawAndCompress(
         img: HTMLImageElement,
         maxWidth: number,

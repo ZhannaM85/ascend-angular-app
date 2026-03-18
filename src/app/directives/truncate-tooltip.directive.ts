@@ -40,6 +40,9 @@ export class TruncateTooltipDirective implements AfterViewInit, OnDestroy {
         this.resizeObserver?.disconnect();
     }
 
+    /**
+     * Updates the title attribute when content is truncated.
+     */
     private updateTitle(): void {
         const text = this.appTruncateTooltip();
         const host = this.el.nativeElement;
