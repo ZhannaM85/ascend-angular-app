@@ -4,30 +4,67 @@ import type { Reflection } from '../models/reflection.model';
 import type { Wish } from '../models/wish.model';
 import { StorageService } from './storage.service';
 
+/**
+ * Generates a short random alphanumeric ID.
+ *
+ * @returns A random string of 7 alphanumeric characters.
+ */
 function generateId(): string {
     return Math.random().toString(36).slice(2, 9);
 }
 
+/**
+ * Returns the timestamp for midnight (00:00:00) of the given date in local timezone.
+ *
+ * @param ts - Timestamp in milliseconds.
+ * @returns Timestamp for midnight of that day in local timezone.
+ */
 function getStartOfDay(ts: number): number {
     const d = new Date(ts);
     d.setHours(0, 0, 0, 0);
     return d.getTime();
 }
 
+/**
+ * Returns true if both timestamps fall on the same calendar day in local timezone.
+ *
+ * @param a - First timestamp in milliseconds.
+ * @param b - Second timestamp in milliseconds.
+ * @returns True if same calendar day.
+ */
 function isSameCalendarDay(a: number, b: number): boolean {
     return getStartOfDay(a) === getStartOfDay(b);
 }
 
+/**
+ * Returns the number of full calendar days between two timestamps.
+ *
+ * @param a - Start timestamp in milliseconds.
+ * @param b - End timestamp in milliseconds.
+ * @returns Number of full days between the two dates.
+ */
 function daysBetween(a: number, b: number): number {
     const start = getStartOfDay(a);
     const end = getStartOfDay(b);
     return Math.floor((end - start) / (24 * 60 * 60 * 1000));
 }
 
+/**
+ * Returns a new array with unique values sorted ascending.
+ *
+ * @param nums - Array of numbers.
+ * @returns New array with duplicates removed and sorted.
+ */
 function uniqSorted(nums: number[]): number[] {
     return [...new Set(nums)].sort((a, b) => a - b);
 }
 
+/**
+ * Computes streak, completed status, and lastCheckIn for a commitment.
+ *
+ * @param c - The commitment to compute progress for.
+ * @returns Object with streak, completed, and lastCheckIn.
+ */
 function computeProgress(c: Commitment): Pick<Commitment, 'streak' | 'completed' | 'lastCheckIn'> {
     const start = getStartOfDay(c.startDate);
     const duration = Math.max(0, c.duration);
@@ -44,6 +81,12 @@ function computeProgress(c: Commitment): Pick<Commitment, 'streak' | 'completed'
     };
 }
 
+/**
+ * Normalizes check-ins and computes progress; migrates legacy commitment format.
+ *
+ * @param raw - Raw commitment data.
+ * @returns Migrated commitment with normalized check-ins.
+ */
 function migrateCommitment(raw: Commitment): Commitment {
     if (raw.checkIns && Array.isArray(raw.checkIns)) {
         const normalized: Commitment = { ...raw, checkIns: uniqSorted(raw.checkIns.map(getStartOfDay)) };
@@ -87,18 +130,35 @@ export class WishStoreService {
         this.reflectionsSignal.set(this.storage.loadReflections());
     }
 
+    /**
+     * Persists all state to storage.
+     */
     private persist(): void {
         this.storage.saveWishes(this.wishesSignal());
         this.storage.saveCommitments(this.commitmentsSignal());
         this.storage.saveReflections(this.reflectionsSignal());
     }
 
+    /**
+     * Returns reflections for a wish, sorted by date descending.
+     *
+     * @param wishId - The wish ID.
+     * @returns Array of reflections for the wish.
+     */
     getReflectionsForWish(wishId: string): Reflection[] {
         return this.reflectionsSignal()
             .filter((r) => r.wishId === wishId)
             .sort((a, b) => b.date - a.date);
     }
 
+    /**
+     * Adds a reflection for a wish. Uses today's date if not provided.
+     *
+     * @param wishId - The wish ID.
+     * @param text - Reflection text.
+     * @param date - Optional timestamp for the reflection date.
+     * @returns The created reflection.
+     */
     addReflection(wishId: string, text: string, date?: number): Reflection {
         const dateTs = date != null ? getStartOfDay(date) : getStartOfDay(Date.now());
         const reflection: Reflection = {
@@ -112,6 +172,12 @@ export class WishStoreService {
         return reflection;
     }
 
+    /**
+     * Updates the text of an existing reflection.
+     *
+     * @param reflectionId - The reflection ID.
+     * @param text - New reflection text.
+     */
     updateReflection(reflectionId: string, text: string): void {
         const trimmed = text.trim();
         this.reflectionsSignal.update((list) =>
@@ -122,6 +188,11 @@ export class WishStoreService {
         this.persist();
     }
 
+    /**
+     * Deletes a reflection by ID.
+     *
+     * @param reflectionId - The reflection ID.
+     */
     deleteReflection(reflectionId: string): void {
         this.reflectionsSignal.update((list) =>
             list.filter((r) => r.id !== reflectionId)
@@ -129,6 +200,17 @@ export class WishStoreService {
         this.persist();
     }
 
+    /**
+     * Creates a new wish with an optional commitment.
+     *
+     * @param title - Wish title.
+     * @param commitmentTitle - Commitment title.
+     * @param duration - Commitment duration in days.
+     * @param description - Optional wish description.
+     * @param commitmentStartDate - Optional commitment start timestamp.
+     * @param imageDataUrl - Optional base64 image data.
+     * @returns The created wish.
+     */
     addWish(
         title: string,
         commitmentTitle: string,
@@ -163,14 +245,32 @@ export class WishStoreService {
         return wish;
     }
 
+    /**
+     * Returns the commitment for a wish, or undefined if none.
+     *
+     * @param wishId - The wish ID.
+     * @returns The commitment or undefined.
+     */
     getCommitmentForWish(wishId: string): Commitment | undefined {
         return this.commitmentsSignal().find((c) => c.wishId === wishId);
     }
 
+    /**
+     * Returns a wish by ID, or undefined if not found.
+     *
+     * @param id - The wish ID.
+     * @returns The wish or undefined.
+     */
     getWish(id: string): Wish | undefined {
         return this.wishesSignal().find((w) => w.id === id);
     }
 
+    /**
+     * Updates a wish's title, description, and/or image.
+     *
+     * @param wishId - The wish ID.
+     * @param updates - Partial updates to apply.
+     */
     updateWish(
         wishId: string,
         updates: {
@@ -199,6 +299,12 @@ export class WishStoreService {
         this.persist();
     }
 
+    /**
+     * Updates a commitment's title, duration, and/or start date.
+     *
+     * @param wishId - The wish ID.
+     * @param updates - Partial updates to apply.
+     */
     updateCommitment(
         wishId: string,
         updates: { title?: string; duration?: number; startDate?: number }
@@ -228,7 +334,10 @@ export class WishStoreService {
     }
 
     /**
-     * Returns true if a missed day was detected and streak was reset.
+     * Records a check-in for today. Returns completion status and whether streak was reset.
+     *
+     * @param commitmentId - The commitment ID.
+     * @returns Object with completed and missedDayReset flags.
      */
     checkIn(commitmentId: string): { completed: boolean; missedDayReset: boolean } {
         const commitments = this.commitmentsSignal();
@@ -265,6 +374,13 @@ export class WishStoreService {
         return { completed: !!updated?.completed, missedDayReset: false };
     }
 
+    /**
+     * Toggles a past day's check-in status. Only allows past days.
+     *
+     * @param commitmentId - The commitment ID.
+     * @param day - Timestamp for the day.
+     * @param checked - Whether the day should be checked.
+     */
     toggleCheckIn(commitmentId: string, day: number, checked: boolean): void {
         const todayStart = getStartOfDay(Date.now());
         const dayStart = getStartOfDay(day);
@@ -284,6 +400,13 @@ export class WishStoreService {
         this.persist();
     }
 
+    /**
+     * Marks a wish as fulfilled with optional date and note.
+     *
+     * @param wishId - The wish ID.
+     * @param fulfilledDate - Optional fulfillment timestamp.
+     * @param note - Optional fulfillment note.
+     */
     markWishFulfilled(wishId: string, fulfilledDate?: number, note?: string): void {
         const when = fulfilledDate ?? Date.now();
         this.wishesSignal.update((list) =>
@@ -296,6 +419,11 @@ export class WishStoreService {
         this.persist();
     }
 
+    /**
+     * Deletes a wish and its associated commitment.
+     *
+     * @param wishId - The wish ID.
+     */
     deleteWish(wishId: string): void {
         this.wishesSignal.update((list) => list.filter((w) => w.id !== wishId));
         this.commitmentsSignal.update((list) => list.filter((c) => c.wishId !== wishId));

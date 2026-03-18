@@ -5,10 +5,17 @@ const LOCALE_STORAGE_KEY = 'ascend-locale';
 const SUPPORTED = ['en', 'ru'] as const;
 export type LocaleId = (typeof SUPPORTED)[number];
 
+/**
+ * Type guard: returns true if value is a supported locale ID.
+ *
+ * @param value - String to check.
+ * @returns True if value is a valid LocaleId.
+ */
 function isLocaleId(value: string): value is LocaleId {
     return SUPPORTED.includes(value as LocaleId);
 }
 
+/** Returns the initial locale from localStorage or default 'en'. */
 function getInitialLocale(): LocaleId {
     if (typeof window === 'undefined') {
         return 'en';
@@ -41,12 +48,22 @@ export class LocaleService {
         });
     }
 
+    /**
+     * Sets the active locale and persists to localStorage.
+     *
+     * @param locale - The locale to set.
+     */
     setLocale(locale: LocaleId): void {
         this.translate.use(locale);
         window.localStorage.setItem(LOCALE_STORAGE_KEY, locale);
         this.currentLocale.set(locale);
     }
 
+    /**
+     * Returns the list of supported locales with display labels.
+     *
+     * @returns Array of locale objects with id and label.
+     */
     getSupportedLocales(): { id: LocaleId; label: string }[] {
         return [
             { id: 'en', label: 'English' },

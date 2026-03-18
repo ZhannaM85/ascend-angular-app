@@ -6,6 +6,11 @@ import { WishStoreService } from '../../services/wish-store.service';
 import { ImageCompressionService } from '../../services/image-compression.service';
 import { LeaveConfirmDialogService } from '../../services/leave-confirm-dialog.service';
 
+/**
+ * Returns today's date as YYYY-MM-DD in UTC (for date input default).
+ *
+ * @returns Date string in YYYY-MM-DD format.
+ */
 function getTodayDateString(): string {
     return new Date().toISOString().slice(0, 10);
 }
@@ -37,6 +42,11 @@ export class CreateWishPageComponent {
         commitmentStartDate: [getTodayDateString(), [Validators.required]]
     });
 
+    /**
+     * Handles image file selection and compression.
+     *
+     * @param event - The file input change event.
+     */
     async onImageSelected(event: Event): Promise<void> {
         const input = event.target as HTMLInputElement;
         const file = input.files?.[0];
@@ -54,15 +64,26 @@ export class CreateWishPageComponent {
         }
     }
 
+    /**
+     * Clears the selected image.
+     */
     removeImage(): void {
         this.imageDataUrl.set(null);
         this.imageError.set(null);
     }
 
+    /**
+     * Returns true if the form or image has unsaved changes.
+     *
+     * @returns True if there are unsaved changes.
+     */
     hasUnsavedChanges(): boolean {
         return this.form.dirty || this.imageDataUrl() !== null;
     }
 
+    /**
+     * Handles back navigation with unsaved changes confirmation.
+     */
     async onBackClick(): Promise<void> {
         if (this.hasUnsavedChanges()) {
             const leave = await this.leaveConfirm.showConfirm(
@@ -76,6 +97,9 @@ export class CreateWishPageComponent {
         }
     }
 
+    /**
+     * Creates the wish and commitment, then navigates to wish details.
+     */
     onSubmit(): void {
         if (this.form.invalid) return;
         const v = this.form.getRawValue();

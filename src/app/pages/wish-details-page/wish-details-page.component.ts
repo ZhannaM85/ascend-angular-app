@@ -21,12 +21,25 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { DeleteReflectionDialogService } from '../../services/delete-reflection-dialog.service';
 import type { Reflection } from '../../models/reflection.model';
 
+/**
+ * Returns the timestamp for midnight (00:00:00) of the given date in local timezone.
+ *
+ * @param ts - Timestamp in milliseconds.
+ * @returns Timestamp for midnight of that day in local timezone.
+ */
 function getStartOfDay(ts: number): number {
     const d = new Date(ts);
     d.setHours(0, 0, 0, 0);
     return d.getTime();
 }
 
+/**
+ * Returns true if both timestamps fall on the same calendar day in local timezone.
+ *
+ * @param a - First timestamp in milliseconds.
+ * @param b - Second timestamp in milliseconds.
+ * @returns True if same calendar day.
+ */
 function isSameCalendarDay(a: number, b: number): boolean {
     return getStartOfDay(a) === getStartOfDay(b);
 }
@@ -109,6 +122,9 @@ export class WishDetailsPageComponent {
     readonly editingReflectionId = signal<string | null>(null);
     readonly editingReflectionText = signal('');
 
+    /**
+     * Records a check-in for today.
+     */
     onCheckIn(): void {
         const c = this.commitment();
         if (!c) return;
@@ -119,12 +135,21 @@ export class WishDetailsPageComponent {
         }
     }
 
+    /**
+     * Toggles a day's check-in status in the calendar.
+     *
+     * @param dayStart - Timestamp for the day.
+     * @param checked - Whether the day should be checked.
+     */
     onToggleDay(dayStart: number, checked: boolean): void {
         const c = this.commitment();
         if (!c) return;
         this.store.toggleCheckIn(c.id, dayStart, checked);
     }
 
+    /**
+     * Opens the share modal.
+     */
     onShare(): void {
         const c = this.commitment();
         if (c && this.wish()) {
@@ -132,16 +157,28 @@ export class WishDetailsPageComponent {
         }
     }
 
+    /**
+     * Opens the fulfill wish dialog.
+     */
     onMarkFulfilled(): void {
         const w = this.wish();
         if (w) this.fulfillDialog.open(w);
     }
 
+    /**
+     * Opens the delete wish dialog.
+     */
     onDeleteWish(): void {
         const w = this.wish();
         if (w) this.deleteWishDialog.open(w);
     }
 
+    /**
+     * Formats a timestamp for display in the reflection list.
+     *
+     * @param ts - Timestamp in milliseconds.
+     * @returns Formatted date string.
+     */
     formatReflectionDate(ts: number): string {
         return new Date(ts).toLocaleDateString(undefined, {
             weekday: 'short',
@@ -151,6 +188,9 @@ export class WishDetailsPageComponent {
         });
     }
 
+    /**
+     * Submits a new reflection.
+     */
     onSubmitReflection(): void {
         const w = this.wish();
         if (!w || this.reflectionForm.invalid) return;
@@ -159,20 +199,38 @@ export class WishDetailsPageComponent {
         this.reflectionForm.reset({ text: '' });
     }
 
+    /**
+     * Opens the delete reflection dialog.
+     *
+     * @param reflection - The reflection to delete.
+     */
     onDeleteReflection(reflection: Reflection): void {
         this.deleteReflectionDialog.open(reflection);
     }
 
+    /**
+     * Enters edit mode for a reflection.
+     *
+     * @param r - The reflection to edit.
+     */
     startEditReflection(r: Reflection): void {
         this.editingReflectionId.set(r.id);
         this.editingReflectionText.set(r.text);
     }
 
+    /**
+     * Cancels reflection edit mode.
+     */
     cancelEditReflection(): void {
         this.editingReflectionId.set(null);
         this.editingReflectionText.set('');
     }
 
+    /**
+     * Saves the edited reflection and exits edit mode.
+     *
+     * @param reflectionId - The reflection ID.
+     */
     saveReflection(reflectionId: string): void {
         const text = this.editingReflectionText().trim();
         if (text) {

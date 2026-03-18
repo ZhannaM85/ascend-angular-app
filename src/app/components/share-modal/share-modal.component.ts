@@ -39,15 +39,26 @@ export class ShareModalComponent {
         }, { injector: this.injector });
     }
 
+    /**
+     * Closes the share modal.
+     */
     close(): void {
         this.shareService.close();
     }
 
+    /**
+     * Returns the share card element for image capture.
+     *
+     * @returns The share card root element or null.
+     */
     private getCardElement(): HTMLElement | null {
         const comp = this.shareCardRef();
         return comp?.rootElement ?? null;
     }
 
+    /**
+     * Downloads the share card as a PNG image.
+     */
     async download(): Promise<void> {
         const el = this.getCardElement();
         if (!el) return;
@@ -62,6 +73,9 @@ export class ShareModalComponent {
         }
     }
 
+    /**
+     * Shares via Web Share API if available; otherwise triggers download.
+     */
     async share(): Promise<void> {
         const el = this.getCardElement();
         if (!el) return;

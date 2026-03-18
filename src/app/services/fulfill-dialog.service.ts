@@ -7,10 +7,18 @@ import type { Wish } from '../models/wish.model';
 export class FulfillDialogService {
     readonly wishToFulfill = signal<Wish | null>(null);
 
+    /**
+     * Opens the fulfill dialog for the given wish.
+     *
+     * @param wish - The wish to fulfill.
+     */
     open(wish: Wish): void {
         this.wishToFulfill.set(wish);
     }
 
+    /**
+     * Closes the fulfill dialog.
+     */
     close(): void {
         this.wishToFulfill.set(null);
     }
