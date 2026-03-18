@@ -6,6 +6,15 @@ import {
     inject,
     signal
 } from '@angular/core';
+
+/** Format timestamp as YYYY-MM-DD in local timezone (for date inputs). */
+function toLocalDateString(ts: number): string {
+    const d = new Date(ts);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+}
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -71,7 +80,7 @@ export class EditWishPageComponent {
                     this.form.patchValue({
                         commitmentTitle: c.title,
                         duration: c.duration,
-                        commitmentStartDate: new Date(c.startDate).toISOString().slice(0, 10)
+                        commitmentStartDate: toLocalDateString(c.startDate)
                     });
                 } else {
                     this.form.controls.commitmentTitle.clearValidators();
