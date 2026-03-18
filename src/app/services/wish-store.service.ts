@@ -37,19 +37,6 @@ function isSameCalendarDay(a: number, b: number): boolean {
 }
 
 /**
- * Returns the number of full calendar days between two timestamps.
- *
- * @param a - Start timestamp in milliseconds.
- * @param b - End timestamp in milliseconds.
- * @returns Number of full days between the two dates.
- */
-function daysBetween(a: number, b: number): number {
-    const start = getStartOfDay(a);
-    const end = getStartOfDay(b);
-    return Math.floor((end - start) / (24 * 60 * 60 * 1000));
-}
-
-/**
  * Returns a new array with unique values sorted ascending.
  *
  * @param nums - Array of numbers.

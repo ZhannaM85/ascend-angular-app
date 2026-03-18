@@ -36,7 +36,7 @@
         </div>
 
         <div>
-            <label class="mb-1 block text-sm font-medium text-gray-700">{{ 'createWishPage.imageOptional' | translate }}</label>
+            <label for="wishImage" class="mb-1 block text-sm font-medium text-gray-700">{{ 'createWishPage.imageOptional' | translate }}</label>
             <p class="mb-2 text-sm text-gray-500">{{ 'createWishPage.imageHint' | translate }}</p>
             @if (imageDataUrl(); as dataUrl) {
                 <div class="relative inline-block">
@@ -55,6 +55,7 @@
                 </div>
             } @else {
                 <input
+                    id="wishImage"
                     type="file"
                     accept="image/*"
                     class="w-full text-sm text-gray-600 file:mr-2 file:rounded-lg file:border-0 file:bg-indigo-50 file:px-4 file:py-2 file:text-indigo-700 file:hover:bg-indigo-100"

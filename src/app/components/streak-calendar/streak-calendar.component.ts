@@ -28,7 +28,7 @@ export class StreakCalendarComponent {
     private readonly translate = inject(TranslateService);
 
     readonly commitment = input.required<Commitment>();
-    readonly toggle = output<{ dayStart: number; checked: boolean }>();
+    readonly dayToggled = output<{ dayStart: number; checked: boolean }>();
 
     /**
      * Returns the translated label for a day's status.
@@ -73,6 +73,6 @@ export class StreakCalendarComponent {
         if (dayStart > todayStart) return;
         const checked = new Set((c.checkIns ?? []).map(getStartOfDay));
         const nextChecked = !checked.has(dayStart);
-        this.toggle.emit({ dayStart, checked: nextChecked });
+        this.dayToggled.emit({ dayStart, checked: nextChecked });
     }
 }
