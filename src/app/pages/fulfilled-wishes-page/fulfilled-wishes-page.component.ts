@@ -14,6 +14,7 @@ import { ShareService } from '../../services/share.service';
 })
 export class FulfilledWishesPageComponent {
     private readonly store = inject(WishStoreService);
+
     private readonly shareService = inject(ShareService);
 
     readonly fulfilledWishes = this.store.fulfilledWishes;

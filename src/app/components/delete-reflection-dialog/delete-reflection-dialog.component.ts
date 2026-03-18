@@ -12,6 +12,7 @@ import { DeleteReflectionDialogService } from '../../services/delete-reflection-
 })
 export class DeleteReflectionDialogComponent {
     private readonly store = inject(WishStoreService);
+
     private readonly dialog = inject(DeleteReflectionDialogService);
 
     readonly reflectionToDelete = this.dialog.reflectionToDelete;

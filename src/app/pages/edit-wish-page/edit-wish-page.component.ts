@@ -37,10 +37,15 @@ function toLocalDateString(ts: number): string {
 })
 export class EditWishPageComponent {
     private readonly fb = inject(FormBuilder);
+
     private readonly store = inject(WishStoreService);
+
     private readonly router = inject(Router);
+
     private readonly route = inject(ActivatedRoute);
+
     private readonly imageCompression = inject(ImageCompressionService);
+
     private readonly translate = inject(TranslateService);
 
     readonly idParam = toSignal(
@@ -67,8 +72,11 @@ export class EditWishPageComponent {
     });
 
     private readonly hasPatched = signal(false);
+
     readonly imageDataUrl = signal<string | null>(null);
+
     readonly imageError = signal<string | null>(null);
+
     readonly imageCompressing = signal(false);
 
     constructor() {

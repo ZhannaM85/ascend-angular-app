@@ -28,6 +28,7 @@ export class StreakCalendarComponent {
     private readonly translate = inject(TranslateService);
 
     readonly commitment = input.required<Commitment>();
+
     readonly dayToggled = output<{ dayStart: number; checked: boolean }>();
 
     /**

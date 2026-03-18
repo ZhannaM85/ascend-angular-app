@@ -18,6 +18,7 @@ import {
 })
 export class TruncateTooltipDirective implements AfterViewInit, OnDestroy {
     private readonly el = inject(ElementRef<HTMLElement>);
+
     private resizeObserver: ResizeObserver | null = null;
 
     /** Full text to show in tooltip when content is truncated. */

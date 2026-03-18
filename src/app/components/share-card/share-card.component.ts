@@ -15,6 +15,7 @@ export class ShareCardComponent {
     private readonly elementRef = inject(ElementRef);
 
     readonly wish = input.required<Wish>();
+
     readonly commitment = input.required<Commitment>();
 
     /**

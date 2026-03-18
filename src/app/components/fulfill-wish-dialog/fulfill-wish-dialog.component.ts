@@ -14,8 +14,11 @@ import { FulfillDialogService } from '../../services/fulfill-dialog.service';
 })
 export class FulfillWishDialogComponent {
     private readonly fb = inject(FormBuilder);
+
     private readonly store = inject(WishStoreService);
+
     private readonly dialog = inject(FulfillDialogService);
+
     private readonly router = inject(Router);
 
     readonly wishToFulfill = this.dialog.wishToFulfill;

@@ -24,14 +24,21 @@ function getTodayDateString(): string {
 })
 export class CreateWishPageComponent {
     private readonly fb = inject(FormBuilder);
+
     private readonly store = inject(WishStoreService);
+
     private readonly router = inject(Router);
+
     private readonly imageCompression = inject(ImageCompressionService);
+
     private readonly leaveConfirm = inject(LeaveConfirmDialogService);
+
     private readonly translate = inject(TranslateService);
 
     readonly imageDataUrl = signal<string | null>(null);
+
     readonly imageError = signal<string | null>(null);
+
     readonly imageCompressing = signal(false);
 
     readonly form = this.fb.nonNullable.group({

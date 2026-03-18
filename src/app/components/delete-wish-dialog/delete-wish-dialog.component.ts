@@ -12,6 +12,7 @@ import { DeleteWishDialogService } from '../../services/delete-wish-dialog.servi
 })
 export class DeleteWishDialogComponent {
     private readonly store = inject(WishStoreService);
+
     private readonly dialog = inject(DeleteWishDialogService);
 
     readonly wishToDelete = this.dialog.wishToDelete;

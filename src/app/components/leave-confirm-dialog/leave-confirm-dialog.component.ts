@@ -13,6 +13,7 @@ export class LeaveConfirmDialogComponent {
     private readonly dialog = inject(LeaveConfirmDialogService);
 
     readonly visible = this.dialog.visible;
+
     readonly message = this.dialog.message;
 
     /**

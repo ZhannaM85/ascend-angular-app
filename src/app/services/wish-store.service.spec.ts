@@ -4,27 +4,32 @@ import { StorageService } from './storage.service';
 
 class InMemoryStorageService {
     private wishes: any[] = [];
+
     private commitments: any[] = [];
+
     private reflections: any[] = [];
 
-    saveWishes(wishes: any[]): void {
+    public saveWishes(wishes: any[]): void {
         this.wishes = wishes;
     }
-    loadWishes(): any[] {
+
+    public loadWishes(): any[] {
         return this.wishes;
     }
 
-    saveCommitments(commitments: any[]): void {
+    public saveCommitments(commitments: any[]): void {
         this.commitments = commitments;
     }
-    loadCommitments(): any[] {
+
+    public loadCommitments(): any[] {
         return this.commitments;
     }
 
-    saveReflections(reflections: any[]): void {
+    public saveReflections(reflections: any[]): void {
         this.reflections = reflections;
     }
-    loadReflections(): any[] {
+
+    public loadReflections(): any[] {
         return this.reflections;
     }
 }

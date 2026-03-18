@@ -13,5 +13,6 @@ import { StreakBadgeComponent } from '../streak-badge/streak-badge.component';
 })
 export class CommitmentProgressComponent {
     readonly commitment = input.required<Commitment>();
+
     readonly showKeepGoing = input<boolean>(true);
 }

@@ -61,11 +61,17 @@ function isSameCalendarDay(a: number, b: number): boolean {
 })
 export class WishDetailsPageComponent {
     private readonly route = inject(ActivatedRoute);
+
     private readonly store = inject(WishStoreService);
+
     private readonly shareService = inject(ShareService);
+
     private readonly fulfillDialog = inject(FulfillDialogService);
+
     private readonly deleteWishDialog = inject(DeleteWishDialogService);
+
     private readonly deleteReflectionDialog = inject(DeleteReflectionDialogService);
+
     private readonly fb = inject(FormBuilder);
 
     private readonly idParam = toSignal(
@@ -73,23 +79,23 @@ export class WishDetailsPageComponent {
         { initialValue: undefined }
     );
 
-    readonly wish = computed(() => {
+    public readonly wish = computed(() => {
         const id = this.idParam();
         return id ? this.store.getWish(id) : undefined;
     });
 
-    readonly commitment = computed(() => {
+    public readonly commitment = computed(() => {
         const w = this.wish();
         return w ? this.store.getCommitmentForWish(w.id) : undefined;
     });
 
-    readonly alreadyCheckedToday = computed(() => {
+    public readonly alreadyCheckedToday = computed(() => {
         const c = this.commitment();
         if (!c?.lastCheckIn) return false;
         return isSameCalendarDay(c.lastCheckIn, Date.now());
     });
 
-    readonly commitmentNotYetStarted = computed(() => {
+    public readonly commitmentNotYetStarted = computed(() => {
         const c = this.commitment();
         if (!c) return false;
         const todayStart = getStartOfDay(Date.now());
@@ -97,7 +103,7 @@ export class WishDetailsPageComponent {
         return todayStart < commitmentStart;
     });
 
-    readonly commitmentStartDateFormatted = computed(() => {
+    public readonly commitmentStartDateFormatted = computed(() => {
         const c = this.commitment();
         if (!c) return '';
         return new Date(c.startDate).toLocaleDateString(undefined, {
@@ -108,24 +114,27 @@ export class WishDetailsPageComponent {
         });
     });
 
-    readonly reflections = computed(() => {
+    public readonly reflections = computed(() => {
         const w = this.wish();
         return w ? this.store.getReflectionsForWish(w.id) : [];
     });
 
-    readonly reflectionForm = this.fb.nonNullable.group({
+    public readonly reflectionForm = this.fb.nonNullable.group({
         text: ['', [Validators.required, Validators.minLength(1)]]
     });
 
-    readonly missedDayMessage = signal<string | null>(null);
-    readonly justCompleted = signal(false);
-    readonly editingReflectionId = signal<string | null>(null);
-    readonly editingReflectionText = signal('');
+    public readonly missedDayMessage = signal<string | null>(null);
+
+    public readonly justCompleted = signal(false);
+
+    public readonly editingReflectionId = signal<string | null>(null);
+
+    public readonly editingReflectionText = signal('');
 
     /**
      * Records a check-in for today.
      */
-    onCheckIn(): void {
+    public onCheckIn(): void {
         const c = this.commitment();
         if (!c) return;
         this.missedDayMessage.set(null);
@@ -141,7 +150,7 @@ export class WishDetailsPageComponent {
      * @param dayStart - Timestamp for the day.
      * @param checked - Whether the day should be checked.
      */
-    onToggleDay(dayStart: number, checked: boolean): void {
+    public onToggleDay(dayStart: number, checked: boolean): void {
         const c = this.commitment();
         if (!c) return;
         this.store.toggleCheckIn(c.id, dayStart, checked);
@@ -150,7 +159,7 @@ export class WishDetailsPageComponent {
     /**
      * Opens the share modal.
      */
-    onShare(): void {
+    public onShare(): void {
         const c = this.commitment();
         if (c && this.wish()) {
             this.shareService.open(this.wish()!, c);
@@ -160,7 +169,7 @@ export class WishDetailsPageComponent {
     /**
      * Opens the fulfill wish dialog.
      */
-    onMarkFulfilled(): void {
+    public onMarkFulfilled(): void {
         const w = this.wish();
         if (w) this.fulfillDialog.open(w);
     }
@@ -168,7 +177,7 @@ export class WishDetailsPageComponent {
     /**
      * Opens the delete wish dialog.
      */
-    onDeleteWish(): void {
+    public onDeleteWish(): void {
         const w = this.wish();
         if (w) this.deleteWishDialog.open(w);
     }
@@ -179,7 +188,7 @@ export class WishDetailsPageComponent {
      * @param ts - Timestamp in milliseconds.
      * @returns Formatted date string.
      */
-    formatReflectionDate(ts: number): string {
+    public formatReflectionDate(ts: number): string {
         return new Date(ts).toLocaleDateString(undefined, {
             weekday: 'short',
             year: 'numeric',
@@ -191,7 +200,7 @@ export class WishDetailsPageComponent {
     /**
      * Submits a new reflection.
      */
-    onSubmitReflection(): void {
+    public onSubmitReflection(): void {
         const w = this.wish();
         if (!w || this.reflectionForm.invalid) return;
         const v = this.reflectionForm.getRawValue();
@@ -204,7 +213,7 @@ export class WishDetailsPageComponent {
      *
      * @param reflection - The reflection to delete.
      */
-    onDeleteReflection(reflection: Reflection): void {
+    public onDeleteReflection(reflection: Reflection): void {
         this.deleteReflectionDialog.open(reflection);
     }
 
@@ -213,7 +222,7 @@ export class WishDetailsPageComponent {
      *
      * @param r - The reflection to edit.
      */
-    startEditReflection(r: Reflection): void {
+    public startEditReflection(r: Reflection): void {
         this.editingReflectionId.set(r.id);
         this.editingReflectionText.set(r.text);
     }
@@ -221,7 +230,7 @@ export class WishDetailsPageComponent {
     /**
      * Cancels reflection edit mode.
      */
-    cancelEditReflection(): void {
+    public cancelEditReflection(): void {
         this.editingReflectionId.set(null);
         this.editingReflectionText.set('');
     }
@@ -231,7 +240,7 @@ export class WishDetailsPageComponent {
      *
      * @param reflectionId - The reflection ID.
      */
-    saveReflection(reflectionId: string): void {
+    public saveReflection(reflectionId: string): void {
         const text = this.editingReflectionText().trim();
         if (text) {
             this.store.updateReflection(reflectionId, text);

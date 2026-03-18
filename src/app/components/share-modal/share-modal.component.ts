@@ -13,9 +13,11 @@ import { ShareCardComponent } from '../share-card/share-card.component';
 })
 export class ShareModalComponent {
     private readonly shareService = inject(ShareService);
+
     private readonly injector = inject(Injector);
 
     readonly shareCardRef = viewChild(ShareCardComponent);
+
     readonly shareState = this.shareService.shareState;
 
     constructor() {

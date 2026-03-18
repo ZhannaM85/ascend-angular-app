@@ -16,8 +16,10 @@ import { StreakBadgeComponent } from '../streak-badge/streak-badge.component';
 })
 export class WishCardComponent {
     readonly wish = input.required<Wish>();
+
     readonly commitment = input.required<Commitment | undefined>();
 
     readonly shareClick = output<void>();
+
     readonly deleteClick = output<void>();
 }

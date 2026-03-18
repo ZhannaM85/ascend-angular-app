@@ -17,12 +17,14 @@ import { WishCardComponent } from '../../components/wish-card/wish-card.componen
 })
 export class WishesPageComponent {
     private readonly store = inject(WishStoreService);
+
     private readonly shareService = inject(ShareService);
+
     private readonly deleteDialog = inject(DeleteWishDialogService);
 
-    readonly activeWishes = this.store.activeWishes;
+    public readonly activeWishes = this.store.activeWishes;
 
-    readonly wishWithCommitment = computed(() => {
+    public readonly wishWithCommitment = computed(() => {
         return this.activeWishes().map((wish) => ({
             wish,
             commitment: this.store.getCommitmentForWish(wish.id)
@@ -34,7 +36,7 @@ export class WishesPageComponent {
      *
      * @param item - Object with wish and optional commitment.
      */
-    onShare(item: { wish: Wish; commitment: Commitment | undefined }): void {
+    public onShare(item: { wish: Wish; commitment: Commitment | undefined }): void {
         if (item.commitment) {
             this.shareService.open(item.wish, item.commitment);
         }
@@ -45,7 +47,7 @@ export class WishesPageComponent {
      *
      * @param item - Object with the wish to delete.
      */
-    onDelete(item: { wish: Wish }): void {
+    public onDelete(item: { wish: Wish }): void {
         this.deleteDialog.open(item.wish);
     }
 }

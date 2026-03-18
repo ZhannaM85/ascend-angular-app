@@ -10,7 +10,9 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class DailyCheckinComponent {
     readonly alreadyCheckedToday = input.required<boolean>();
+
     readonly disabled = input<boolean>(false);
+
     readonly completed = input<boolean>(false);
 
     readonly checkIn = output<void>();

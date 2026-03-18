@@ -5,6 +5,7 @@ import { Injectable, signal } from '@angular/core';
 })
 export class LeaveConfirmDialogService {
     readonly visible = signal(false);
+
     readonly message = signal('');
 
     private resolveCallback: ((value: boolean) => void) | null = null;

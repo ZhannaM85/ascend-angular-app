@@ -10,7 +10,9 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class ProgressBarComponent {
     readonly current = input.required<number>();
+
     readonly total = input.required<number>();
+
     readonly showLabel = input<boolean>(true);
 
     readonly percent = computed(() => {
