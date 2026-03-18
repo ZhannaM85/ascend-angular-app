@@ -12,14 +12,15 @@ import { DeleteReflectionDialogService } from '../../services/delete-reflection-
 })
 export class DeleteReflectionDialogComponent {
     private readonly store = inject(WishStoreService);
+
     private readonly dialog = inject(DeleteReflectionDialogService);
 
-    readonly reflectionToDelete = this.dialog.reflectionToDelete;
+    public readonly reflectionToDelete = this.dialog.reflectionToDelete;
 
     /**
      * Closes the dialog without deleting.
      */
-    close(): void {
+    public close(): void {
         this.dialog.close();
     }
 
@@ -29,7 +30,7 @@ export class DeleteReflectionDialogComponent {
      * @param ts - Timestamp in milliseconds.
      * @returns Formatted date string.
      */
-    formatDate(ts: number): string {
+    public formatDate(ts: number): string {
         return new Date(ts).toLocaleDateString(undefined, {
             weekday: 'long',
             year: 'numeric',
@@ -41,7 +42,7 @@ export class DeleteReflectionDialogComponent {
     /**
      * Deletes the reflection and closes the dialog.
      */
-    confirmDelete(): void {
+    public confirmDelete(): void {
         const reflection = this.reflectionToDelete();
         if (!reflection) return;
         this.store.deleteReflection(reflection.id);

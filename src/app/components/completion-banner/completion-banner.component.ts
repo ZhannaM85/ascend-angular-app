@@ -9,5 +9,5 @@ import { TranslatePipe } from '@ngx-translate/core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompletionBannerComponent {
-    readonly duration = input.required<number>();
+    public readonly duration = input.required<number>();
 }

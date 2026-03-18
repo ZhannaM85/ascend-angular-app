@@ -32,9 +32,9 @@ export class LocaleService {
 
     private readonly initialLocale: LocaleId = getInitialLocale();
 
-    readonly currentLocale = signal<LocaleId>(this.initialLocale);
+    public readonly currentLocale = signal<LocaleId>(this.initialLocale);
 
-    readonly localeLabel = computed(() => {
+    public readonly localeLabel = computed(() => {
         const id = this.currentLocale();
         return id === 'ru' ? 'Русский' : 'English';
     });
@@ -53,7 +53,7 @@ export class LocaleService {
      *
      * @param locale - The locale to set.
      */
-    setLocale(locale: LocaleId): void {
+    public setLocale(locale: LocaleId): void {
         this.translate.use(locale);
         window.localStorage.setItem(LOCALE_STORAGE_KEY, locale);
         this.currentLocale.set(locale);
@@ -64,7 +64,7 @@ export class LocaleService {
      *
      * @returns Array of locale objects with id and label.
      */
-    getSupportedLocales(): { id: LocaleId; label: string }[] {
+    public getSupportedLocales(): { id: LocaleId; label: string }[] {
         return [
             { id: 'en', label: 'English' },
             { id: 'ru', label: 'Русский' }

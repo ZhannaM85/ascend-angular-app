@@ -4,8 +4,9 @@ import { Injectable, signal } from '@angular/core';
     providedIn: 'root'
 })
 export class LeaveConfirmDialogService {
-    readonly visible = signal(false);
-    readonly message = signal('');
+    public readonly visible = signal(false);
+
+    public readonly message = signal('');
 
     private resolveCallback: ((value: boolean) => void) | null = null;
 
@@ -16,7 +17,7 @@ export class LeaveConfirmDialogService {
      * @param message - The confirmation message to display.
      * @returns Promise resolving to true if user confirms, false if cancelled.
      */
-    showConfirm(message: string): Promise<boolean> {
+    public showConfirm(message: string): Promise<boolean> {
         this.message.set(message);
         this.visible.set(true);
         return new Promise<boolean>((resolve) => {
@@ -27,7 +28,7 @@ export class LeaveConfirmDialogService {
     /**
      * Confirms the user wants to leave; resolves the promise with true.
      */
-    confirmLeave(): void {
+    public confirmLeave(): void {
         if (this.resolveCallback) {
             this.resolveCallback(true);
             this.resolveCallback = null;
@@ -38,7 +39,7 @@ export class LeaveConfirmDialogService {
     /**
      * Cancels the dialog; resolves the promise with false.
      */
-    cancel(): void {
+    public cancel(): void {
         if (this.resolveCallback) {
             this.resolveCallback(false);
             this.resolveCallback = null;

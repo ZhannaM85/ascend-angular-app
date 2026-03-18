@@ -16,7 +16,7 @@ export class StorageService {
      *
      * @param wishes - Array of wishes to save.
      */
-    saveWishes(wishes: Wish[]): void {
+    public saveWishes(wishes: Wish[]): void {
         localStorage.setItem(WISHES_KEY, JSON.stringify(wishes));
     }
 
@@ -25,7 +25,7 @@ export class StorageService {
      *
      * @returns Array of wishes.
      */
-    loadWishes(): Wish[] {
+    public loadWishes(): Wish[] {
         const raw = localStorage.getItem(WISHES_KEY);
         if (!raw) return [];
         try {
@@ -36,7 +36,7 @@ export class StorageService {
     }
 
     /** Persists commitments to localStorage. */
-    saveCommitments(commitments: Commitment[]): void {
+    public saveCommitments(commitments: Commitment[]): void {
         localStorage.setItem(COMMITMENTS_KEY, JSON.stringify(commitments));
     }
 
@@ -45,7 +45,7 @@ export class StorageService {
      *
      * @returns Array of commitments.
      */
-    loadCommitments(): Commitment[] {
+    public loadCommitments(): Commitment[] {
         const raw = localStorage.getItem(COMMITMENTS_KEY);
         if (!raw) return [];
         try {
@@ -60,7 +60,7 @@ export class StorageService {
      *
      * @param reflections - Array of reflections to save.
      */
-    saveReflections(reflections: Reflection[]): void {
+    public saveReflections(reflections: Reflection[]): void {
         localStorage.setItem(REFLECTIONS_KEY, JSON.stringify(reflections));
     }
 
@@ -69,7 +69,7 @@ export class StorageService {
      *
      * @returns Array of reflections.
      */
-    loadReflections(): Reflection[] {
+    public loadReflections(): Reflection[] {
         const raw = localStorage.getItem(REFLECTIONS_KEY);
         if (!raw) return [];
         try {

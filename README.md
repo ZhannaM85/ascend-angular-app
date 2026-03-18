@@ -20,6 +20,7 @@ An Angular 21 app where users support their wishes through short discipline chal
 | Share cards | html-to-image (toPng) for Instagram-style export |
 | Images | Client-side compression (JPEG) for wish photos |
 | Testing | Jest |
+| Linting | ESLint (Angular ESLint, TypeScript ESLint) |
 
 No backend: all app data is stored in the browser via LocalStorage.
 
@@ -76,6 +77,12 @@ Run tests:
 npm test
 ```
 
+Run lint:
+
+```bash
+npm run lint
+```
+
 ---
 
 ## Deployment (GitHub Pages)
@@ -126,3 +133,4 @@ Deploys automatically when code is **pushed or merged to `master`**.
 | watch | `ng build --watch --configuration development` | Dev build with watch |
 | test | `jest` | Run unit tests |
 | test:watch | `jest --watch` | Run tests in watch mode |
+| lint | `ng lint` | Run ESLint |

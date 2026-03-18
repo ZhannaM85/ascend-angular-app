@@ -37,19 +37,6 @@ function isSameCalendarDay(a: number, b: number): boolean {
 }
 
 /**
- * Returns the number of full calendar days between two timestamps.
- *
- * @param a - Start timestamp in milliseconds.
- * @param b - End timestamp in milliseconds.
- * @returns Number of full days between the two dates.
- */
-function daysBetween(a: number, b: number): number {
-    const start = getStartOfDay(a);
-    const end = getStartOfDay(b);
-    return Math.floor((end - start) / (24 * 60 * 60 * 1000));
-}
-
-/**
  * Returns a new array with unique values sorted ascending.
  *
  * @param nums - Array of numbers.
@@ -110,17 +97,22 @@ export class WishStoreService {
     private readonly storage = inject(StorageService);
 
     private readonly wishesSignal = signal<Wish[]>([]);
+
     private readonly commitmentsSignal = signal<Commitment[]>([]);
+
     private readonly reflectionsSignal = signal<Reflection[]>([]);
 
-    readonly wishes = this.wishesSignal.asReadonly();
-    readonly commitments = this.commitmentsSignal.asReadonly();
-    readonly reflections = this.reflectionsSignal.asReadonly();
+    public readonly wishes = this.wishesSignal.asReadonly();
 
-    readonly activeWishes = computed(() =>
+    public readonly commitments = this.commitmentsSignal.asReadonly();
+
+    public readonly reflections = this.reflectionsSignal.asReadonly();
+
+    public readonly activeWishes = computed(() =>
         this.wishesSignal().filter((w) => !w.fulfilled)
     );
-    readonly fulfilledWishes = computed(() =>
+
+    public readonly fulfilledWishes = computed(() =>
         this.wishesSignal().filter((w) => w.fulfilled)
     );
 
@@ -145,7 +137,7 @@ export class WishStoreService {
      * @param wishId - The wish ID.
      * @returns Array of reflections for the wish.
      */
-    getReflectionsForWish(wishId: string): Reflection[] {
+    public getReflectionsForWish(wishId: string): Reflection[] {
         return this.reflectionsSignal()
             .filter((r) => r.wishId === wishId)
             .sort((a, b) => b.date - a.date);
@@ -159,7 +151,7 @@ export class WishStoreService {
      * @param date - Optional timestamp for the reflection date.
      * @returns The created reflection.
      */
-    addReflection(wishId: string, text: string, date?: number): Reflection {
+    public addReflection(wishId: string, text: string, date?: number): Reflection {
         const dateTs = date != null ? getStartOfDay(date) : getStartOfDay(Date.now());
         const reflection: Reflection = {
             id: generateId(),
@@ -178,7 +170,7 @@ export class WishStoreService {
      * @param reflectionId - The reflection ID.
      * @param text - New reflection text.
      */
-    updateReflection(reflectionId: string, text: string): void {
+    public updateReflection(reflectionId: string, text: string): void {
         const trimmed = text.trim();
         this.reflectionsSignal.update((list) =>
             list.map((r) =>
@@ -193,7 +185,7 @@ export class WishStoreService {
      *
      * @param reflectionId - The reflection ID.
      */
-    deleteReflection(reflectionId: string): void {
+    public deleteReflection(reflectionId: string): void {
         this.reflectionsSignal.update((list) =>
             list.filter((r) => r.id !== reflectionId)
         );
@@ -211,7 +203,7 @@ export class WishStoreService {
      * @param imageDataUrl - Optional base64 image data.
      * @returns The created wish.
      */
-    addWish(
+    public addWish(
         title: string,
         commitmentTitle: string,
         duration: number,
@@ -251,7 +243,7 @@ export class WishStoreService {
      * @param wishId - The wish ID.
      * @returns The commitment or undefined.
      */
-    getCommitmentForWish(wishId: string): Commitment | undefined {
+    public getCommitmentForWish(wishId: string): Commitment | undefined {
         return this.commitmentsSignal().find((c) => c.wishId === wishId);
     }
 
@@ -261,7 +253,7 @@ export class WishStoreService {
      * @param id - The wish ID.
      * @returns The wish or undefined.
      */
-    getWish(id: string): Wish | undefined {
+    public getWish(id: string): Wish | undefined {
         return this.wishesSignal().find((w) => w.id === id);
     }
 
@@ -271,7 +263,7 @@ export class WishStoreService {
      * @param wishId - The wish ID.
      * @param updates - Partial updates to apply.
      */
-    updateWish(
+    public updateWish(
         wishId: string,
         updates: {
             title?: string;
@@ -305,7 +297,7 @@ export class WishStoreService {
      * @param wishId - The wish ID.
      * @param updates - Partial updates to apply.
      */
-    updateCommitment(
+    public updateCommitment(
         wishId: string,
         updates: { title?: string; duration?: number; startDate?: number }
     ): void {
@@ -313,20 +305,20 @@ export class WishStoreService {
             list.map((c) =>
                 c.wishId === wishId
                     ? {
-                          ...c,
-                          ...(updates.title !== undefined && { title: updates.title }),
-                          ...(updates.duration !== undefined && { duration: updates.duration }),
-                          ...(updates.startDate !== undefined && {
-                              startDate: getStartOfDay(updates.startDate)
-                          }),
-                          ...computeProgress({
-                              ...c,
-                              ...(updates.duration !== undefined && { duration: updates.duration }),
-                              ...(updates.startDate !== undefined && {
-                                  startDate: getStartOfDay(updates.startDate)
-                              })
-                          })
-                      }
+                        ...c,
+                        ...(updates.title !== undefined && { title: updates.title }),
+                        ...(updates.duration !== undefined && { duration: updates.duration }),
+                        ...(updates.startDate !== undefined && {
+                            startDate: getStartOfDay(updates.startDate)
+                        }),
+                        ...computeProgress({
+                            ...c,
+                            ...(updates.duration !== undefined && { duration: updates.duration }),
+                            ...(updates.startDate !== undefined && {
+                                startDate: getStartOfDay(updates.startDate)
+                            })
+                        })
+                    }
                     : c
             )
         );
@@ -339,7 +331,7 @@ export class WishStoreService {
      * @param commitmentId - The commitment ID.
      * @returns Object with completed and missedDayReset flags.
      */
-    checkIn(commitmentId: string): { completed: boolean; missedDayReset: boolean } {
+    public checkIn(commitmentId: string): { completed: boolean; missedDayReset: boolean } {
         const commitments = this.commitmentsSignal();
         const commitment = commitments.find((c) => c.id === commitmentId);
         if (!commitment || commitment.completed) {
@@ -381,7 +373,7 @@ export class WishStoreService {
      * @param day - Timestamp for the day.
      * @param checked - Whether the day should be checked.
      */
-    toggleCheckIn(commitmentId: string, day: number, checked: boolean): void {
+    public toggleCheckIn(commitmentId: string, day: number, checked: boolean): void {
         const todayStart = getStartOfDay(Date.now());
         const dayStart = getStartOfDay(day);
         if (dayStart > todayStart) return;
@@ -407,7 +399,7 @@ export class WishStoreService {
      * @param fulfilledDate - Optional fulfillment timestamp.
      * @param note - Optional fulfillment note.
      */
-    markWishFulfilled(wishId: string, fulfilledDate?: number, note?: string): void {
+    public  markWishFulfilled(wishId: string, fulfilledDate?: number, note?: string): void {
         const when = fulfilledDate ?? Date.now();
         this.wishesSignal.update((list) =>
             list.map((w) =>
@@ -424,7 +416,7 @@ export class WishStoreService {
      *
      * @param wishId - The wish ID.
      */
-    deleteWish(wishId: string): void {
+    public deleteWish(wishId: string): void {
         this.wishesSignal.update((list) => list.filter((w) => w.id !== wishId));
         this.commitmentsSignal.update((list) => list.filter((c) => c.wishId !== wishId));
         this.persist();
