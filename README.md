@@ -20,7 +20,8 @@ An Angular 21 app where users support their wishes through short discipline chal
 | Share cards | html-to-image (toPng) for Instagram-style export |
 | Images | Client-side compression (JPEG) for wish photos |
 | Testing | Jest |
-| Linting | ESLint (Angular ESLint, TypeScript ESLint) |
+| Linting | ESLint (Angular ESLint, TypeScript ESLint), Prettier |
+| Code style | 4-space indent, no multiple empty lines, lines between class members |
 
 No backend: all app data is stored in the browser via LocalStorage.
 
@@ -40,6 +41,7 @@ src/
   assets/i18n/        # Translation JSON (en.json, ru.json)
   styles.scss         # Global Tailwind + base styles
 public/               # Static assets (favicon, etc.)
+eslint.config.js      # ESLint flat config (Angular + TypeScript)
 .github/workflows/
   deploy-pages.yml    # Build and deploy to GitHub Pages on push to master
 ```
@@ -81,6 +83,12 @@ Run lint:
 
 ```bash
 npm run lint
+```
+
+Auto-fix lint issues where possible:
+
+```bash
+npm run lint:fix
 ```
 
 ---
@@ -134,3 +142,4 @@ Deploys automatically when code is **pushed or merged to `master`**.
 | test | `jest` | Run unit tests |
 | test:watch | `jest --watch` | Run tests in watch mode |
 | lint | `ng lint` | Run ESLint |
+| lint:fix | `ng lint --fix` | Run ESLint with auto-fix |
